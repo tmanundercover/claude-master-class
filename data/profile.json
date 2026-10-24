@@ -1,41 +1,205 @@
 {
-  "name": "Alex Morgan",
-  "headline": "Aspiring data analyst who makes operational data useful",
-  "pitch": "I turn spreadsheet data into clear reports and practical questions. I am developing SQL through independent projects and looking for opportunities to contribute to an analytics team.",
-  "location": "Your city",
-  "initials": "AM",
+  "name": "James Terrell Singleton",
+  "headline": "Fullstack engineer and AI-driven product builder",
+  "pitch": "I build fullstack products and AI-enabled workflows across fintech, defense, small-business, and creative technology, with an emphasis on resilient systems, thoughtful interfaces, and practical integration.",
+  "location": "Maryland / Washington, DC / Virginia",
+  "initials": "JTS",
   "experience": [
     {
-      "title": "Operations volunteer",
-      "organization": "Community project - fictional example",
-      "period": "2025 - 2026",
-      "summary": "Organized a shared activity tracker and documented how to keep the records consistent."
+      "title": "Automation Engineer",
+      "organization": "MTC Art Studios",
+      "period": "May 2025 - Present",
+      "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing.",
+      "bullets": [
+        "Implemented the Wix booking experience used for student art interviews.",
+        "Connected payment gating to scheduling so payment happens before an interview can be booked.",
+        "Set up Office 365 calendar sharing and continues to maintain the workflow as new requests arrive."
+      ]
+    },
+    {
+      "title": "AI Product Builder",
+      "organization": "White-label custom application generator",
+      "period": "Dec 2024 - Present",
+      "summary": "Built workflow orchestration that generates and deploys websites and web applications, evolving an initial n8n workflow into a React and TypeScript system on GCP and Firebase with multimodal automation.",
+      "bullets": [
+        "Started with an n8n workflow that proved the end-to-end application-generation concept.",
+        "Evolved the workflow into white-label React and TypeScript product experiences.",
+        "Implemented event-based execution using GCP and Firebase services.",
+        "Connected text, image, and video generation inside a larger deployment workflow."
+      ]
+    },
+    {
+      "title": "AI Model Evaluation Specialist",
+      "organization": "Outlier.ai & DataAnnotations (Contract)",
+      "period": "Dec 2022 - Present",
+      "summary": "Designs evaluation protocols, prompts, and test scenarios for language models; authors technical reports and contributes detailed response evaluations to dataset creation.",
+      "bullets": [
+        "Developed structured test cases to assess language-model capabilities and limitations.",
+        "Engineered prompts and natural-language scenarios to analyze model behavior in realistic use cases.",
+        "Performed detailed quality assurance, including audio-based interaction testing and response analysis.",
+        "Documented technical findings and contributed evaluated responses to AI training datasets."
+      ]
+    },
+    {
+      "title": "Software Architect / Founder",
+      "organization": "The Handsomest Nerd, LLC",
+      "period": "Sep 2022 - Present",
+      "summary": "Builds and deploys React and Node.js applications for small businesses using Sanity CMS and GCP, including human-AI interfaces and multimodal generation workflows.",
+      "bullets": [
+        "Develops and deploys React websites and applications for small-business clients.",
+        "Builds Node.js backends and structured-content workflows with Sanity CMS and GCP.",
+        "Applies TypeScript, Firebase, Jest, Storybook, Material UI, and test-driven development across client work.",
+        "Explores practical human-AI interfaces and multimodal content-generation workflows."
+      ]
+    },
+    {
+      "title": "Fullstack Software Engineer",
+      "organization": "Assembled Financial",
+      "period": "Jun 2021 - Sep 2022",
+      "summary": "Built cryptocurrency banking web and mobile applications with React, Kotlin, Node.js, Flutter, Dart, and AWS; integrated Auth0, Prove, Plaid, and Marqeta services.",
+      "bullets": [
+        "Built React web experiences and Flutter and Dart mobile applications backed by Kotlin and Node.js endpoints on AWS.",
+        "Integrated Auth0 authentication, Prove identity verification, Plaid account data, and Marqeta banking operations.",
+        "Worked across PostgreSQL-backed services, a Solana-based token, Segment analytics, and GitLab version control."
+      ]
+    },
+    {
+      "title": "Fullstack Software Engineer",
+      "organization": "Assembled Brands",
+      "period": "Dec 2019 - Jun 2021",
+      "summary": "Built React applications and Kotlin services on AWS, administering DynamoDB and PostgreSQL and integrating QuickBooks, Shopify, and Google Workspace APIs for lending workflows.",
+      "bullets": [
+        "Built and maintained React applications and Kotlin services on AWS for lending workflows.",
+        "Administered application data across DynamoDB and PostgreSQL stores.",
+        "Integrated QuickBooks, Shopify, and Google Workspace APIs into financial-data and operational workflows.",
+        "Contributed to the public company website, editorial blog, lending application, and administrative dashboard."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Northrop Grumman",
+      "period": "Jan 2018 - Dec 2019",
+      "summary": "Upgraded an Angular application, developed ngRx features and data-heavy interfaces, and contributed to the distributed Java and Spring API it consumed.",
+      "bullets": [
+        "Helped upgrade the application from Angular 4 to Angular 6 while continuing feature delivery.",
+        "Developed ngRx features from JIRA tasking and UI and UX mockups supplied by an external design team.",
+        "Built table-intensive views with complex filtering, sorting, and conditional interface behavior.",
+        "Contributed to the distributed Java and Spring API consumed by the frontend."
+      ]
+    },
+    {
+      "title": "Principal / Frontend Software Engineer",
+      "organization": "Cybercore Technologies",
+      "period": "Dec 2015 - Dec 2017",
+      "summary": "Architected a React form and alerting application backed by Spring, Java, and MySQL, and reengineered an Ext JS interface with Angular and Bootstrap.",
+      "bullets": [
+        "Architected a React form that changed future fields from prior input, stored submissions in MySQL, and generated administrator alerts.",
+        "Integrated the React application with an existing Spring and Java API in an Agile principal-engineering team.",
+        "Reengineered an Ext JS interface with Angular and Bootstrap across Scala, Java, Hibernate, and MongoDB services.",
+        "Built faceted-search prototypes with jQuery Mobile and SOLR and supported Tomcat deployment through Jenkins."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Cybercore Technologies",
+      "period": "Jan 2014 - Jan 2015",
+      "summary": "Supported production and prototype server-status interfaces built with AngularJS, Ext JS, Highcharts, and ng-grid against Java and Spring services.",
+      "bullets": [
+        "Supported two production interfaces, two prototype interfaces, and one legacy interface.",
+        "Built prototypes with AngularJS while maintaining Ext JS and early Angular applications.",
+        "Created Highcharts visualizations and ng-grid tables for server details and automated test results.",
+        "Integrated the interfaces with J2EE and Spring endpoints deployed to Tomcat."
+      ]
+    },
+    {
+      "title": "Frontend Software Engineer",
+      "organization": "SoftTech Solutions",
+      "period": "Aug 2012 - Dec 2013",
+      "summary": "Built a data-aggregation interface with Java, JSP, jQuery, HTML, LESS, Highcharts, MongoDB, Jasmine, Maven, and Tomcat.",
+      "bullets": [
+        "Consumed J2EE and Groovy APIs with jQuery, HTML, CSS, and LESS to unify data from different sources.",
+        "Built JSP views and Highcharts visualizations backed by MongoDB and a Java and Hibernate data layer.",
+        "Added Jasmine tests and worked with Maven and Tomcat in the application delivery workflow.",
+        "Created custom vector graphics in Inkscape and refined them in Adobe Illustrator."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Raytheon Company",
+      "period": "Oct 2007 - Jul 2012",
+      "summary": "Developed and maintained an internal social network with PHP, Elgg, MySQL, and jQuery and a distributed system using C++, Python, and MySQL.",
+      "bullets": [
+        "Maintained an internal social network and developed custom Elgg plugins with PHP, JavaScript, and MySQL.",
+        "Provided direct production support to users of the social-networking platform.",
+        "Developed and maintained a distributed system with C++, Python, and MySQL in an Agile environment.",
+        "Wrote PIG scripts for log aggregation and prototyped a GWT maintenance and sustainment dashboard."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "L-3 Communications",
+      "period": "Nov 2004 - Oct 2007",
+      "summary": "Developed production PHP, Java, and JavaScript applications, created a Java SOAP API for CSV and XML data, and supported documentation, installations, training, and system demonstrations.",
+      "bullets": [
+        "Developed a production application with PHP, HTML, JavaScript, MySQL, and Tomcat across spiral and waterfall delivery cycles.",
+        "Created a Java SOAP API that served ingested data in CSV and XML formats.",
+        "Documented an inherited system that arrived without sufficient technical documentation.",
+        "Supported worldwide surveys and installations, system upgrades, operator training, troubleshooting, demonstrations, and briefings."
+      ]
     }
   ],
   "skills": {
-    "strong": ["Spreadsheets", "Written communication", "Documentation"],
-    "developing": ["SQL", "Data visualization"],
-    "learning": ["Python"]
+    "strong": ["JavaScript", "TypeScript", "React", "Angular", "Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "Dart", "Flutter", "AWS", "GCP", "Firebase", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Sanity.io", "Prompt engineering", "LLM evaluation", "TDD", "Jest", "Docker", "CI/CD", "API integrations"],
+    "developing": [],
+    "learning": []
   },
   "projects": [
     {
-      "title": "Support activity dashboard",
-      "context": "Personal project with synthetic data",
-      "summary": "Grouped sample support tickets by category and built a spreadsheet dashboard with three clearly defined KPIs.",
-      "evidence": "A reproducible workbook and a short explanation of metric definitions.",
-      "tools": ["Excel", "Data validation"]
+      "title": "White-label application generator",
+      "context": "AI product development / Dec 2024 - Present",
+      "summary": "A workflow orchestration system that turns user input into coded, deployed websites and web applications and supports video, image, and text generation.",
+      "evidence": "The resume documents the initial n8n workflow, its transition into an end-to-end system, white-label React and TypeScript versions, and event-based execution on GCP and Firebase.",
+      "tools": ["React", "TypeScript", "n8n", "GCP", "Firebase"]
     },
     {
-      "title": "SQL practice notebook",
-      "context": "Independent learning",
-      "summary": "Joined two sample datasets and checked row counts and duplicate keys.",
-      "evidence": "Saved queries with expected results and notes about join assumptions.",
-      "tools": ["SQL", "Documentation"]
+      "title": "MAAiN",
+      "context": "Experimental AI workflow interface",
+      "summary": "An interface exploring intuitive human-AI collaboration through LLM interaction, prompt design, user experience, and system workflows.",
+      "evidence": "Listed in the resume as a selected project and described in the founder experience as part of deployed human-AI collaboration work.",
+      "tools": ["LLMs", "Prompt engineering", "UX design"]
+    },
+    {
+      "title": "MTC interview booking automation",
+      "context": "MTC Art Studios / May 2025 - Present",
+      "summary": "A Wix booking experience for student art interviews with payment required before booking and calendar sharing inside Office 365.",
+      "evidence": "The resume identifies the implemented booking flow, Wix integration, payment gate, shared calendar, and ongoing monthly feature requests.",
+      "tools": ["Wix", "Office 365", "Calendar automation"]
+    },
+    {
+      "title": "Bartender portfolio and drink menu",
+      "context": "Software portfolio project / 2023",
+      "summary": "A web portfolio combining a professional profile with an interactive, browsable 42-item drink menu.",
+      "evidence": "The supplied project document shows the portfolio interface, experience layout, and drink carousel with its 42-item count.",
+      "tools": ["Web application", "Interactive catalog"]
+    },
+    {
+      "title": "Assembled Brands website and blog",
+      "context": "Fintech product work / 2019 - 2021",
+      "summary": "Public company and editorial experiences delivered alongside the lending application, administrative dashboard, and financial-data extraction tools.",
+      "evidence": "The master resume lists the company website and blog in the portfolio and identifies both among the applications built and maintained at Assembled Brands.",
+      "tools": ["React", "AWS", "WordPress", "Sanity.io"]
+    },
+    {
+      "title": "Bartender Flash Cards",
+      "context": "Published web project",
+      "summary": "A browser-based flash-card experience for practicing bartender knowledge.",
+      "evidence": "The master resume includes the published project at bartender-concierge.web.app in its portfolio section.",
+      "tools": ["Web application", "Study tool"]
     }
   ],
-  "education": ["Add your real education, training, or certifications here."],
+  "education": ["B.S. in Computer Engineering, University of Maryland, Baltimore County"],
   "contact": {
-    "email": "hello@example.com",
-    "linkedin": "https://www.linkedin.com/"
+    "email": "terrell.singleton@gmail.com",
+    "linkedin": "https://linkedin.com/in/terrell-singleton"
   }
 }

@@ -4,8 +4,15 @@ import profile from "../../data/profile.json";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: `${profile.name} | Portfolio`,
+  title: `${profile.name} | Fullstack Engineer & AI Product Builder`,
   description: profile.pitch,
+  authors: [{ name: profile.name }],
+  creator: profile.name,
+  openGraph: {
+    title: `${profile.name} | Fullstack Engineer & AI Product Builder`,
+    description: profile.pitch,
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -18,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <nav aria-label="Main navigation">
             <Link href="/#projects">Projects</Link>
             <Link href="/#contact">Contact</Link>
+            <Link href="/interview">Interview room</Link>
             <Link href="/dashboard">Private workspace</Link>
           </nav>
         </header>

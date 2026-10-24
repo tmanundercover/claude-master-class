@@ -7,13 +7,16 @@ export default async function Dashboard() {
   if (blocked) return blocked;
   return (
     <>
-      <h1>Your next three builds.</h1>
-      <p>One verified profile. One target job. Three private tools.</p>
-      <p className="notice">Authentication is your first private build. Forms, input validation, and guard call sites are supplied; students implement authentication and all three AI features. Each AI route returns HTTP 501 after authentication until its exercise is completed.</p>
+      <h1>Your next four builds.</h1>
+      <p>One verified profile. One target job. Three private tools and one interview response library.</p>
+      <p className="notice">This workspace is protected by a four-hour server session. All three tools use verified profile evidence, validate model output, and surface provider failures without fabricated fallback results.</p>
       <div className="grid three">
         {tools.map((tool, index) => <Link key={tool.id} className="panel tool-link" href={`/dashboard/${tool.id}`}>
           <span className="badge">Exercise {index + 1}</span><h2>{tool.title}</h2><p>{tool.description}</p><span>Open exercise workspace</span>
         </Link>)}
+        <Link className="panel tool-link" href="/interview">
+          <span className="badge">Exercise 4</span><h2>STAR Interview Responses</h2><p>Give recruiters and interviewers a searchable, evidence-linked library of recorded answers.</p><span>Open interview room</span>
+        </Link>
       </div>
     </>
   );

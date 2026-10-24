@@ -9,3 +9,7 @@ next-env.d.ts
 private-inputs/*
 !private-inputs/README.md
 npm-debug.log*
+
+# Private source documents. The course PDF under docs/ is already tracked.
+/*.pdf
+/data/*.pdf

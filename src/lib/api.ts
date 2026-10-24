@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
-import { AuthenticationNotImplementedError, authConfiguration, isAuthenticated } from "./auth";
+import { authConfiguration, currentSessionRole } from "./auth";
 import { isSameOrigin } from "./origin";
 
 export async function requireApiSession(): Promise<NextResponse | null> {
   try {
     authConfiguration();
   } catch (error) {
-    if (error instanceof AuthenticationNotImplementedError) {
-      return NextResponse.json({ error: error.message }, { status: 501 });
-    }
     console.error("Private API configuration error:", error);
-    return NextResponse.json({ error: "Login is not configured. Follow the starter setup instructions." }, { status: 503 });
+    return NextResponse.json({ error: "Login is not securely configured. Check the server authentication settings." }, { status: 503 });
   }
-  if (!(await isAuthenticated())) {
+  const role = await currentSessionRole();
+  if (!role) {
     return NextResponse.json({ error: "Sign in before using private tools." }, { status: 401 });
+  }
+  if (role !== "terrell") {
+    return NextResponse.json({ error: "This tool is available only to the portfolio owner." }, { status: 403 });
   }
   return null;
 }
