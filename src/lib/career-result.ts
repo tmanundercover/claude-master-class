@@ -8,7 +8,7 @@ const interviewSchema: Record<string, unknown> = {
   additionalProperties: false,
   required: ["mode", "stagesToConfirm", "questions", "stories", "questionsToAsk", "notesTemplate"],
   properties: {
-    mode: { const: "interview" },
+    mode: { type: "string", const: "interview" },
     stagesToConfirm: {
       type: "array",
       minItems: 1,
@@ -43,7 +43,7 @@ export function careerResultSchema(mode: CareerMode, weeklyHours: number): Recor
     additionalProperties: false,
     required: ["mode", "roleSummary", "prioritySkills", "weeks", "readinessCheck"],
     properties: {
-      mode: { const: "study" },
+      mode: { type: "string", const: "study" },
       roleSummary: textSchema,
       prioritySkills: { type: "array", minItems: 3, maxItems: 3, items: textSchema },
       weeks: {

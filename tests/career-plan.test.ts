@@ -49,6 +49,14 @@ test("career requests separate verified profile, untrusted JD, mode, and budget"
   assert.equal(schema.weeks.items?.properties?.hours.maximum, 6);
 });
 
+test("career schemas give constant mode fields an explicit JSON Schema type", () => {
+  for (const mode of ["interview", "study"] as const) {
+    const request = careerAnalysisRequest("Role", mode, 6, {});
+    const properties = request.schema.properties as Record<string, unknown>;
+    assert.deepEqual(properties.mode, { type: "string", const: mode });
+  }
+});
+
 test("interview mode validates exact counts and propagates truthful missing-detail markers", async () => {
   const result = await generateCareerPlan("Role", "interview", 5, {}, async () => interviewResult);
   assert.equal(result.mode, "interview");

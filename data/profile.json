@@ -1,19 +1,71 @@
 {
   "name": "James Terrell Singleton",
   "headline": "Fullstack engineer and AI-driven product builder",
-  "pitch": "I build fullstack products and AI-enabled workflows across fintech, defense, small-business, and creative technology, with an emphasis on resilient systems, thoughtful interfaces, and practical integration.",
-  "location": "Maryland / Washington, DC / Virginia",
+  "pitch": "I build fullstack products and AI-enabled workflows across fintech, defense, small-business, and creative technology, with an emphasis on resilient systems, thoughtful interfaces, and practical integration. Recent consulting spans durable AI execution systems, Firebase-backed business applications, CMS and commerce platforms, and automation for mission-driven organizations.",
+  "location": "Baltimore, MD / Washington, DC / Virginia",
   "initials": "JTS",
   "experience": [
+    {
+      "title": "Consulting Software Engineer & Automation Advisor",
+      "organization": "Addition, Inc.",
+      "period": "2026 - Present",
+      "summary": "Architects business applications and advises on automation, reporting, operational integrations, and staff enablement for Addition and organizations it serves.",
+      "bullets": [
+        "Architected and developed Time Allocation by Percentage, a React, TypeScript, and Firebase application supporting staff cost allocation and financial reporting across C3 and C4 entities.",
+        "Engineered employee, manager, and finance-administrator workflows for biweekly allocation, 100% percentage validation, project and jurisdiction coding, approvals, corrections, and CSV reporting.",
+        "Used OpenAI Codex during implementation and validation of the application's business rules, role-based workflows, and reporting behavior.",
+        "Provides ongoing automation consulting and hands-on staff training for Zapier, DocuSign, operational integrations, and opportunities to streamline manual processes.",
+        "Serves as a web and application development resource referred by Addition to client organizations, including the Dorothea Project."
+      ]
+    },
+    {
+      "title": "Consulting React & WordPress Engineer",
+      "organization": "Dorothea Project",
+      "period": "2026 - Present",
+      "summary": "Builds and maintains public-interest publishing tools that connect WordPress presentation with React interfaces and staff-managed Google Sheets data.",
+      "bullets": [
+        "Engineered a React application embedded in a WordPress child theme to publish political candidates' questionnaire responses from Google Forms and Google Sheets data.",
+        "Implemented spreadsheet-driven approval controls and candidate-image references so nontechnical staff can curate the responses visible to the public.",
+        "Integrated and extensively restyled a WordPress events-calendar plugin through child-theme CSS while continuing content revisions and site enhancements.",
+        "Used OpenAI Codex while developing and validating the React, WordPress, spreadsheet, and styling integrations."
+      ]
+    },
+    {
+      "title": "Consulting Frontend Engineer",
+      "organization": "Black Workers Together",
+      "period": "2026 - Present",
+      "summary": "Designed, developed, and deployed a campaign and community website with a path toward organizer-managed content.",
+      "bullets": [
+        "Designed, developed, and deployed a React, TypeScript, and Vite website on Firebase Hosting for campaign information, worker stories, meetings, surveys, and leadership opportunities.",
+        "Managed stakeholder-driven revisions and releases with preview deployments, responsive design, structured SEO data, and social-sharing metadata.",
+        "Develops a self-service administration experience so organizers can update site content without requiring developer changes.",
+        "Used OpenAI Codex throughout frontend implementation, validation, and stakeholder-driven release iterations."
+      ]
+    },
+    {
+      "title": "Consulting Shopify & React Engineer",
+      "organization": "Chef Jamie G",
+      "period": "2026",
+      "summary": "Designed, styled, and developed the complete Chef Jamie G Shopify site, then extended it with a custom testimonial application hosted through MAAiN and served inside the storefront.",
+      "bullets": [
+        "Designed, styled, and developed the complete Shopify site for the culinary-services business.",
+        "Delivers seasonal menu changes, service-content updates, and ongoing client-requested enhancements.",
+        "Built a standalone React testimonials application when the client chose not to purchase a Shopify testimonial plugin.",
+        "Hosts the testimonial application through MAAiN and serves it inside the Shopify site through a custom-styled iframe integration.",
+        "Used OpenAI Codex while developing and refining the Shopify site and its custom testimonial application."
+      ]
+    },
     {
       "title": "Automation Engineer",
       "organization": "MTC Art Studios",
       "period": "May 2025 - Present",
-      "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing.",
+      "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing, while advising on ongoing process and website improvements.",
       "bullets": [
         "Implemented the Wix booking experience used for student art interviews.",
         "Connected payment gating to scheduling so payment happens before an interview can be booked.",
-        "Set up Office 365 calendar sharing and continues to maintain the workflow as new requests arrive."
+        "Set up Office 365 calendar sharing and continues to maintain the workflow as new requests arrive.",
+        "Provides booking-process improvements and client-requested website and policy-content updates.",
+        "Used OpenAI Codex during implementation and iteration of the booking and integration workflow."
       ]
     },
     {
@@ -25,7 +77,9 @@
         "Started with an n8n workflow that proved the end-to-end application-generation concept.",
         "Evolved the workflow into white-label React and TypeScript product experiences.",
         "Implemented event-based execution using GCP and Firebase services.",
-        "Connected text, image, and video generation inside a larger deployment workflow."
+        "Connected text, image, and video generation inside a larger deployment workflow.",
+        "Delivered rapid application and website previews used for prospect mockups, client acquisition, direct outreach, and concept development.",
+        "Used OpenAI Codex across architecture, implementation, testing, and iteration of the generation platform."
       ]
     },
     {
@@ -49,7 +103,12 @@
         "Develops and deploys React websites and applications for small-business clients.",
         "Builds Node.js backends and structured-content workflows with Sanity CMS and GCP.",
         "Applies TypeScript, Firebase, Jest, Storybook, Material UI, and test-driven development across client work.",
-        "Explores practical human-AI interfaces and multimodal content-generation workflows."
+        "Explores practical human-AI interfaces and multimodal content-generation workflows.",
+        "Architects client software and editable CMS-backed sites for real estate, publishing, Shopify commerce, culinary services, technology firms, pool maintenance, financial literacy, and HVAC learning.",
+        "Designed and developed the complete JamWorks247 Shopify site; its most notable custom feature is a Shopify SDK and GIMP workflow for recoloring single-color artwork used in product designs.",
+        "Designed a versioned TypeScript agent runtime with durable PostgreSQL operation records, idempotency, cancellation, execution receipts, signed grants, resumable approvals, and isolated per-run environments.",
+        "Integrated Prompt Library with the agent runtime through authenticated workspace preparation, frozen-source manifests, readiness diagnostics, explicit approvals, and retained execution results.",
+        "Uses OpenAI Codex across 2024-present consulting and AI-system development for implementation, validation, and iterative delivery."
       ]
     },
     {
@@ -149,7 +208,7 @@
     }
   ],
   "skills": {
-    "strong": ["JavaScript", "TypeScript", "React", "Angular", "Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "Dart", "Flutter", "AWS", "GCP", "Firebase", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Sanity.io", "Prompt engineering", "LLM evaluation", "TDD", "Jest", "Docker", "CI/CD", "API integrations"],
+    "strong": ["JavaScript", "TypeScript", "React", "Angular", "Vite", "Storybook", "Material UI", "Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "Dart", "Flutter", "API design", "Distributed systems", "API integrations", "Authentication", "Multi-tenant architecture", "AWS", "AWS Lambda", "SQS", "RDS", "GCP", "Firebase", "Firebase Functions", "Firestore", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Sanity.io", "Custom CMS architecture", "Shopify SDK", "WordPress", "Wix", "Google Forms Integrations", "Google Sheets integrations", "Wix Automations", "n8n", "Prompt engineering", "LLM evaluation", "Agent runtimes", "OpenAI Codex", "Google Gemini", "OpenSpec", "Runtime observability", "TDD", "Jest", "Automated testing", "Docker", "CI/CD", "Zapier", "DocuSign", "GIMP"],
     "developing": [],
     "learning": []
   },
@@ -159,21 +218,22 @@
       "context": "AI product development / Dec 2024 - Present",
       "summary": "A workflow orchestration system that turns user input into coded, deployed websites and web applications and supports video, image, and text generation.",
       "evidence": "The resume documents the initial n8n workflow, its transition into an end-to-end system, white-label React and TypeScript versions, and event-based execution on GCP and Firebase.",
-      "tools": ["React", "TypeScript", "n8n", "GCP", "Firebase"]
+      "tools": ["React", "TypeScript", "n8n", "GCP", "Firebase", "OpenAI Codex"]
     },
     {
       "title": "MAAiN",
       "context": "Experimental AI workflow interface",
       "summary": "An interface exploring intuitive human-AI collaboration through LLM interaction, prompt design, user experience, and system workflows.",
       "evidence": "Listed in the resume as a selected project and described in the founder experience as part of deployed human-AI collaboration work.",
-      "tools": ["LLMs", "Prompt engineering", "UX design"]
+      "tools": ["LLMs", "Prompt engineering", "UX design", "OpenAI Codex"]
     },
     {
       "title": "MTC interview booking automation",
       "context": "MTC Art Studios / May 2025 - Present",
+      "url": "https://www.mtcartstudios.org/book-online",
       "summary": "A Wix booking experience for student art interviews with payment required before booking and calendar sharing inside Office 365.",
       "evidence": "The resume identifies the implemented booking flow, Wix integration, payment gate, shared calendar, and ongoing monthly feature requests.",
-      "tools": ["Wix", "Office 365", "Calendar automation"]
+      "tools": ["Wix", "Office 365", "Calendar automation", "OpenAI Codex"]
     },
     {
       "title": "Bartender portfolio and drink menu",
@@ -185,6 +245,10 @@
     {
       "title": "Assembled Brands website and blog",
       "context": "Fintech product work / 2019 - 2021",
+      "links": [
+        { "label": "Visit website", "url": "https://assembledbrands.com" },
+        { "label": "Visit blog", "url": "https://assembledbrands.com/blog" }
+      ],
       "summary": "Public company and editorial experiences delivered alongside the lending application, administrative dashboard, and financial-data extraction tools.",
       "evidence": "The master resume lists the company website and blog in the portfolio and identifies both among the applications built and maintained at Assembled Brands.",
       "tools": ["React", "AWS", "WordPress", "Sanity.io"]
@@ -192,14 +256,63 @@
     {
       "title": "Bartender Flash Cards",
       "context": "Published web project",
+      "url": "https://bartender-concierge.web.app/bartender-concierge/home",
       "summary": "A browser-based flash-card experience for practicing bartender knowledge.",
       "evidence": "The master resume includes the published project at bartender-concierge.web.app in its portfolio section.",
       "tools": ["Web application", "Study tool"]
+    },
+    {
+      "title": "Time Allocation by Percentage",
+      "context": "Addition, Inc. consulting / 2026 - Present",
+      "url": "https://time-allocation-by-percentage.web.app/",
+      "summary": "A custom employee, manager, and finance workflow for biweekly staff-cost allocation and reporting across C3 and C4 entities.",
+      "evidence": "The recent consulting resume documents 100% allocation validation, project and jurisdiction coding, approvals, corrections, and CSV reporting.",
+      "tools": ["React", "TypeScript", "Firebase", "Business automation", "OpenAI Codex"]
+    },
+    {
+      "title": "Dorothea Project questionnaire publishing",
+      "context": "Dorothea Project consulting / 2026 - Present",
+      "url": "https://dorotheaproject.com/candidate-questionnaire-results/",
+      "summary": "A React publishing interface embedded in a WordPress child theme for approved political-candidate questionnaire responses.",
+      "evidence": "The recent consulting resume documents Google Forms and Sheets integration, spreadsheet-driven approval controls, candidate images, and WordPress presentation work.",
+      "tools": ["React", "WordPress", "Google Forms", "Google Sheets", "CSS", "OpenAI Codex"]
+    },
+    {
+      "title": "Black Workers Together website",
+      "context": "Frontend consulting / 2026 - Present",
+      "url": "https://www.blackworkerstogether.org/",
+      "summary": "A responsive campaign and community website connecting visitors to worker stories, meetings, surveys, and leadership opportunities.",
+      "evidence": "The recent consulting resume documents its React, TypeScript, Vite, and Firebase Hosting delivery plus preview deployments, SEO data, and social metadata.",
+      "tools": ["React", "TypeScript", "Vite", "Firebase Hosting", "SEO", "OpenAI Codex"]
+    },
+    {
+      "title": "Chef Jamie G Shopify site & testimonials application",
+      "context": "Shopify consulting / 2026",
+      "url": "https://www.chefjamieg.com/",
+      "summary": "A complete, custom-styled Shopify site for a culinary-services business, extended with a purpose-built testimonials experience.",
+      "evidence": "Terrell designed and developed the full Shopify site. When the client chose not to purchase a testimonial plugin, he built a React application, hosted it through MAAiN, styled the experience, and embedded it in the storefront through an iframe.",
+      "tools": ["Shopify", "React", "MAAiN v1", "iframe integration", "Custom styling", "OpenAI Codex"]
+    },
+    {
+      "title": "JamWorks247 Shopify site & merchandise-color customization",
+      "context": "Commerce product development / The Handsomest Nerd, LLC",
+      "url": "https://jamworks247.com/",
+      "summary": "A complete Shopify commerce site designed and developed for JamWorks247, including a standout custom merchandise-color workflow.",
+      "evidence": "Terrell created the full Shopify site. Its most notable custom feature uses the Shopify SDK and a GIMP-assisted process to recolor single-color artwork for product designs.",
+      "tools": ["Shopify", "Shopify SDK", "GIMP", "Product customization", "Site development", "OpenAI Codex"]
+    },
+    {
+      "title": "Versioned agent execution runtime",
+      "context": "AI systems architecture / The Handsomest Nerd, LLC",
+      "summary": "A durable TypeScript execution platform for authenticated, observable, resumable AI-agent operations.",
+      "evidence": "The recent resume documents PostgreSQL-backed operation records, idempotency, cancellation, signed grants, approvals, isolated runs, retained results, and contract, security, and regression coverage.",
+      "tools": ["TypeScript", "PostgreSQL", "Agent runtimes", "Authentication", "OpenSpec", "Automated testing", "OpenAI Codex"]
     }
   ],
   "education": ["B.S. in Computer Engineering, University of Maryland, Baltimore County"],
   "contact": {
     "email": "terrell.singleton@gmail.com",
-    "linkedin": "https://linkedin.com/in/terrell-singleton"
+    "linkedin": "https://linkedin.com/in/terrell-singleton",
+    "github": "https://github.com/tmanundercover"
   }
 }

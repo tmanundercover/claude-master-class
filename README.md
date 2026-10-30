@@ -18,9 +18,10 @@ npm run dev
 Open the local URL printed in the terminal, usually `http://localhost:3000`. Stop the server with
 Ctrl+C.
 
-The public homepage works without an API key. Login uses a signed, four-hour role session. The
-job-fit, cover-letter, and interview-prep/study-plan tools are implemented in the owner workspace;
-the interview room gives approved guests access to evidence-linked STAR responses.
+The public homepage works without an API key and includes a floating résumé search over current and
+approved historical evidence. Login uses a signed, four-hour role session. The job-fit, cover-letter,
+interview-prep/study-plan, and résumé-evidence tools are implemented in the owner workspace; the
+interview room gives approved guests access to evidence-linked STAR responses.
 
 ## Class Path
 
@@ -47,7 +48,7 @@ Download the HTML files before opening them in a browser from GitHub.
 | Path | Purpose |
 |---|---|
 | `src/` | Next.js application code |
-| `data/` | Public portfolio profile data |
+| `data/` | Current public profile plus normalized, approved historical résumé evidence |
 | `exercises/` | Step-by-step class work |
 | `tests/` | Automated checks used by `npm run preflight` |
 | `docs/` | Setup, slides, and deployment guidance |

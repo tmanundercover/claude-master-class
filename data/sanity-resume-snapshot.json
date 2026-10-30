@@ -1,0 +1,1252 @@
+{
+  "source": {
+    "label": "Sanity homepage archive",
+    "snapshotCreatedAt": "2026-10-24T03:32:36.652Z",
+    "contentScope": "Published homepage content; historical self-reported resume evidence"
+  },
+  "bio": {
+    "careerTitle": "Software Engineer",
+    "introduction": "Fullstack Engineer/Web Developer with 20 years experience local to the Maryland, District of Columbia, and Virginia Metropolitan area. My initial experience in the defense space as a government contractor spanned backend and frontend technology from C++ & JAVA to LAMP stack applications. I have more recently worked with on Javascript/Node/Kotlin development and more fullstack projects in the fintech startup domain. Along the way I have experience with React, Angular, Ext.js and a number of other frameworks. I am currently self-employed developing websites for small businesses. As those projects come to a close I am looking to take on a new full time work, to increase my skills as a Web Developer and join a great team. I am looking for an opportunity to make software that is resilient, useful, great and sometimes pretty. I am open to relocation and remote positions. \n",
+    "updatedAt": "2024-03-04T12:24:09Z"
+  },
+  "skillsets": [
+    {
+      "name": "Databases",
+      "updatedAt": "2023-12-13T09:54:23Z",
+      "skills": [
+        {
+          "name": "PostgreSQL",
+          "title": "PostgreSQL",
+          "proficiency": 0.75,
+          "versions": [
+            "12",
+            "14"
+          ],
+          "updatedAt": "2024-04-04T09:52:31Z"
+        },
+        {
+          "name": "DynamoDB",
+          "title": "DynamoDB",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-04T09:55:03Z"
+        },
+        {
+          "name": "MySQL",
+          "title": "MySQL",
+          "proficiency": 0.8,
+          "versions": [
+            "5"
+          ],
+          "updatedAt": "2024-04-04T10:02:55Z"
+        },
+        {
+          "name": "MongoDB",
+          "title": "MongoDB",
+          "proficiency": 0.85,
+          "versions": [
+            "3",
+            "4"
+          ],
+          "updatedAt": "2024-04-08T11:42:30Z"
+        },
+        {
+          "name": "Firebase: Firestore, Real-time Database",
+          "title": "Firebase: Firestore, Real-time Database",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-04T10:13:28Z"
+        }
+      ]
+    },
+    {
+      "name": "Browsers",
+      "updatedAt": "2023-12-13T09:55:25Z",
+      "skills": [
+        {
+          "name": "Cross-browser compatibility Chrome, Safari, Firefox",
+          "title": "Cross-browser compatibility Chrome, Safari, Firefox",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-09T19:48:37Z"
+        }
+      ]
+    },
+    {
+      "name": "Artificial Intelligence",
+      "updatedAt": "2025-04-29T22:56:16Z",
+      "skills": [
+        {
+          "name": "Prompt Engineering",
+          "title": "Prompt Engineering",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2025-04-29T22:44:03Z"
+        },
+        {
+          "name": "AI Model Testing & Evaluation",
+          "title": "AI Model Testing & Evaluation",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2025-04-29T22:44:51Z"
+        },
+        {
+          "name": "Technical Documentation",
+          "title": "Technical Documentation",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2025-04-29T22:45:29Z"
+        },
+        {
+          "name": "Quality Assurance",
+          "title": "Quality Assurance",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2025-04-29T22:46:18Z"
+        },
+        {
+          "name": "User Experience Research",
+          "title": "User Experience Research",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2025-04-29T22:46:56Z"
+        }
+      ]
+    },
+    {
+      "name": "Operating Systems",
+      "updatedAt": "2023-12-13T09:55:11Z",
+      "skills": [
+        {
+          "name": "MacOS",
+          "title": "MacOS",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-09T16:54:14Z"
+        },
+        {
+          "name": "Windows",
+          "title": "Windows",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-09T11:32:43Z"
+        },
+        {
+          "name": "Linux",
+          "title": "Linux",
+          "proficiency": 0.85,
+          "versions": [],
+          "updatedAt": "2024-04-09T11:35:18Z"
+        }
+      ]
+    },
+    {
+      "name": "IDE",
+      "updatedAt": "2023-12-18T19:58:18Z",
+      "skills": [
+        {
+          "name": "IntelliJ IDEA & Webstorm",
+          "title": "IntelliJ IDEA & Webstorm",
+          "proficiency": 0.85,
+          "versions": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ],
+          "updatedAt": "2024-04-09T09:18:39Z"
+        },
+        {
+          "name": "Visual Studio Code",
+          "title": "Visual Studio Code",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-09T09:24:40Z"
+        }
+      ]
+    },
+    {
+      "name": "Utilities & Tools",
+      "updatedAt": "2024-04-09T08:54:12Z",
+      "skills": [
+        {
+          "name": "Figma",
+          "title": "Figma",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-04T09:24:34Z"
+        },
+        {
+          "name": "ImageMagick(cli)",
+          "title": "ImageMagick(cli)",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-04T09:41:23Z"
+        },
+        {
+          "name": "Docker",
+          "title": "Docker",
+          "proficiency": 0.75,
+          "versions": [],
+          "updatedAt": "2024-04-08T12:29:57Z"
+        },
+        {
+          "name": "Maven",
+          "title": "Maven",
+          "proficiency": 0.65,
+          "versions": [],
+          "updatedAt": "2024-04-09T17:06:07Z"
+        },
+        {
+          "name": "Ant",
+          "title": "Ant",
+          "proficiency": 0.65,
+          "versions": [],
+          "updatedAt": "2024-04-09T17:15:24Z"
+        },
+        {
+          "name": "Jenkins",
+          "title": "Jenkins",
+          "proficiency": 0.75,
+          "versions": [],
+          "updatedAt": "2024-04-09T19:40:39Z"
+        },
+        {
+          "name": "Flutter",
+          "title": "Flutter",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-08T12:17:23Z"
+        },
+        {
+          "name": "SOLR",
+          "title": "SOLR",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2024-04-09T19:43:55Z"
+        },
+        {
+          "name": "Agile",
+          "title": "Agile",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2024-04-09T19:33:27Z"
+        },
+        {
+          "name": "Test Driven Development",
+          "title": "TDD",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-08T11:58:06Z"
+        },
+        {
+          "name": "Storybook",
+          "title": "Storybook Component Library",
+          "proficiency": 0.9,
+          "versions": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "updatedAt": "2024-04-09T08:53:11Z"
+        }
+      ]
+    },
+    {
+      "name": "Programming Languages",
+      "updatedAt": "2024-04-10T10:25:28Z",
+      "skills": [
+        {
+          "name": "Javascript",
+          "title": "Javascript",
+          "proficiency": 0.9,
+          "versions": [
+            "ECMAScript2015",
+            "ES2016",
+            "ES2017",
+            "ES2018",
+            "ES2019"
+          ],
+          "updatedAt": "2024-04-08T11:42:17Z"
+        },
+        {
+          "name": "Dart",
+          "title": "Dart",
+          "proficiency": 0.6,
+          "versions": [],
+          "updatedAt": "2024-03-29T16:22:43Z"
+        },
+        {
+          "name": "Kotlin",
+          "title": "Kotlin",
+          "proficiency": 0.6,
+          "versions": [],
+          "updatedAt": "2024-03-29T16:28:45Z"
+        },
+        {
+          "name": "PHP",
+          "title": "PHP",
+          "proficiency": 0.75,
+          "versions": [
+            "4",
+            "5"
+          ],
+          "updatedAt": "2024-04-03T09:26:16Z"
+        },
+        {
+          "name": "JAVA",
+          "title": "JAVA",
+          "proficiency": 0.7,
+          "versions": [
+            "1.4",
+            "J2SE",
+            "5",
+            "J2EE"
+          ],
+          "updatedAt": "2024-04-03T09:31:30Z"
+        },
+        {
+          "name": "C/C++",
+          "title": "C/C++",
+          "proficiency": 0.5,
+          "versions": [
+            "3"
+          ],
+          "updatedAt": "2024-04-03T09:50:21Z"
+        },
+        {
+          "name": "Python",
+          "title": "Python",
+          "proficiency": 0.5,
+          "versions": [
+            "2.4"
+          ],
+          "updatedAt": "2024-04-03T09:56:35Z"
+        },
+        {
+          "name": "Scala",
+          "title": "Scala",
+          "proficiency": 0.4,
+          "versions": [],
+          "updatedAt": "2024-04-03T10:13:00Z"
+        },
+        {
+          "name": "XML",
+          "title": "XML",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-03T10:22:16Z"
+        },
+        {
+          "name": "Ruby",
+          "title": "Ruby",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2024-04-10T10:26:47Z"
+        }
+      ]
+    },
+    {
+      "name": "Cloud/Web Servers",
+      "updatedAt": "2024-01-12T07:55:22Z",
+      "skills": [
+        {
+          "name": "AWS",
+          "title": "AWS",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-04T01:48:56Z"
+        },
+        {
+          "name": "GCP",
+          "title": "Google Cloud Platform(GCP)",
+          "proficiency": 0.85,
+          "versions": [],
+          "updatedAt": "2024-04-08T11:33:19Z"
+        },
+        {
+          "name": "Apache",
+          "title": "Apache",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-08T11:49:24Z"
+        },
+        {
+          "name": "Tomcat",
+          "title": "Tomcat",
+          "proficiency": 0.75,
+          "versions": [],
+          "updatedAt": "2024-04-08T12:42:35Z"
+        },
+        {
+          "name": "nginx",
+          "title": "nginx",
+          "proficiency": 0.6,
+          "versions": [],
+          "updatedAt": "2024-04-09T09:08:34Z"
+        },
+        {
+          "name": "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+          "title": "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-04T10:14:52Z"
+        }
+      ]
+    },
+    {
+      "name": "Javascript",
+      "updatedAt": "2025-04-29T22:56:35Z",
+      "skills": [
+        {
+          "name": "React.js",
+          "title": "React.js",
+          "proficiency": 0.8,
+          "versions": [
+            "16",
+            "17",
+            "18"
+          ],
+          "updatedAt": "2024-03-29T14:05:19Z"
+        },
+        {
+          "name": "Node.js",
+          "title": "Node.js",
+          "proficiency": 0.8,
+          "versions": [
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18"
+          ],
+          "updatedAt": "2024-03-29T14:09:10Z"
+        },
+        {
+          "name": "TypeScript",
+          "title": "TypeScript",
+          "proficiency": 0.6,
+          "versions": [
+            "3",
+            "4",
+            "5"
+          ],
+          "updatedAt": "2024-03-29T14:06:37Z"
+        },
+        {
+          "name": "Angular",
+          "title": "Angular.js",
+          "proficiency": 0.6,
+          "versions": [
+            "1",
+            "2",
+            "4",
+            "6",
+            "8",
+            "9"
+          ],
+          "updatedAt": "2024-03-29T12:23:13Z"
+        },
+        {
+          "name": "Ext.js",
+          "title": "Ext.js",
+          "proficiency": 0.5,
+          "versions": [],
+          "updatedAt": "2024-03-29T12:32:48Z"
+        },
+        {
+          "name": "JQuery",
+          "title": "JQuery",
+          "proficiency": 0.5,
+          "versions": [],
+          "updatedAt": "2024-03-29T12:36:57Z"
+        },
+        {
+          "name": "Highcharts",
+          "title": "Highcharts",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2024-03-29T12:51:45Z"
+        },
+        {
+          "name": "Create React App",
+          "title": "Create React App(CRA)",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-03-29T13:06:44Z"
+        },
+        {
+          "name": "LESS",
+          "title": "LESS",
+          "proficiency": 0.6,
+          "versions": [],
+          "updatedAt": "2024-03-29T14:12:47Z"
+        },
+        {
+          "name": "SASS/SCSS",
+          "title": "SASS/SCSS",
+          "proficiency": 0.5,
+          "versions": [],
+          "updatedAt": "2024-04-03T18:31:25Z"
+        },
+        {
+          "name": "Jasmine",
+          "title": "Jasmine",
+          "proficiency": 0.5,
+          "versions": [],
+          "updatedAt": "2024-03-29T14:53:03Z"
+        },
+        {
+          "name": "Jest",
+          "title": "Jest",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-04T01:36:07Z"
+        }
+      ]
+    },
+    {
+      "name": "Version Control",
+      "updatedAt": "2023-12-18T19:59:02Z",
+      "skills": [
+        {
+          "name": "Gitlab",
+          "title": "Gitlab",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-09T10:50:34Z"
+        },
+        {
+          "name": "Github",
+          "title": "Github",
+          "proficiency": 0.9,
+          "versions": [],
+          "updatedAt": "2024-04-09T10:54:43Z"
+        },
+        {
+          "name": "Atlassian Suite: JIRA, Confluence, Crucible, BitBucket, Bamboo",
+          "title": "Atlassian Suite: JIRA, Confluence, Crucible, BitBucket, Bamboo",
+          "proficiency": 0.85,
+          "versions": [],
+          "updatedAt": "2024-04-09T11:45:48Z"
+        },
+        {
+          "name": "SVN",
+          "title": "SVN",
+          "proficiency": 0.8,
+          "versions": [],
+          "updatedAt": "2024-04-09T11:19:49Z"
+        }
+      ]
+    },
+    {
+      "name": "Web Development",
+      "updatedAt": "2024-04-08T11:11:54Z",
+      "skills": [
+        {
+          "name": "HTML 5.0",
+          "title": "HTML 5.0",
+          "proficiency": 0.85,
+          "versions": [
+            "5",
+            "HTML"
+          ],
+          "updatedAt": "2024-04-03T11:15:16Z"
+        },
+        {
+          "name": "CSS3",
+          "title": "CSS3",
+          "proficiency": 0.9,
+          "versions": [
+            "1",
+            "3"
+          ],
+          "updatedAt": "2024-04-03T11:26:35Z"
+        },
+        {
+          "name": "Material-ui",
+          "title": "Material-ui",
+          "proficiency": 0.9,
+          "versions": [
+            "3",
+            "4",
+            "5"
+          ],
+          "updatedAt": "2024-04-04T01:14:06Z"
+        },
+        {
+          "name": "Bootstrap",
+          "title": "Bootstrap",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-03T18:28:30Z"
+        },
+        {
+          "name": "Spring & Spring MVC",
+          "title": "Spring & Spring MVC",
+          "proficiency": 0.6,
+          "versions": [],
+          "updatedAt": "2024-04-03T18:33:38Z"
+        },
+        {
+          "name": "Wordpress",
+          "title": "Wordpress",
+          "proficiency": 0.8,
+          "versions": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "updatedAt": "2024-04-03T17:16:07Z"
+        },
+        {
+          "name": "PrimeNG",
+          "title": "PrimeNG",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-03T17:25:41Z"
+        },
+        {
+          "name": "SASS/SCSS",
+          "title": "SASS/SCSS",
+          "proficiency": 0.5,
+          "versions": [],
+          "updatedAt": "2024-04-03T18:31:25Z"
+        },
+        {
+          "name": "JSP",
+          "title": "Java Server Pages(JSP)",
+          "proficiency": 0.7,
+          "versions": [],
+          "updatedAt": "2024-04-10T04:46:44Z"
+        },
+        {
+          "name": "Adobe Creative Suite",
+          "title": "Adobe Creative Suite",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2024-04-10T04:50:35Z"
+        },
+        {
+          "name": "Sanity.io",
+          "title": "Sanity.io",
+          "proficiency": 0.95,
+          "versions": [
+            "2",
+            "3"
+          ],
+          "updatedAt": "2024-04-08T11:19:33Z"
+        }
+      ]
+    },
+    {
+      "name": "Additional archived skills",
+      "updatedAt": "2024-04-08T12:34:36Z",
+      "skills": [
+        {
+          "name": "SQS",
+          "title": "SQS",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2023-12-13T19:27:28Z"
+        },
+        {
+          "name": "Elgg Social Media Network Framework",
+          "title": "Elgg Social Media Network Framework",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-01T12:48:05Z"
+        },
+        {
+          "name": "Terraform",
+          "title": "Terraform",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-01T02:24:52Z"
+        },
+        {
+          "name": "Grunt",
+          "title": "Grunt",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2023-12-13T10:10:55Z"
+        },
+        {
+          "name": "Shopify API",
+          "title": "Shopify API",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-02T09:51:52Z"
+        },
+        {
+          "name": "Appointments",
+          "title": "Appointments",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-15T11:31:47Z"
+        },
+        {
+          "name": "Web Development",
+          "title": "Web Development",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-15T11:31:26Z"
+        },
+        {
+          "name": "Auth0",
+          "title": "Auth0",
+          "proficiency": 0.75,
+          "versions": [],
+          "updatedAt": "2024-04-08T12:34:36Z"
+        },
+        {
+          "name": "Payments",
+          "title": "Payments",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-15T11:32:04Z"
+        },
+        {
+          "name": "Shopify Plugin Development",
+          "title": "Shopify Plugin Development",
+          "proficiency": null,
+          "versions": [],
+          "updatedAt": "2022-12-02T09:53:14Z"
+        }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "title": "Frontend Software Engineer",
+      "organization": "Cybercore Technologies",
+      "organizationContext": "Principle Software Engineer",
+      "startDate": "2017-01-01",
+      "endDate": "2017-12-31",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "Principle architect for an application that collects data from users through a form, adjusts future form fields based on input, stores in MySQL database, and provides admin alerts. This was a React Application that consumed an existing Spring/JAVA API. JIRA was how this Agile team of Principle Engineers was tasked and presentations of mockups were done with Adobe Creative Cloud. ",
+      "bullets": [
+        "Principle Software Fullstack React application development",
+        "MySQL Database with Java/Spring API",
+        "Responsible for tech upgrade for UI",
+        "Adobe Creative Cloud for prototype and mockup generation",
+        "JIRA for project management"
+      ],
+      "skills": [
+        "React.js",
+        "MongoDB",
+        "Javascript",
+        "Grunt",
+        "Spring & Spring MVC",
+        "Node.js",
+        "Apache"
+      ],
+      "updatedAt": "2024-05-14T09:26:46Z"
+    },
+    {
+      "title": "AI Model Evaluation Specialist - Technical Consultant",
+      "organization": "Contractor",
+      "organizationContext": "Outlier.ai, Data Annotations",
+      "startDate": "2022-12-01",
+      "endDate": null,
+      "current": true,
+      "location": "",
+      "summary": "• Conducted systematic evaluation and testing of advanced language models, developing structured test cases to assess model capabilities and limitations\n• Engineered precise prompts to analyze AI model behavior, contributing to the improvement of model performance and reliability\n• Executed detailed quality assurance testing for AI systems, including audio-based interaction testing and comprehensive response analysis\n• Developed natural language interaction scenarios that simulate real-world user behaviors and use cases\n• Documented technical findings and provided detailed analytical reports on model performance and behavior patterns\n• Contributed to the development of AI training datasets through careful documentation and evaluation of model responses\n",
+      "bullets": [
+        "Conducted systematic evaluation and testing of advanced language models, developing structured test cases to assess model capabilities and limitations",
+        "Engineered precise prompts to analyze AI model behavior, contributing to the improvement of model performance and reliability",
+        "Executed detailed quality assurance testing for AI systems, including audio-based interaction testing and comprehensive response analysis",
+        "Developed natural language interaction scenarios that simulate real-world user behaviors and use cases",
+        "Documented technical findings and provided detailed analytical reports on model performance and behavior patterns",
+        "Contributed to the development of AI training datasets through careful documentation and evaluation of model responses"
+      ],
+      "skills": [
+        "Prompt Engineering",
+        "AI Model Testing & Evaluation",
+        "Technical Documentation",
+        "Quality Assurance",
+        "User Experience Research"
+      ],
+      "updatedAt": "2025-04-29T22:52:35Z"
+    },
+    {
+      "title": "Fullstack Software Engineer",
+      "organization": "Assembled Brands",
+      "organizationContext": "Small Business Financing.",
+      "startDate": "2019-12-01",
+      "endDate": "2021-06-30",
+      "current": false,
+      "location": "Los Angeles, CA",
+      "summary": "Fullstack engineer on this Agile team. React Frontend applications built with Kotlin endpoints running on Severless Architecture with AWS Lambdas. DynamoDB and PostgreSQL database administration. Auth0 for user authentication on the Admin dashboard Web application. Custom Integration with Quickbooks, Shopify, Google Sheets, Google Docs and Google Drive APIs. We developed and maintained several applications. The loan application for small businesses, the admin dashboard that loan Originators use to view the application packages, the applications responsible for extracting the data from any uploaded quickbooks, or spreadsheets, the company website, and the company blog. Asynchronous communicated with SQS. ",
+      "bullets": [
+        "Startup",
+        "Fullstack Software Engineer with Jest Test Driven Development",
+        "Agile Software Development",
+        "React UI with Kotlin Backend",
+        "Authentication - Auth0",
+        "AWS - Lambdas, S3, SQS, DynamoDB, RDS(Postgres) & hosting",
+        "Third party integrations:  Quickbooks, Shopify, Google Sheets, Google Docs and Google Drive APIs "
+      ],
+      "skills": [
+        "Kotlin",
+        "React.js",
+        "Github",
+        "Spring & Spring MVC",
+        "DynamoDB",
+        "TypeScript",
+        "Material-ui",
+        "AWS",
+        "Figma",
+        "PostgreSQL",
+        "Docker",
+        "SQS",
+        "Node.js",
+        "Jest",
+        "Storybook Component Library",
+        "Agile",
+        "TDD",
+        "Storybook Component Library",
+        "Wordpress",
+        "Sanity.io",
+        "Javascript",
+        "IntelliJ IDEA & Webstorm"
+      ],
+      "updatedAt": "2024-05-14T09:23:58Z"
+    },
+    {
+      "title": "Fullstack Software Engineer",
+      "organization": "Assembled Financial",
+      "organizationContext": "Online Crypto-currency bank.",
+      "startDate": "2021-06-01",
+      "endDate": "2022-09-30",
+      "current": false,
+      "location": "Los Angeles, CA",
+      "summary": "Agile team building crypto banking mobile application and web application. Our frontend applications were built with React with Kotlin and Node.js endpoints for the backend running on AWS. We maintained a RDS:PostgreSQL database that. Our unique crpto token was on the Solana blockchain. The Android and iOS mobile applications built with Dart and Flutter. Auth0 for user authentication on both the Web and mobile applications. Integration with Prove KYC API, Plaid API, and the Marqeta Banking API for banking operations. Segment was used for analytics and Gitlab for Version Control.",
+      "bullets": [
+        "Startup",
+        "Agile Software Development Team",
+        "React and Kotlin on the backend for shared mobile and web UI.",
+        "Node.js endpoints for our unique anda token and other crypto currency functionality",
+        "AWS Postgres RDS",
+        "Flutter iOS and android applications available for download.",
+        "Authentication - Auth0 for both web and mobile UI",
+        "Several Authorization Third Party Integrations",
+        "Gitlab CI/CD and version control"
+      ],
+      "skills": [
+        "React.js",
+        "Kotlin",
+        "Node.js",
+        "Flutter",
+        "Dart",
+        "Gitlab",
+        "PostgreSQL",
+        "AWS",
+        "Auth0",
+        "Figma",
+        "Docker",
+        "Terraform",
+        "Jest",
+        "TypeScript",
+        "Agile",
+        "TDD",
+        "Material-ui",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Sanity.io",
+        "Google Cloud Platform(GCP)",
+        "Javascript",
+        "IntelliJ IDEA & Webstorm"
+      ],
+      "updatedAt": "2024-05-14T09:23:12Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Raytheon Company",
+      "organizationContext": "Internal Social Media Network.",
+      "startDate": "2011-05-01",
+      "endDate": "2012-07-31",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "PHP, HTML, Javascript development using Elgg Social Networking Framework. Daily tasking consisted of maintenance of production while completing new development tasking. New development was mainly creating custom elgg plugins in PHP. The native Elgg database is MySQL. Since the system was in production we also provided direct user support.",
+      "bullets": [
+        "Fullstack Social media network development with Elgg Social Media network. ",
+        "Maintained application in production with new development features",
+        "MySQL database administration",
+        "User Support and customer service tasking "
+      ],
+      "skills": [
+        "PHP",
+        "Elgg Social Media Network Framework",
+        "MySQL",
+        "JQuery",
+        "HTML 5.0",
+        "CSS3"
+      ],
+      "updatedAt": "2024-05-14T08:44:39Z"
+    },
+    {
+      "title": "Frontend Software Engineer",
+      "organization": "SoftTech Solutions",
+      "organizationContext": "Data Aggregation Display. ",
+      "startDate": "2012-08-01",
+      "endDate": "2013-12-31",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "Consuming J2EE/Groovy APIs with JQuery and HTML/CSS with LESS for css preprocessing to aggregate data from different datasources providing different data to equal the full picture. JSPs displayed data with Highcharts and JQuery with Jasmine for automated testing. MongoDb backend with JAVA hibernate as the database layer. Maven build tool with a tomcat web server. Required custom vector graphic creation with Inkscape and later by request Adobe Illustrator. ",
+      "bullets": [
+        "Fullstack/Frontend leaning development with JSPs",
+        "Implemented testing with jasmine",
+        "Inkscape graphic design of icons and other graphics. ",
+        "Aggregation of data from independent data sources with own schemas.",
+        "Highcharts for intensive graphing of different data schemas. ",
+        "MongoDB with hibernate for storing application data and metadata.",
+        "Inkscape and Adobe Illustrator custom graphic creation"
+      ],
+      "skills": [
+        "JAVA",
+        "Java Server Pages(JSP)",
+        "JQuery",
+        "HTML 5.0",
+        "CSS3",
+        "LESS",
+        "Highcharts",
+        "MongoDB",
+        "Node.js",
+        "ImageMagick(cli)",
+        "Apache"
+      ],
+      "updatedAt": "2024-05-14T08:42:33Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Cybercore Technologies",
+      "organizationContext": "Server Status display. ",
+      "startDate": "2014-01-01",
+      "endDate": "2015-01-31",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "Supported 2 production GUIs, 2 Prototype GUIs, and one legacy GUI. Prototype GUI's were in AngularJs while others were ExtJS, and early versions/attemps at Angular. GUIs were heavy on graphs with Highcharts & tables with ng-grid displaying server details and test automated test results. All GUIs consumed J2EE/Spring endpoints. Automated tests were in Ruby. Tomcat servers maintained by devOps. ",
+      "bullets": [
+        "2 production ExtJS GUIs, 2 Angular prototype GUIs, and one legacy Bootstrap GUI",
+        "Graphing with Highcharts and ng-grid for table UI. ",
+        "J2EE with spring endpoints for the backend maintained by devOps.",
+        "Ruby automated testing of GUIs"
+      ],
+      "skills": [
+        "Ruby",
+        "Ext.js",
+        "Angular.js",
+        "Tomcat",
+        "Highcharts",
+        "JAVA",
+        "Node.js",
+        "MongoDB",
+        "Javascript",
+        "Apache"
+      ],
+      "updatedAt": "2024-05-14T08:35:19Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Raytheon Company",
+      "organizationContext": "Distributed System Protocol.",
+      "startDate": "2007-10-01",
+      "endDate": "2011-05-31",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "Production C++ & Python Agile Software Development and Maintenance. Our MySQL databases stored and retrieved data based on network messages sent from system to system. PIG Scripting for Log aggregation. Responsible for writing the python application that retrieves data from the system based on network messages. Prototyped Google Web Toolkit implementation of maintenance and sustainment dashboard of the distributed system. ",
+      "bullets": [
+        "Backend C++ and Python development of a distributed system managed by Puppet",
+        "Agile Software Development",
+        "PIG scripting for log aggregation and interpretation",
+        "Python development that retrieves data from the system based on network messages. ",
+        "Prototyped Google Web Toolkit implementation of maintenance and sustainment dashboard"
+      ],
+      "skills": [
+        "C/C++",
+        "Python",
+        "MySQL"
+      ],
+      "updatedAt": "2024-05-14T08:47:57Z"
+    },
+    {
+      "title": "Software Architect",
+      "organization": "The Handsomest Nerd, LLC.",
+      "organizationContext": "Self Employed",
+      "startDate": "2022-09-01",
+      "endDate": "2024-01-12",
+      "current": true,
+      "location": "Baltimore, Maryland",
+      "summary": "Develop React web sites/applications for small businesses. The backend technology is Node.js and is backed by Sanity.io headless CMS using GCP for cloud resources. The focus has been to bring small businesses up to speed in terms of web tech while allowing ease of development. My strongest tech stack Javascript/React/Node.js.",
+      "bullets": [
+        "Developed several React/Node.js applications and websites in various domains.",
+        "Backed by data from Sanity.io CMS ",
+        "Google Cloud Platform - Hosting and Functions"
+      ],
+      "skills": [
+        "React.js",
+        "TypeScript",
+        "Node.js",
+        "Javascript",
+        "Sanity.io",
+        "Google Cloud Platform(GCP)",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Jest",
+        "Storybook Component Library",
+        "TDD",
+        "Material-ui",
+        "IntelliJ IDEA & Webstorm"
+      ],
+      "updatedAt": "2025-04-29T22:53:56Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "L-3 Communications",
+      "organizationContext": "Software Engineer",
+      "startDate": "2004-11-01",
+      "endDate": "2007-10-31",
+      "current": false,
+      "location": "Suitland, MD",
+      "summary": "PHP, HTML, Javascript production application development in spiral/waterfall methodology.\nMySQL database backend and Tomcat web server maintained by team. Ingested many sources\nI was responsible for developing a JAVA SOAP API to serve data in CSV and XML. Provided\ndetailed system documentation for inherited undocumented production system. Other duties consist of worldwide site surveys, and installations; site-specific systems enhancements;\nsystem upgrades; operator training; software procurement and configuration management;\nhardware procurement and inventory control; phone and email technical support; liaison and\ntroubleshooting with working level counterparts; system demonstrations and system briefings\nto high level decision makers.",
+      "bullets": [
+        "LAMP(Linux, Apache, MySQL stack fullstack development",
+        "This position covers 2 company buyouts. ",
+        "Responsible for developing a JAVA SOAP API to serve data in CSV and XML",
+        "MySQL server maintenance",
+        "Customer Service - traveling to customer sites, project physical inventory maintenance, software procurement, customer issue tasking. ",
+        "System demonstrations to high level decision makers",
+        "Constructed 3 binders of instruction manual for application as no documentation was left from the previous team"
+      ],
+      "skills": [
+        "PHP",
+        "HTML 5.0",
+        "CSS3",
+        "Linux",
+        "SVN",
+        "MySQL",
+        "JAVA",
+        "Javascript"
+      ],
+      "updatedAt": "2024-05-14T08:52:56Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Northrop Grumman",
+      "organizationContext": "SpaceX",
+      "startDate": "2018-01-01",
+      "endDate": "2019-12-31",
+      "current": false,
+      "location": "Redondo Beach, CA",
+      "summary": "Frontend Angular Engineer on an Agile team upgrading application from Angular 4 to Angular 6 while also developing new features with ngRx. We received tasking with JIRA and UI/UX mockups from an external team.  Table intensive design prompted using ng-grid for tables and complex filtering/sorting options. The application was fairly advanced hiding and showing UI elements based on inputs in previous screens.The application consumed a distributed JAVA/Spring API which I worked on briefly at the beginning of this position. ",
+      "bullets": [
+        "Frontend Angular Engineer responsible for tech upgrade from v4 to v6.",
+        "JIRA tasking with mockups",
+        "JAVA/Spring API consumption from PrimeNg UI",
+        "NgRx for observables",
+        "AWS cloud resources"
+      ],
+      "skills": [
+        "Angular.js",
+        "TypeScript",
+        "Atlassian Suite: JIRA, Confluence, Crucible, BitBucket, Bamboo",
+        "Docker",
+        "PrimeNG",
+        "AWS",
+        "Javascript",
+        "Visual Studio Code"
+      ],
+      "updatedAt": "2024-05-14T08:19:01Z"
+    },
+    {
+      "title": "Software Engineer",
+      "organization": "Cybercore Technologies",
+      "organizationContext": "Frontend Software Engineer",
+      "startDate": "2015-12-01",
+      "endDate": "2017-01-30",
+      "current": false,
+      "location": "Annapolis Junction, MD",
+      "summary": "Angular and Bootstrap reengineer of an existing ExtJS application consuming Scala and JAVA APIs with hibernate layer and MongoDb backend. Federated Search GUI prototype development with JQuery mobile for mobile devices. Consuming SOLR search API for faceted search components\nJenkins deployment of Tomcat Applications to AWS. Mockups created with Adobe Creative Cloud Suite. \n\n",
+      "bullets": [
+        "Angular & Bootstrap UI tech upgrade from ExtJS application.",
+        "Consumes Scala/Java API with hibernate Object Relational Mapping(ORM) and MongoDB",
+        "Constructed Federated Search UI using JQuery Mobile and consuming a SOLR data source for faceted search. ",
+        "AWS deployment of Tomcat Application using Jenkins",
+        "Adobe Cloud Suite for mockups and prototype generation"
+      ],
+      "skills": [
+        "Angular.js",
+        "Adobe Creative Suite",
+        "Tomcat",
+        "Ext.js",
+        "Atlassian Suite: JIRA, Confluence, Crucible, BitBucket, Bamboo",
+        "Bootstrap",
+        "Scala",
+        "JQuery",
+        "Node.js",
+        "SOLR",
+        "MongoDB",
+        "Agile",
+        "Javascript"
+      ],
+      "updatedAt": "2024-05-14T08:28:45Z"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Digital Resume",
+      "inceptionDate": "2022-08-01",
+      "url": "https://terrellsingleton.com",
+      "description": "This is a project meant to showcase my experiences and digital portfolio.",
+      "skills": [
+        "React.js",
+        "Javascript",
+        "TypeScript",
+        "Node.js",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Google Cloud Platform(GCP)",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:27:00Z"
+    },
+    {
+      "title": "Bartender Flash Cards",
+      "inceptionDate": "2022-11-21",
+      "url": "https://bartender-concierge.web.app",
+      "description": "These are the drinks that any bartender needs to know how to make. Some specialty drinks are included.",
+      "skills": [
+        "React.js",
+        "TypeScript",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Node.js",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:27:29Z"
+    },
+    {
+      "title": "JamWorks 24/7 Shopify Store",
+      "inceptionDate": "2022-05-01",
+      "url": "https://jamworks247.com",
+      "description": "This Shopify store was created to showcase the incredible virtual inventory of the owner. The store was constructed with a combination of Shopify UI and some custom made components. Shopify plugin development to bring in a design and then Create mockups for the design. ",
+      "skills": [
+        "Shopify API",
+        "ImageMagick(cli)",
+        "Shopify Plugin Development"
+      ],
+      "updatedAt": "2024-03-21T11:28:20Z"
+    },
+    {
+      "title": "Fintech Company Website",
+      "inceptionDate": "2019-10-01",
+      "url": "https://assembledbrands.com",
+      "description": "As frontend subject matter expert on a team of 5 developers this project was the marketing tool of the company. Admin dashboard allows admin to update content and some layouts. ",
+      "skills": [
+        "React.js",
+        "TypeScript",
+        "Kotlin",
+        "AWS",
+        "Sanity.io"
+      ],
+      "updatedAt": "2024-04-08T14:14:51Z"
+    },
+    {
+      "title": "The Drinkery Website",
+      "inceptionDate": "2023-09-01",
+      "url": "https://www.thedrinkerybaltimore.com/the-drinkery/home",
+      "description": "This is a website for a local dive bar. ",
+      "skills": [
+        "React.js",
+        "Create React App(CRA)",
+        "Node.js",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:26:34Z"
+    },
+    {
+      "title": "Healing & Wellness Business Website",
+      "inceptionDate": "2022-11-19",
+      "url": "https://transformhw.org",
+      "description": "Transformative Healing and Wellness uses this website display information as well as to direct potential customers to  make appointments, make payments, and display important forms. ",
+      "skills": [
+        "React.js",
+        "Sanity.io",
+        "HTML 5.0",
+        "CSS3",
+        "Node.js",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Google Cloud Platform(GCP)",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:28:00Z"
+    },
+    {
+      "title": "Sanity Open Source CMS",
+      "inceptionDate": "2020-12-01",
+      "url": "https://www.sanity.io/exchange/community/tmanundercover",
+      "description": "This community is around Sanity.io. Sanity is a headless CMS that can be used to easily be the content store for websites. Check out the projects that I've done with sanity. I have highlighted some of them in my portfolio. ",
+      "skills": [
+        "Sanity.io",
+        "React.js",
+        "TypeScript"
+      ],
+      "updatedAt": "2024-03-21T11:25:27Z"
+    },
+    {
+      "title": "Crowdsource Event Website",
+      "inceptionDate": "2018-10-01",
+      "url": "https://anybodywalking.com",
+      "description": "Website that acts as UI for application that supports search of database of balls in the ballroom scene by date, location, title or other details. Users can enter ball information to have them added to the searchable database. ",
+      "skills": [
+        "React.js",
+        "Create React App(CRA)",
+        "Google Cloud Platform(GCP)",
+        "Sanity.io",
+        "Firebase: Hosting, Functions, Authentication, Push Notifications, Analytics",
+        "Node.js",
+        "TypeScript",
+        "Github",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:27:13Z"
+    },
+    {
+      "title": "Fintech Blog",
+      "inceptionDate": "2020-12-01",
+      "url": "https://assembledbrands.com/blog",
+      "description": "Added as an augment to the Fintech company Website.",
+      "skills": [
+        "React.js",
+        "Kotlin",
+        "Sanity.io",
+        "HTML 5.0",
+        "CSS3",
+        "TypeScript",
+        "AWS",
+        "Material-ui"
+      ],
+      "updatedAt": "2024-04-08T18:28:34Z"
+    }
+  ],
+  "education": [
+    {
+      "qualification": "Computer Engineering, Bachelor of Science",
+      "institution": "University of Maryland, Baltimore County",
+      "updatedAt": "2023-12-13T20:27:46Z"
+    }
+  ]
+}
+
