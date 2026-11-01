@@ -11,11 +11,12 @@ If setup is already complete, open this repository in VS Code and run:
 
 ```text
 npm ci
+npm ci --prefix functions
 npm run preflight
 npm run dev
 ```
 
-Open the local URL printed in the terminal, usually `http://localhost:3000`. Stop the server with
+Open the local URL printed in the terminal, usually `http://127.0.0.1:5500`. Stop the emulators with
 Ctrl+C.
 
 The public homepage works without an API key and includes a floating résumé search over current and
@@ -39,7 +40,7 @@ information that you are comfortable publishing.
 
 - [Class slides (PDF)](docs/slides/portfolio-career-workspace.pdf)
 - [Interactive class slides (HTML)](docs/slides/portfolio-career-workspace.html)
-- [Vercel deployment guide](docs/deploy-vercel.html)
+- [Firebase deployment guide](docs/deploy-firebase.md)
 
 Download the HTML files before opening them in a browser from GitHub.
 
@@ -47,26 +48,58 @@ Download the HTML files before opening them in a browser from GitHub.
 
 | Path | Purpose |
 |---|---|
-| `src/` | Next.js application code |
+| `src/` | Vite React pages, shared components, and server-only API modules |
+| `functions/` | Firebase Functions entry point and runtime dependencies |
 | `data/` | Current public profile plus normalized, approved historical résumé evidence |
 | `exercises/` | Step-by-step class work |
 | `tests/` | Automated checks used by `npm run preflight` |
 | `docs/` | Setup, slides, and deployment guidance |
 | `private-inputs/` | Local resumes and source documents that Git ignores |
 
-Do not commit `node_modules/`, `.next/`, secrets, or raw resumes. The existing `.gitignore` already
+Do not commit `node_modules/`, `dist/`, secrets, or raw resumes. The existing `.gitignore` already
 excludes generated files, environment files, and private inputs.
 
-## Classroom Authentication Limits
+## Development and Deployment
 
-Set unique `SITE_PASSWORD` and `INTERVIEW_PASSWORD` values (at least 12 non-trivial characters
-each) and a random `SESSION_SECRET` (at least 32 characters) in `.env.local`, then restart the
-server. Recruiter and Interviewer share the interview password for this classroom build; Terrell
-uses the owner password. Never put real values in `.env.example` or Git.
+`npm run dev` builds with Vite and starts Firebase Auth, Hosting, and Functions
+emulators using `demo-portfolio-local`. Open `http://127.0.0.1:5500`.
+There is no standalone web server. After source edits, run `npm run build:firebase`
+in another terminal and refresh; Functions reloads its generated backend.
 
-This single-owner login is intentionally limited to the classroom. Its ten-attempts-per-minute
-limit is process-local, resets when the server restarts, and is not shared across instances.
-Logout clears the browser cookie but cannot revoke a copied signed token before its four-hour
-expiry; rotating `SESSION_SECRET` invalidates every session. Before broader public use, replace
-this with managed identity and distributed abuse controls, require HTTPS, add host-level body
-limits, and complete a security review.
+The startup script seeds three Auth accounts with server-managed `portfolioRole`
+claims. Local passwords are generated and saved privately in
+`.firebase/auth-users.local.json`. Emulator Auth data exports to
+`.firebase/emulator-data` on shutdown and imports on the next start.
+
+| Account | Role | Access |
+|---|---|---|
+| `Terrell.singleton@gmail.com` | `terrell` | Owner dashboard, tools, and interview room |
+| `Terrell.singleton+interviewer@gmail.com` | `interviewer` | Interview room |
+| `Terrell.singleton+recruiter@gmail.com` | `recruiter` | Interview room |
+
+`npm run firebase:seed-auth` restores these role assignments in a running local
+Auth emulator without duplicating accounts. The seed command refuses live projects.
+
+Login uses Firebase email/password authentication, exchanges a recent ID token
+for a four-hour Firebase session cookie, and verifies the cookie and revocation
+on the backend. The role dropdown cannot grant permissions. There is no public
+registration flow; unassigned accounts have no private access.
+
+Use `functions/.env.local` for non-secret backend AI settings and
+`functions/.secret.local` for the local `AI_API_KEY`. Site passwords and session
+secrets are no longer used. Existing root `.env.local` values and their backend
+copies are retained for verification; do not delete them until confirmed.
+Frontend builds need no credentials or `VITE_` secrets.
+
+`npm run preflight` runs unit, lint, type, build, and emulator HTTP checks. The
+HTTP suite uses isolated demo users and restores existing backend environment
+files after testing. No AI provider call is made by the automated suite.
+
+Firebase Hosting serves the public portfolio and assets; Functions serves
+private routes, protected recordings, and AI endpoints on the same Hosting origin.
+See [the Firebase guide](docs/deploy-firebase.md) before a future live deployment.
+The repository currently uses demo projects; no live users or resources are created.
+
+`npm run build:pages` remains available for a public-only export in `dist/pages`.
+For a project site, set `BASE_PATH=/YOUR_REPOSITORY/`; use `/` for a root site.
+Private URLs in that export explain that Firebase Functions is required.

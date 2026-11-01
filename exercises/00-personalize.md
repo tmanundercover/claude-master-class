@@ -11,7 +11,7 @@ evidence without replacing the current résumé.
 
 Attach your redacted resume PDF and project notes to an approved assistant.
 Do not upload raw sources to the portfolio or commit them. Inspect `data/profile.json`,
-`src/app/page.tsx`, and `src/app/layout.tsx` before edits. If you have an older portfolio
+`src/pages/Home.tsx`, and `src/App.tsx` before edits. If you have an older portfolio
 export, normalize only approved résumé records into a small JSON evidence file; do not
 ship its raw backup, binary assets, drafts, or unrelated CMS documents.
 

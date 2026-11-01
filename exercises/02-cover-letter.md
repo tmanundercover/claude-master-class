@@ -7,7 +7,7 @@ from factual verification and the final decision to send.
 
 ## Work
 
-Implement `src/app/api/cover-letter/route.ts` and its result presentation in
+Implement `src/server/routes/cover-letter.ts` and its result presentation in
 `src/components/ToolWorkbench.tsx`. Reuse the authenticated request/model patterns
 from exercise 01 rather than duplicating them. Keep all existing checks.
 

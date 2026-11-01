@@ -1,9 +1,12 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# Project guidance
 
-## This is NOT the Next.js you know
+This is a React and TypeScript application built with Vite.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->
+- `src/pages/` contains universal React pages; `src/App.tsx` selects the page.
+- `src/entry-server.tsx` authorizes routes and renders HTML. `functions/app.mjs` adapts requests inside Firebase Functions.
+- Use only the Auth, Hosting, and Functions emulators for local development and HTTP checks; do not launch standalone servers.
+- Keep credentials, provider calls, session verification, and private evidence loading on the server.
+- Firebase Hosting serves `dist/hosting`; the Functions package owns authentication and dynamic requests.
+- The optional GitHub Pages export is public-only. Never copy the server bundle, private interview media, or environment files into it.
+- Preserve approved profile evidence and existing role boundaries.
+- Run `npm run preflight` after changes to routing, authentication, or builds.

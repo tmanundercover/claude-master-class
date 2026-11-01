@@ -1,3 +1,4 @@
+import { formatDocumentedYears } from "./evidence-format";
 import profile from "../../data/profile.json";
 import archive from "../../data/sanity-resume-snapshot.json";
 
@@ -155,13 +156,7 @@ export function careerYears(referenceDate = new Date()): number {
   return Math.max(0, years);
 }
 
-export function formatDocumentedYears(years: number): string | null {
-  if (years <= 0) return null;
-  if (years < 1) return "<1 yr in dated roles";
-  const label = Number.isInteger(years) ? String(years) : years.toFixed(1);
-  return `${label} yrs in dated roles`;
-}
-
+export { formatDocumentedYears } from "./evidence-format";
 export function getResumeEvidenceSummary(referenceDate = new Date()) {
   return {
     careerYears: careerYears(referenceDate),

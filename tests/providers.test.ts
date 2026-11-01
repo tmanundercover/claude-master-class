@@ -60,7 +60,7 @@ test("OpenAI and OpenAI-compatible errors map to the shared messages", async () 
     [OpenAI.APIError.generate(401, { type: "error" }, "x", new Headers()), 502, /AI_API_KEY/],
     [OpenAI.APIError.generate(404, { type: "error" }, "x", new Headers()), 502, /AI_MODEL/],
     [OpenAI.APIError.generate(500, { type: "error" }, "x", new Headers()), 502, /error \(500\)/],
-    [new OpenAI.APIConnectionTimeoutError(), 504, /longer than 3 minutes/],
+    [new OpenAI.APIConnectionTimeoutError(), 504, /longer than 50 seconds/],
     [new OpenAI.APIConnectionError({ message: "offline" }), 502, /Could not reach/],
   ];
   for (const [error, status, message] of cases) {

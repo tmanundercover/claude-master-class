@@ -10,10 +10,10 @@ contract and evidence-based review. A model's score is not a hiring probability.
 - Prerequisite: complete [authentication](00-authentication.md) and verify direct API denial.
 - Supplied: form, guard call sites, JD limit, loading/error states, and the AI helper
   `generateJson()` in `src/lib/model.ts` (OpenAI, Claude, Gemini, or OpenAI-compatible,
-  chosen with the `AI_*` settings in `.env.local`).
+  chosen with the `AI_*` settings in `functions/.env.local`).
 - Build: the tool's server route using `generateJson()`, runtime output validation, readable result UI.
 
-Start at `src/app/api/fit-analyzer/route.ts`. Keep `requireApiSession()`,
+Start at `src/server/routes/fit-analyzer.ts`. Keep `requireApiSession(request)`,
 `readJson()`, and `validateToolInput()` from the supplied helpers. Read
 `data/profile.json` on the server. Replace this tool's 501 response only.
 

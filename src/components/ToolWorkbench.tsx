@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, type FormEvent } from "react";
 import { copyText } from "@/lib/clipboard";
 import { isCareerResult } from "@/lib/career-result";

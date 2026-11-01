@@ -1,19 +1,18 @@
-import { NextResponse } from "next/server";
 import { ModelConfigurationError, ModelError } from "./model";
 import { ModelOutputValidationError } from "./output-validation";
 
-export function modelFailureResponse(error: unknown): NextResponse | null {
+export function modelFailureResponse(error: unknown): Response | null {
   if (error instanceof ModelConfigurationError) {
-    return NextResponse.json({ error: error.message }, { status: 503 });
+    return Response.json({ error: error.message }, { status: 503 });
   }
   if (error instanceof ModelError) {
-    return NextResponse.json(
+    return Response.json(
       { error: error.message },
       { status: error.status, headers: error.retryAfter ? { "Retry-After": error.retryAfter } : undefined },
     );
   }
   if (error instanceof ModelOutputValidationError) {
-    return NextResponse.json({ error: error.message }, { status: 502 });
+    return Response.json({ error: error.message }, { status: 502 });
   }
   return null;
 }

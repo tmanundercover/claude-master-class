@@ -1,5 +1,3 @@
-"use client";
-
 import { motion, useReducedMotion } from "motion/react";
 
 const introduction = "Recruiters get a fast, evidence-led view of my experience. Interviewers can explore the same stories in depth and bring follow-up questions. I use the Terrell Singleton role to manage my private career workspace. Choose the view that matches your conversation, then come inside.";

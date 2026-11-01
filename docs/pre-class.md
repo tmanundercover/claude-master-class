@@ -99,7 +99,7 @@ This is my class project. Please get it running:
 1. Check that Node.js 22.18 or newer and npm are installed. If not,
    install Node.js LTS for me if you can; otherwise tell me exactly
    how, and wait until I confirm.
-2. Run npm ci, then npm run preflight.
+2. Run npm ci, npm ci --prefix functions, then npm run preflight.
 3. Start npm run dev and give me the local URL.
 If a step fails, show me the error, explain it in one line,
 fix it, and run the step again. Don't delete package-lock.json
@@ -116,6 +116,7 @@ npm config get registry
 node --version
 npm --version
 npm ci
+npm ci --prefix functions
 npm run preflight
 npm run dev
 ```
@@ -136,7 +137,7 @@ On a managed network that blocks public npm, share the complete error with your 
 support contact so the mirror can be checked.
 
 **Pass:** Node is 22.18+, the checks in `npm run preflight` finish without errors, and the sample
-portfolio opens at the local URL, usually **http://localhost:3000**. Stop the server with Ctrl+C.
+portfolio opens at the local URL, usually **http://127.0.0.1:5500**. Stop the Firebase emulators with Ctrl+C.
 Login and the private tools are unfinished; blocked screens or 501 messages there are expected.
 
 **If a step fails:** copy the whole error, paste it into your coding assistant and ask it to fix it.
@@ -158,7 +159,7 @@ Pick **one** provider:
 1. Sign up, add **$10** of credit. That is plenty to start.
 2. Create a key and copy it into a private note. Most sites show it only once.
 3. **Keep it private.** Do not paste it into chat, email, your coding assistant or Git.
-   We put it in a private `.env.local` file together in class.
+   We put it in a private backend `functions/.secret.local` file together in class.
 
 You don't need the key to finish steps 1 to 5; it's only used once the AI tools are built in class.
 

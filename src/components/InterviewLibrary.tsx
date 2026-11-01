@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import ExpandableExperience from "@/components/ExpandableExperience";
 import type { InterviewResponse } from "@/lib/interview-responses";

@@ -9,7 +9,7 @@ This is **one private feature with two modes**, not two separate tools.
 
 ## Work
 
-Implement `src/app/api/career-plan/route.ts` and its result UI. Reuse the prior
+Implement `src/server/routes/career-plan.ts` and its result UI. Reuse the prior
 server provider helper, authentication, and input validation. Use profile + JD
 as context; do not rely on invented interview processes or hidden stored fit results.
 

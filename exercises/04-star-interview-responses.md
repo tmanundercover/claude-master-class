@@ -7,18 +7,17 @@ need a quick way to scan relevant stories; interviewers need the full response,
 transcript, and source experience. The owner still needs a separate workspace.
 
 This exercise extends the classroom authentication from exercise 00. It does not
-add public accounts or claim that a shared guest password is production identity.
+add public accounts or claim that a a role dropdown is identity.
 
 ## Work
 
 Build `/interview` and update the role-selection experience at `/login`.
 
-1. Add a server-only `INTERVIEW_PASSWORD` to `.env.local`. Generate a unique value
-   of at least 12 characters and keep it out of Git. Recruiter and Interviewer share
-   it for this classroom build; Terrell Singleton continues to use `SITE_PASSWORD`.
-2. Put the selected role inside the signed, expiring session. Validate the role on
-   the server. Recruiter and Interviewer can open only the interview room; Terrell
-   can open the interview room and the existing owner dashboard/tool APIs.
+1. Use Firebase Authentication email/password accounts for the owner, interviewer,
+   and recruiter. Seed them only in the local Auth emulator using a demo project.
+2. Assign `portfolioRole` through the Admin SDK. Both guest roles can open only the
+   interview room; `terrell` can also open the owner dashboard and private tool APIs.
+   Verify Firebase session cookies on the backend, including revocation.
 3. On the login screen, add a role dropdown and a 16:9 welcome-video area. Beneath
    it, use Motion for React to type a short explanation of what each role can expect.
    Respect reduced-motion preferences and keep the script readable to assistive tech.
@@ -51,21 +50,18 @@ Build `/interview` and update the role-selection experience at `/login`.
     response evidence, stable video IDs, and the minimum three bullets required for
     every interview and homepage experience.
 
-Generate a guest password locally:
-
-```powershell
-node -e "console.log(require('node:crypto').randomBytes(24).toString('base64url'))"
-```
+Seed emulator accounts with `npm run dev` or `npm run firebase:seed-auth`.
+Local credentials are in the ignored `.firebase/auth-users.local.json` file.
 
 ## Good Prompt
 
 ```text
-Implement exercise 04 in this existing Next.js app.
-Read the installed Next.js guides before editing auth, route, or client boundaries.
+Implement exercise 04 in this existing Vite React app.
+Trace the Express request adapter, Vite entries, and server-only imports before editing auth or routing.
 Preserve the owner dashboard and tool APIs. Add Recruiter, Interviewer, and Terrell
-Singleton role selection. Recruiter and Interviewer must validate the same server-only
-INTERVIEW_PASSWORD; Terrell must validate SITE_PASSWORD. Sign the role into the
-four-hour HTTP-only session and enforce authorization on every server boundary.
+Singleton role selection. Firebase Auth verifies individual email/password accounts.
+Authorize the server-assigned portfolioRole claim in a four-hour HTTP-only Firebase
+session, with equivalent guest access and owner-only tools.
 
 Build a protected /interview route with a YouTube-like full-width response list.
 Each item needs a muted viewport-aware looping video preview, question title, summary,
@@ -94,8 +90,8 @@ infrastructure separately from what actually works.
 - `data/profile.json` owns the public homepage experience summaries and bullets.
 - `src/components/ExpandableExperience.tsx` is the shared Motion client boundary used
   by the response modal and homepage; do not duplicate the hover/focus state machine.
-- `src/app/interview/page.tsx` checks which local MP4 files exist before handing their
-  IDs to the client library. The repository intentionally ships no recordings.
+- `src/entry-server.tsx` checks which local MP4 files exist before handing their
+  IDs to `src/pages/Interview.tsx` and the client library. The repository intentionally ships no recordings.
 - `public/interview/README.md` is the filename contract for the welcome recording and
   six response recordings.
 - `tests/interview-responses.test.ts` and `tests/profile.test.ts` enforce the evidence
@@ -103,8 +99,8 @@ infrastructure separately from what actually works.
 
 ## Acceptance Checks
 
-- Missing or weak `INTERVIEW_PASSWORD` blocks secure login with a configuration error.
-- Recruiter and Interviewer use `INTERVIEW_PASSWORD`; Terrell uses `SITE_PASSWORD`.
+- Missing Firebase Auth configuration surfaces a clear error.
+- The server authorizes the verified portfolioRole; choosing a view grants no access.
 - A guest session opens `/interview` but is denied the owner dashboard and tool APIs.
 - A forged or modified role claim fails signature verification.
 - Search and all three filters work together and show an explicit empty state.
@@ -129,12 +125,12 @@ infrastructure separately from what actually works.
 | Boundary | Do | Don't |
 |---|---|---|
 | Identity | Sign and authorize the selected role on the server | Trust a dropdown, query string, or localStorage role |
-| Secrets | Keep all passwords server-only and distinct from the session secret | Use `NEXT_PUBLIC_`, commit values, or log passwords |
+| Secrets | Keep provider keys in Functions and let Firebase Auth verify passwords | Use `VITE_`, commit values, or log passwords |
 | Evidence | Trace every story to the verified profile and label missing media | Invent metrics, employers, outcomes, or recordings |
 | Playback | Autoplay list previews muted only while visible; give full videos controls | Autoplay sound or keep every offscreen video running |
 | Experience details | Share one accessible reveal component and source every bullet from the resume | Duplicate divergent interactions or invent extra accomplishments |
 | Questions | Open a transparent email draft or configure real delivery | Report success for a question that was not sent |
-| Production | Label shared-password auth as a classroom pattern | Present it as production-ready recruiter identity |
+| Production | Label Firebase account provisioning and role assignment explicitly | Grant owner access based on an email string or client selection |
 
 ## Bad Prompt
 

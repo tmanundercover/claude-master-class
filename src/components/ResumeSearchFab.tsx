@@ -1,5 +1,4 @@
-"use client";
-
+import { sitePath } from "@/lib/site-path";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ResumeSearchItem } from "@/lib/resume-evidence";
 
@@ -75,7 +74,7 @@ export default function ResumeSearchFab({ items }: { items: ResumeSearchItem[] }
             {results.map((item) => {
               const external = item.href.startsWith("http");
               return (
-                <a className="resume-search-result" href={item.href} key={item.id} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined} onClick={() => !external && dialogRef.current?.close()}>
+                <a className="resume-search-result" href={sitePath(item.href)} key={item.id} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined} onClick={() => !external && dialogRef.current?.close()}>
                   <span className="resume-search-kind">{item.kind}</span>
                   <span className="resume-search-copy">
                     <strong>{item.title}</strong>

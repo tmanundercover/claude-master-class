@@ -37,8 +37,8 @@ export interface JsonRequest {
   schema: Record<string, unknown>;
 }
 
-// Reasoning models can take minutes; a timed-out attempt is still billed, so it is not retried.
-export const MODEL_TIMEOUT_MS = 180_000;
+// Finish before Firebase Hosting's 60-second deadline; timed-out requests are not retried.
+export const MODEL_TIMEOUT_MS = 50_000;
 
 // Same wording for every provider, so students see one set of errors whichever key they use.
 export function providerFailure(status: number | undefined, retryAfter?: string | null): ModelError {
@@ -48,7 +48,7 @@ export function providerFailure(status: number | undefined, retryAfter?: string 
   return new ModelError(`The AI provider returned an error (${status ?? "unknown status"}).`, 502);
 }
 
-export const timeoutFailure = () => new ModelError(`The AI provider took longer than ${MODEL_TIMEOUT_MS / 60_000} minutes to respond. Try again, or use a shorter job description.`, 504);
+export const timeoutFailure = () => new ModelError(`The AI provider took longer than ${MODEL_TIMEOUT_MS / 1_000} seconds to respond. Try again, or use a shorter job description.`, 504);
 export const connectionFailure = () => new ModelError("Could not reach the AI provider. Check your connection, and AI_BASE_URL if you set one.", 502);
 export const declinedFailure = () => new ModelError("The AI provider declined this request.", 502);
 export const truncatedFailure = () => new ModelError("The AI response was cut off before it finished.", 502);

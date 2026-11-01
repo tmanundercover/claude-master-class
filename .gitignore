@@ -1,9 +1,7 @@
 node_modules/
-.next/
-out/
+dist/
 coverage/
 *.tsbuildinfo
-next-env.d.ts
 .env*
 !.env.example
 private-inputs/*
@@ -13,3 +11,14 @@ npm-debug.log*
 # Private source documents. The course PDF under docs/ is already tracked.
 /*.pdf
 /data/*.pdf
+
+# Firebase local state, generated Functions package, and private configuration
+.firebase/
+.firebase-test-*.json
+*-debug.log*
+functions/dist/
+functions/public/
+functions/.env*
+!functions/.env.example
+functions/.secret*
+!functions/.secret.local.example

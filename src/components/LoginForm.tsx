@@ -1,7 +1,5 @@
-"use client";
-
 import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { sitePath } from "@/lib/site-path";
 import type { SessionRole } from "@/lib/session";
 
 const roleDescriptions: Record<SessionRole, string> = {
@@ -11,8 +9,8 @@ const roleDescriptions: Record<SessionRole, string> = {
 };
 
 export default function LoginForm() {
-  const router = useRouter();
   const [role, setRole] = useState<SessionRole>("recruiter");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -22,10 +20,8 @@ export default function LoginForm() {
     setBusy(true);
     setError("");
     try {
-      const response = await fetch("/api/auth", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role, password }),
-      });
+      const { firebaseSignIn } = await import("@/lib/firebase-client");
+      const response = await firebaseSignIn(email, password, role);
       const data: unknown = await response.json();
       if (!response.ok) {
         const message = typeof data === "object" && data !== null && "error" in data && typeof data.error === "string" ? data.error : `Login failed (${response.status}).`;
@@ -35,11 +31,13 @@ export default function LoginForm() {
       const destination = typeof data === "object" && data !== null && "destination" in data && typeof data.destination === "string"
         ? data.destination
         : role === "terrell" ? "/dashboard" : "/interview";
-      router.replace(destination);
-      router.refresh();
+      window.location.replace(sitePath(destination));
     } catch (error) {
-      console.error("Login request failed:", error);
-      setError("Could not reach the login service. Check the server and try again.");
+      const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
+      setError(code === "auth/invalid-credential" || code === "auth/user-not-found" || code === "auth/wrong-password"
+        ? "Email or password is incorrect."
+        : code === "auth/too-many-requests" ? "Too many attempts. Wait before trying again."
+        : "Could not sign in. Check Firebase Authentication and try again.");
     } finally {
       setBusy(false);
     }
@@ -55,7 +53,10 @@ export default function LoginForm() {
         </select>
       </label>
       <p className="role-description" aria-live="polite">{roleDescriptions[role]}</p>
-      <label htmlFor="password">{role === "terrell" ? "Owner password" : "Interview room password"}
+      <label htmlFor="email">Email
+        <input id="email" type="email" autoComplete="username" required value={email} onChange={(event) => setEmail(event.target.value)} />
+      </label>
+      <label htmlFor="password">Password
         <input id="password" type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} />
       </label>
       <button type="submit" disabled={busy}>{busy ? "Signing in..." : `Continue as ${role === "terrell" ? "Terrell" : role[0].toUpperCase() + role.slice(1)}`}</button>

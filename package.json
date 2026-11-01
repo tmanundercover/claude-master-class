@@ -3,37 +3,57 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.18.0" },
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
+    "dev": "npm run build:firebase && node scripts/start-emulators.mjs",
+    "build": "vite build && vite build --ssr src/entry-server.tsx",
+    "build:pages": "vite build --mode pages && vite build --ssr src/entry-server.tsx --mode pages && node scripts/export-pages.mjs",
+    "start": "npm run dev",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "test:http": "node --test tests/starter-http.mjs",
-    "preflight": "npm test && npm run lint && npm run build && npm run typecheck && npm run test:http"
+    "test:http": "npm run test:firebase:emulator",
+    "test:pages": "node --test tests/pages-build.mjs",
+    "preflight": "npm test && npm run lint && npm run typecheck && npm run build:pages && npm run test:pages && npm run build:firebase && npm run test:firebase && node scripts/test-firebase-emulator.mjs",
+    "build:firebase": "npm run build && node scripts/prepare-firebase.mjs",
+    "firebase:emulators": "npm run dev",
+    "firebase:deploy": "firebase deploy --only functions:portfolio,hosting",
+    "test:firebase": "node --test tests/firebase-build.mjs",
+    "test:firebase:emulator": "npm run build:firebase && node scripts/test-firebase-emulator.mjs",
+    "firebase:seed-auth": "node scripts/seed-auth-emulator.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.135.0",
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
     "@google/genai": "2.30.0",
+    "express": "5.3.0",
+    "firebase-admin": "14.5.0",
     "motion": "^14.6.0",
-    "next": "16.4.2",
     "openai": "7.34.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "simple-icons": "^16.35.0"
+    "simple-icons": "^16.35.0",
+    "@firebase/app": "0.15.0",
+    "@firebase/auth": "1.13.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "6.1.2",
     "eslint": "^9",
-    "eslint-config-next": "16.4.2",
-    "typescript": "^5"
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "firebase-tools": "15.34.2",
+    "globals": "^16.5.0",
+    "typescript": "^5",
+    "typescript-eslint": "^8.56.0",
+    "vite": "8.3.5"
   },
   "overrides": {
-    "@opentelemetry/api": "1.9.0"
+    "@firebase/app-compat": "0.5.14"
   }
 }
