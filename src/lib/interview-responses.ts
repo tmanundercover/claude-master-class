@@ -10,6 +10,7 @@ export interface InterviewResponse {
     period: string;
     description: string;
     bullets: string[];
+    skills?: string[];
   };
   duration: string;
   videoSrc: string;
@@ -36,7 +37,7 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "2:18",
     videoSrc: "/interview/manual-workflow.mp4",
-    transcript: "Situation: MTC Art Studios needed a more reliable way for students to move from payment into an interview booking. Task: I was responsible for implementing a flow that protected the scheduling step and worked with the team's existing tools. Action: I built the experience in Wix, connected payment gating to booking, and set up Office 365 calendar sharing so the right people could coordinate interviews. I continue to maintain the workflow and respond to feature requests. Result: the studio now has one connected path for payment, booking, and shared scheduling rather than a set of disconnected steps.",
+    transcript: "MTC Art Studios needed a more reliable way for students to move from payment into an interview booking. I was responsible for implementing a flow that protected the scheduling step and worked with the team's existing tools. I built the experience in Wix, connected payment gating to booking, and set up Office 365 calendar sharing so the right people could coordinate interviews. I continue to maintain the workflow and respond to feature requests. The studio now has one connected path for payment, booking, and shared scheduling rather than a set of disconnected steps.",
   },
   {
     id: "complex-integrations",
@@ -57,7 +58,7 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "3:07",
     videoSrc: "/interview/complex-integrations.mp4",
-    transcript: "Situation: At Assembled Financial, the product crossed web, mobile, and service boundaries in a regulated fintech context. Task: My work involved shipping customer-facing features while integrating several specialized platforms. Action: I contributed across React, Flutter and Dart, Kotlin, and Node.js services on AWS, working with Auth0, Prove, Plaid, and Marqeta integrations. I treated each integration as a contract with distinct identity, data, and failure considerations instead of hiding them behind one generic abstraction. Result: the team could deliver connected cryptocurrency banking experiences across web and mobile while keeping the integration boundaries understandable.",
+    transcript: "At Assembled Financial, the product crossed web, mobile, and service boundaries in a regulated fintech context. My work involved shipping customer-facing features while integrating several specialized platforms. I contributed across React, Flutter and Dart, Kotlin, and Node.js services on AWS, working with Auth0, Prove, Plaid, and Marqeta integrations. I treated each integration as a contract with distinct identity, data, and failure considerations instead of hiding them behind one generic abstraction. The team could deliver connected cryptocurrency banking experiences across web and mobile while keeping the integration boundaries understandable.",
   },
   {
     id: "modernize-frontend",
@@ -79,7 +80,7 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "2:42",
     videoSrc: "/interview/modernize-frontend.mp4",
-    transcript: "Situation: A data-heavy Angular application needed to evolve without losing the behavior people already depended on. Task: I contributed to the framework upgrade, new stateful features, and the API that supported the interface. Action: I developed Angular and ngRx features, worked carefully through the existing data flows, and contributed to the distributed Java and Spring API. The important part was treating modernization as an incremental product and systems change, not only a dependency update. Result: the application gained a more current frontend foundation while continuing to support its established workflows and backend contracts.",
+    transcript: "A data-heavy Angular application needed to evolve without losing the behavior people already depended on. I contributed to the framework upgrade, new stateful features, and the API that supported the interface. I developed Angular and ngRx features, worked carefully through the existing data flows, and contributed to the distributed Java and Spring API. The important part was treating modernization as an incremental product and systems change, not only a dependency update. The application gained a more current frontend foundation while continuing to support its established workflows and backend contracts.",
   },
   {
     id: "evaluate-ai",
@@ -101,7 +102,7 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "2:35",
     videoSrc: "/interview/evaluate-ai.mp4",
-    transcript: "Situation: Language-model responses can sound confident even when they miss the actual requirement. Task: My evaluation work is to make those differences observable and explainable. Action: I design evaluation protocols, prompts, and test scenarios, then document the behavior in technical reports and detailed response evaluations. I look at whether an answer follows the instruction, uses evidence, handles ambiguity, and fails safely rather than relying on fluency alone. Result: the review becomes a repeatable contribution to dataset creation and model improvement instead of an unstructured preference call.",
+    transcript: "Language-model responses can sound confident even when they miss the actual requirement. My evaluation work is to make those differences observable and explainable. I design evaluation protocols, prompts, and test scenarios, then document the behavior in technical reports and detailed response evaluations. I look at whether an answer follows the instruction, uses evidence, handles ambiguity, and fails safely rather than relying on fluency alone. The review becomes a repeatable contribution to dataset creation and model improvement instead of an unstructured preference call.",
   },
   {
     id: "evolving-ai-product",
@@ -123,7 +124,7 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "3:16",
     videoSrc: "/interview/evolving-ai-product.mp4",
-    transcript: "Situation: The application generator began as an n8n workflow that could prove the end-to-end idea. Task: I needed to evolve that proof into a more flexible white-label product without losing the working automation. Action: I moved the experience toward React and TypeScript, used event-based execution on GCP and Firebase, and supported text, image, and video generation as parts of the larger workflow. Result: the system developed from one automation into a product architecture that can generate and deploy different websites and web applications.",
+    transcript: "The application generator began as an n8n workflow that could prove the end-to-end idea. I needed to evolve that proof into a more flexible white-label product without losing the working automation. I moved the experience toward React and TypeScript, used event-based execution on GCP and Firebase, and supported text, image, and video generation as parts of the larger workflow. The system developed from one automation into a product architecture that can generate and deploy different websites and web applications.",
   },
   {
     id: "frontend-architecture",
@@ -145,6 +146,6 @@ export const interviewResponses: InterviewResponse[] = [
     },
     duration: "2:51",
     videoSrc: "/interview/frontend-architecture.mp4",
-    transcript: "Situation: Cybercore needed both a new form and alerting application and a path forward for an older Ext JS interface. Task: As a principal frontend engineer, I was responsible for shaping the client architecture while working across the service boundary. Action: I architected the React application backed by Spring, Java, and MySQL, and also reengineered the older interface with Angular and Bootstrap. I kept the frontend decisions connected to the data and service contracts rather than treating the browser as an isolated layer. Result: the work established modern interface foundations for both the new application and the legacy modernization effort.",
+    transcript: "Cybercore needed both a new form and alerting application and a path forward for an older Ext JS interface. As a principal frontend engineer, I was responsible for shaping the client architecture while working across the service boundary. I architected the React application backed by Spring, Java, and MySQL, and also reengineered the older interface with Angular and Bootstrap. I kept the frontend decisions connected to the data and service contracts rather than treating the browser as an isolated layer. The work established modern interface foundations for both the new application and the legacy modernization effort.",
   },
 ];

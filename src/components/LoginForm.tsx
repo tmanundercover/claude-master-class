@@ -3,8 +3,8 @@ import { sitePath } from "@/lib/site-path";
 import type { SessionRole } from "@/lib/session";
 
 const roleDescriptions: Record<SessionRole, string> = {
-  recruiter: "Browse concise stories, experience context, and technical themes.",
-  interviewer: "Review full responses and drill into follow-up details.",
+  recruiter: "Explore my experience and answers to common interview questions.",
+  interviewer: "Watch my responses and explore follow-up details.",
   terrell: "Open the owner workspace and all portfolio tools.",
 };
 
@@ -37,7 +37,7 @@ export default function LoginForm() {
       setError(code === "auth/invalid-credential" || code === "auth/user-not-found" || code === "auth/wrong-password"
         ? "Email or password is incorrect."
         : code === "auth/too-many-requests" ? "Too many attempts. Wait before trying again."
-        : "Could not sign in. Check Firebase Authentication and try again.");
+        : "Could not sign in. Check your connection and try again.");
     } finally {
       setBusy(false);
     }

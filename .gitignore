@@ -21,4 +21,3 @@ functions/public/
 functions/.env*
 !functions/.env.example
 functions/.secret*
-!functions/.secret.local.example

@@ -1,9 +1,8 @@
 import AppLink from "@/components/AppLink";
 import ResumeEvidenceExplorer from "@/components/ResumeEvidenceExplorer";
 import type { ResumeData } from "@/app-types";
-import profile from "../../data/profile.json";
 
-export default function ResumeEvidencePage({ summary, snapshotCreatedAt, skills, experiences, projects }: ResumeData) {
+export default function ResumeEvidencePage({ summary, snapshotCreatedAt, skills, experiences, projects, currentExperiences, currentProjects }: ResumeData) {
 
   return (
     <>
@@ -26,8 +25,8 @@ export default function ResumeEvidencePage({ summary, snapshotCreatedAt, skills,
         skills={skills}
         experiences={experiences}
         projects={projects}
-        currentExperiences={profile.experience}
-        currentProjects={profile.projects}
+        currentExperiences={currentExperiences}
+        currentProjects={currentProjects}
       />
     </>
   );

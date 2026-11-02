@@ -9,7 +9,9 @@ const profile = JSON.parse(
     title: string;
     organization: string;
     bullets: string[];
+    skills: string[];
   }>;
+  skills: Record<string, string[]>;
 };
 
 test("every homepage experience includes detailed résumé bullets", () => {
@@ -21,5 +23,14 @@ test("every homepage experience includes detailed résumé bullets", () => {
       `${experience.title} at ${experience.organization} needs at least three bullets`,
     );
     assert.ok(experience.bullets.every((bullet) => bullet.length > 30));
+  }
+});
+
+test("position skills use unique labels from the main skills section", () => {
+  const labels = new Set(Object.values(profile.skills).flat());
+  for (const role of profile.experience) {
+    assert.ok(role.skills.length > 0, `${role.organization} needs position skills`);
+    assert.equal(new Set(role.skills).size, role.skills.length);
+    for (const skill of role.skills) assert.ok(labels.has(skill), `Unknown position skill: ${skill}`);
   }
 });

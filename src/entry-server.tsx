@@ -9,6 +9,7 @@ import { tools } from "./lib/tools";
 import { interviewResponses } from "./lib/interview-responses";
 import { careerYears, getPublicSkillEvidence, getResumeSearchItems, getResumeEvidenceSummary, getArchivedSkillEvidence, sanityResumeArchive } from "./lib/resume-evidence";
 import profile from "../data/profile.json";
+import { publicProfile } from "./lib/public-profile";
 import * as auth from "./server/routes/auth";
 import * as fit from "./server/routes/fit-analyzer";
 import * as letter from "./server/routes/cover-letter";
@@ -75,7 +76,13 @@ export async function resolveRequest(request: Request, publicRoot = join(process
     if (access instanceof Response) return access.status === 503 ? { page: "configuration" } : access;
     if (pathname === "/interview") return { page: "interview", interview: {
       role: access,
-      responses: interviewResponses,
+      responses: interviewResponses.map((response) => ({
+        ...response,
+        experience: {
+          ...response.experience,
+          skills: profile.experience.find((role) => role.title === response.experience.role && role.period === response.experience.period)?.skills ?? [],
+        },
+      })),
       availableVideoIds: interviewResponses.filter((item) => hasPublicFile(item.videoSrc.slice(1), publicRoot)).map((item) => item.id),
     } };
     if (pathname === "/dashboard") return { page: "dashboard", evidence: getResumeEvidenceSummary() };
@@ -85,6 +92,8 @@ export async function resolveRequest(request: Request, publicRoot = join(process
       skills: getArchivedSkillEvidence(),
       experiences: sanityResumeArchive.experiences,
       projects: sanityResumeArchive.projects,
+      currentExperiences: profile.experience,
+      currentProjects: profile.projects,
     } };
     const tool = tools.find((item) => pathname === `/dashboard/${item.id}`);
     if (tool) return { page: "tool", id: tool.id };
@@ -104,8 +113,9 @@ export function renderPage(template: string, data: PageData): string {
     + `<meta property="og:title" content="${title}" /><meta property="og:description" content="${description}" /><meta property="og:type" content="website" />`
     + (data.page === "home" ? "" : '<meta name="robots" content="noindex" />');
   // Escape script delimiters even when approved text happens to contain HTML.
-  const serialized = JSON.stringify(data).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+  const publicData = publicProfile();
+  const serialized = JSON.stringify({ ...data, profile: publicData }).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
   return template.replace("<!--app-head-->", () => head)
-    .replace("<!--app-html-->", () => renderToString(<App data={data} />))
+    .replace("<!--app-html-->", () => renderToString(<App data={data} profile={publicData} />))
     .replace("<!--app-data-->", () => serialized);
 }

@@ -41,16 +41,16 @@ created, and no email is sent. Interviewer and Recruiter have equivalent access.
 
 ## Backend environment
 
-The existing root `.env.local` settings were copied, without removing their source:
+All backend settings, including `AI_API_KEY`, use ordinary environment variables
+from `functions/.env.local`. The application has no Secret Manager bindings or
+runtime secret lookups. The previous local secrets file was consolidated into
+this environment file and removed after verifying every copied value.
 
-- AI provider, model, base URL, and reasoning effort: `functions/.env.local`.
-- Provider API key: `functions/.secret.local`.
-- Legacy site passwords and session secret: retained in the same backend secret
-  file for verification, but no longer read by the application or bound to Functions.
-
-The root file remains unchanged until you verify the backend copies. Both backend
-files are Git-ignored. Frontend builds need no credentials. Do not use `VITE_`
-variables for API keys or passwords.
+Legacy site passwords and the session secret remain in the backend environment
+for verification, but Firebase Auth replaces them and the app does not read them.
+The root `.env.local` remains unchanged until you verify the backend copies.
+Environment files are Git-ignored. Frontend builds need no credentials. Do not
+use `VITE_` variables for API keys or passwords.
 
 The demo Auth configuration is provided automatically by Functions at
 `/api/auth/config`. The endpoint returns only public Firebase web settings. The
@@ -98,11 +98,11 @@ currently selects no live project. When ready:
    The local seed command intentionally cannot modify the live database.
 3. Copy `functions/.env.example` to `functions/.env.YOUR_PROJECT_ID` and fill in
    the AI settings and the public `FIREBASE_WEB_API_KEY` from the project's web app.
-4. Set the only application secret, `AI_API_KEY`, with Secret Manager:
+4. Set `AI_API_KEY` in that same project-specific backend environment file, then
+   authenticate and deploy:
 
 ```text
 npx firebase login
-npx firebase functions:secrets:set AI_API_KEY --project YOUR_PROJECT_ID
 npm run firebase:deploy -- --project YOUR_PROJECT_ID
 ```
 

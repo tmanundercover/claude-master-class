@@ -1,8 +1,13 @@
+import type profile from "../data/profile.json";
 import type { ComponentProps } from "react";
 import type ResumeEvidenceExplorer from "./components/ResumeEvidenceExplorer";
 import type { getResumeEvidenceSummary, ResumeSearchItem, SkillEvidence } from "./lib/resume-evidence";
 import type { InterviewResponse } from "./lib/interview-responses";
 import type { SessionRole } from "./lib/session";
+
+export type PublicProfile = Omit<typeof profile, "projects"> & {
+  projects: Array<Omit<(typeof profile.projects)[number], "evidence">>;
+};
 
 export type EvidenceSummary = ReturnType<typeof getResumeEvidenceSummary>;
 export interface HomeData {
@@ -16,7 +21,7 @@ export interface InterviewData {
   responses: InterviewResponse[];
   availableVideoIds: string[];
 }
-export type ResumeData = Pick<ComponentProps<typeof ResumeEvidenceExplorer>, "skills" | "experiences" | "projects"> & {
+export type ResumeData = Pick<ComponentProps<typeof ResumeEvidenceExplorer>, "skills" | "experiences" | "projects" | "currentExperiences" | "currentProjects"> & {
   summary: EvidenceSummary;
   snapshotCreatedAt: string;
 };
@@ -28,3 +33,5 @@ export type PageData =
   | { page: "resume"; resume: ResumeData }
   | { page: "interview"; interview: InterviewData }
   | { page: "configuration" | "static-unavailable" | "not-found" };
+
+export type PagePayload = PageData & { profile: PublicProfile };

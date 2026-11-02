@@ -6,8 +6,7 @@ import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
 
 const fixtures = new Map([
-  ["functions/.secret.local", "AI_API_KEY=unused-emulator-key\n"],
-  ["functions/.env.local", "AI_PROVIDER=\nAI_MODEL=\nAI_BASE_URL=\nAI_REASONING_EFFORT=\n"],
+  ["functions/.env.local", "AI_API_KEY=unused-emulator-key\nAI_PROVIDER=\nAI_MODEL=\nAI_BASE_URL=\nAI_REASONING_EFFORT=\n"],
 ]);
 const previous = new Map();
 const configDirectory = await mkdtemp(join(tmpdir(), "portfolio-firebase-test-"));

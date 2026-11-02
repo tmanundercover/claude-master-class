@@ -3,10 +3,15 @@ import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import test from "node:test";
 import { renderPage } from "../dist/server/entry-server.js";
+import { assertPublicProjectsProtectEvidence } from "./public-evidence-assertions.mjs";
 
 const directory = "dist/pages";
 const html = await readFile(join(directory, "index.html"), "utf8");
 const profile = JSON.parse(await readFile("data/profile.json", "utf8"));
+
+test("Pages keeps project evidence out of public HTML, search data, and scripts", async () => {
+  await assertPublicProjectsProtectEvidence(directory);
+});
 
 test("Pages contains rendered portfolio content, crawler metadata, and hydration data", () => {
   assert.ok(html.includes(profile.name));
@@ -23,7 +28,7 @@ test("Pages internal links and assets respect the configured base path", async (
   assert.ok(script);
   const base = script.slice(0, script.indexOf("assets/"));
   assert.ok(html.includes(`href="${base}#projects"`));
-  assert.ok(html.includes(`href="${base}dashboard"`));
+  assert.ok(html.includes(`href="${base}login"`));
   await readFile(join(directory, "assets", script.split("/").at(-1)));
   const css = html.match(/<link[^>]+href="([^"]+\.css)"/)?.[1];
   assert.ok(css?.startsWith(base));

@@ -159,7 +159,7 @@ Pick **one** provider:
 1. Sign up, add **$10** of credit. That is plenty to start.
 2. Create a key and copy it into a private note. Most sites show it only once.
 3. **Keep it private.** Do not paste it into chat, email, your coding assistant or Git.
-   We put it in a private backend `functions/.secret.local` file together in class.
+   We put it in a private backend `functions/.env.local` file together in class.
 
 You don't need the key to finish steps 1 to 5; it's only used once the AI tools are built in class.
 

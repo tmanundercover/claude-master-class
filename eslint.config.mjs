@@ -19,8 +19,8 @@ export default tseslint.config(
     settings: { "jsx-a11y": { components: { AppLink: "a" } } },
   },
   {
-    files: ["src/components/ExpandableExperience.tsx", "src/components/InterviewLibrary.tsx"],
-    // These cards and modal regions need keyboard focus to reveal content or scroll it.
+    files: ["src/components/InterviewLibrary.tsx"],
+    // Transcript and modal regions need keyboard focus for scrolling.
     rules: { "jsx-a11y/no-noninteractive-tabindex": "off" },
   },
   {

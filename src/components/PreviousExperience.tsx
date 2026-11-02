@@ -8,6 +8,7 @@ interface ExperienceRole {
   period: string;
   summary: string;
   bullets: string[];
+  skills: string[];
 }
 
 export default function PreviousExperience({ roles }: { roles: ExperienceRole[] }) {
@@ -34,6 +35,7 @@ export default function PreviousExperience({ roles }: { roles: ExperienceRole[] 
                 key={`${role.title}-${role.organization}`}
                 ariaLabel={`${role.title} at ${role.organization} experience details`}
                 bullets={role.bullets}
+                skills={role.skills}
               >
                 <p className="muted">{role.period}</p>
                 <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>

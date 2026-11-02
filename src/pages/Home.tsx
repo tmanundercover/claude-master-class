@@ -5,11 +5,10 @@ import ContactForm from "@/components/ContactForm";
 import ExpandableExperience from "@/components/ExpandableExperience";
 import PreviousExperience from "@/components/PreviousExperience";
 import ResumeSearchFab from "@/components/ResumeSearchFab";
-import SkillIcon from "@/components/SkillIcon";
+import SkillChip from "@/components/SkillChip";
 import { sitePath } from "@/lib/site-path";
-import type { HomeData } from "@/app-types";
+import type { HomeData, PublicProfile } from "@/app-types";
 import { formatDocumentedYears } from "@/lib/evidence-format";
-import profile from "../../data/profile.json";
 
 const skillGroupBlueprints = [
   {
@@ -59,15 +58,6 @@ const skillGroupBlueprints = [
   },
 ] as const;
 
-const listedSkills = new Set(Object.values(profile.skills).flat());
-const groupedSkills = new Set<string>(skillGroupBlueprints.flatMap((group) => group.skills));
-const skillGroups = skillGroupBlueprints
-  .map((group) => ({ ...group, skills: group.skills.filter((skill) => listedSkills.has(skill)) }))
-  .filter((group) => group.skills.length > 0);
-const additionalSkills = [...listedSkills].filter((skill) => !groupedSkills.has(skill));
-const experienceStartYear = (period: string) => Number(period.match(/\b\d{4}\b/)?.[0] ?? Number.POSITIVE_INFINITY);
-const recentExperience = profile.experience.filter((role) => experienceStartYear(role.period) > 2017);
-const previousExperience = profile.experience.filter((role) => experienceStartYear(role.period) <= 2017);
 const [linkedInWidth, linkedInHeight, , , linkedInPathData] = faLinkedinIn.icon;
 const linkedInPath = Array.isArray(linkedInPathData) ? linkedInPathData.join(" ") : linkedInPathData;
 
@@ -96,7 +86,16 @@ function ContactIcon({ kind }: { kind: "email" | "linkedin" | "github" }) {
   );
 }
 
-export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, searchItems }: HomeData) {
+export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, searchItems, profile }: HomeData & { profile: PublicProfile }) {
+  const listedSkills = new Set(Object.values(profile.skills).flat());
+  const groupedSkills = new Set<string>(skillGroupBlueprints.flatMap((group) => group.skills));
+  const skillGroups = skillGroupBlueprints
+    .map((group) => ({ ...group, skills: group.skills.filter((skill) => listedSkills.has(skill)) }))
+    .filter((group) => group.skills.length > 0);
+  const additionalSkills = [...listedSkills].filter((skill) => !groupedSkills.has(skill));
+  const experienceStartYear = (period: string) => Number(period.match(/\b\d{4}\b/)?.[0] ?? Number.POSITIVE_INFINITY);
+  const recentExperience = profile.experience.filter((role) => experienceStartYear(role.period) > 2017);
+  const previousExperience = profile.experience.filter((role) => experienceStartYear(role.period) <= 2017);
   return (
     <main id="main">
       <section className="hero section">
@@ -137,6 +136,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
             key={`${role.title}-${role.organization}`}
             ariaLabel={`${role.title} at ${role.organization} experience details`}
             bullets={role.bullets}
+            skills={role.skills}
           >
             <p className="muted">{role.period}</p>
             <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>
@@ -166,21 +166,17 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
                   const evidence = skillEvidence[skill];
                   const documentedYears = formatDocumentedYears(evidence.documentedRoleYears);
                   return (
-                    <span className="skill-chip" key={skill}>
-                      <SkillIcon skill={skill} />
-                      <span className="skill-chip-copy">
-                        <span className="skill-chip-name">{skill}</span>
-                        {(evidence.firstDocumented || documentedYears || evidence.proficiency !== null) && (
-                          <span className="skill-chip-evidence">
-                            {[
-                              evidence.firstDocumented ? `Since ${evidence.firstDocumented.slice(0, 4)}` : null,
-                              documentedYears,
-                              evidence.proficiency !== null ? `${Math.round(evidence.proficiency * 100)}% archived self-rating` : null,
-                            ].filter(Boolean).join(" · ")}
-                          </span>
-                        )}
-                      </span>
-                    </span>
+                    <SkillChip skill={skill} key={skill}>
+                      {(evidence.firstDocumented || documentedYears || evidence.proficiency !== null) && (
+                        <span className="skill-chip-evidence">
+                          {[
+                            evidence.firstDocumented ? `Since ${evidence.firstDocumented.slice(0, 4)}` : null,
+                            documentedYears,
+                            evidence.proficiency !== null ? `${Math.round(evidence.proficiency * 100)}% archived self-rating` : null,
+                          ].filter(Boolean).join(" · ")}
+                        </span>
+                      )}
+                    </SkillChip>
                   );
                 })}
               </div>
@@ -192,14 +188,13 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
 
       <section className="section" id="projects">
         <p className="eyebrow">03 / Projects</p>
-        <h2>Evidence you can discuss</h2>
+        <h2>Selected projects</h2>
         <div className="grid">
           {profile.projects.map((project) => (
             <article className="panel project-card" key={project.title}>
               <p className="muted">{project.context}</p>
               <h3>{project.title}</h3>
               <p>{project.summary}</p>
-              <p><strong>Evidence:</strong> {project.evidence}</p>
               <div className="tags">{project.tools.map((tool) => <span className="badge" key={tool}>{tool}</span>)}</div>
               {"url" in project && project.url && <p><a href={project.url} target="_blank" rel="noreferrer">Visit project ↗</a></p>}
               {"links" in project && project.links && (
@@ -235,7 +230,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
                 <ContactIcon kind="github" />
               </a>
             </div>
-            <p className="muted contact-workspace-link">Working on your applications? <AppLink href="/dashboard">Open the private workspace.</AppLink></p>
+            <p className="muted contact-workspace-link"><AppLink href="/login">Log in to watch my answers to common interview questions.</AppLink></p>
           </div>
           <ContactForm />
         </div>

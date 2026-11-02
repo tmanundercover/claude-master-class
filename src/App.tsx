@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { PageData } from "./app-types";
+import type { PageData, PublicProfile } from "./app-types";
 import AppLink from "./components/AppLink";
 import LogoutButton from "./components/LogoutButton";
 import Home from "./pages/Home";
@@ -8,7 +8,6 @@ import Dashboard from "./pages/Dashboard";
 import Tool from "./pages/Tool";
 import Resume from "./pages/Resume";
 import Interview from "./pages/Interview";
-import profile from "../data/profile.json";
 
 function Workspace({ children }: { children: ReactNode }) {
   return <main id="main" className="workspace">
@@ -17,9 +16,9 @@ function Workspace({ children }: { children: ReactNode }) {
   </main>;
 }
 
-function Page({ data }: { data: PageData }) {
+function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
   switch (data.page) {
-    case "home": return <Home {...data.home} />;
+    case "home": return <Home {...data.home} profile={profile} />;
     case "login": return <Login hasWelcomeVideo={data.hasWelcomeVideo} />;
     case "dashboard": return <Workspace><Dashboard evidence={data.evidence} /></Workspace>;
     case "tool": return <Workspace><Tool id={data.id} /></Workspace>;
@@ -39,7 +38,9 @@ function Page({ data }: { data: PageData }) {
   }
 }
 
-export default function App({ data }: { data: PageData }) {
+export default function App({ data, profile }: { data: PageData; profile: PublicProfile }) {
+  const ownerView = data.page === "dashboard" || data.page === "tool" || data.page === "resume"
+    || (data.page === "interview" && data.interview.role === "terrell");
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="site-header">
@@ -47,11 +48,11 @@ export default function App({ data }: { data: PageData }) {
       <nav aria-label="Main navigation">
         <AppLink href="/#projects">Projects</AppLink>
         <AppLink href="/#contact">Contact</AppLink>
-        <AppLink href="/interview">Interview room</AppLink>
-        <AppLink href="/dashboard">Private workspace</AppLink>
+        <AppLink href="/interview">Interview answers</AppLink>
+        {ownerView ? <AppLink href="/dashboard">My workspace</AppLink> : data.page !== "interview" && <AppLink href="/login">Log in</AppLink>}
       </nav>
     </header>
-    <Page data={data} />
+    <Page data={data} profile={profile} />
     <footer className="site-footer">Built from evidence. Improved through practice.</footer>
   </>;
 }

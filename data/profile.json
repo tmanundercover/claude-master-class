@@ -10,6 +10,7 @@
       "organization": "Addition, Inc.",
       "period": "2026 - Present",
       "summary": "Architects business applications and advises on automation, reporting, operational integrations, and staff enablement for Addition and organizations it serves.",
+      "skills": ["React", "TypeScript", "Firebase", "OpenAI Codex", "Zapier", "DocuSign"],
       "bullets": [
         "Architected and developed Time Allocation by Percentage, a React, TypeScript, and Firebase application supporting staff cost allocation and financial reporting across C3 and C4 entities.",
         "Engineered employee, manager, and finance-administrator workflows for biweekly allocation, 100% percentage validation, project and jurisdiction coding, approvals, corrections, and CSV reporting.",
@@ -23,6 +24,7 @@
       "organization": "Dorothea Project",
       "period": "2026 - Present",
       "summary": "Builds and maintains public-interest publishing tools that connect WordPress presentation with React interfaces and staff-managed Google Sheets data.",
+      "skills": ["React", "WordPress", "Google Forms Integrations", "Google Sheets integrations", "OpenAI Codex"],
       "bullets": [
         "Engineered a React application embedded in a WordPress child theme to publish political candidates' questionnaire responses from Google Forms and Google Sheets data.",
         "Implemented spreadsheet-driven approval controls and candidate-image references so nontechnical staff can curate the responses visible to the public.",
@@ -35,6 +37,7 @@
       "organization": "Black Workers Together",
       "period": "2026 - Present",
       "summary": "Designed, developed, and deployed a campaign and community website with a path toward organizer-managed content.",
+      "skills": ["React", "TypeScript", "Vite", "Firebase", "OpenAI Codex"],
       "bullets": [
         "Designed, developed, and deployed a React, TypeScript, and Vite website on Firebase Hosting for campaign information, worker stories, meetings, surveys, and leadership opportunities.",
         "Managed stakeholder-driven revisions and releases with preview deployments, responsive design, structured SEO data, and social-sharing metadata.",
@@ -47,6 +50,7 @@
       "organization": "Chef Jamie G",
       "period": "2026",
       "summary": "Designed, styled, and developed the complete Chef Jamie G Shopify site, then extended it with a custom testimonial application hosted through MAAiN and served inside the storefront.",
+      "skills": ["React", "OpenAI Codex"],
       "bullets": [
         "Designed, styled, and developed the complete Shopify site for the culinary-services business.",
         "Delivers seasonal menu changes, service-content updates, and ongoing client-requested enhancements.",
@@ -60,6 +64,7 @@
       "organization": "MTC Art Studios",
       "period": "May 2025 - Present",
       "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing, while advising on ongoing process and website improvements.",
+      "skills": ["Wix", "OpenAI Codex"],
       "bullets": [
         "Implemented the Wix booking experience used for student art interviews.",
         "Connected payment gating to scheduling so payment happens before an interview can be booked.",
@@ -73,6 +78,7 @@
       "organization": "White-label custom application generator",
       "period": "Dec 2024 - Present",
       "summary": "Built workflow orchestration that generates and deploys websites and web applications, evolving an initial n8n workflow into a React and TypeScript system on GCP and Firebase with multimodal automation.",
+      "skills": ["React", "TypeScript", "n8n", "GCP", "Firebase", "OpenAI Codex"],
       "bullets": [
         "Started with an n8n workflow that proved the end-to-end application-generation concept.",
         "Evolved the workflow into white-label React and TypeScript product experiences.",
@@ -87,6 +93,7 @@
       "organization": "Outlier.ai & DataAnnotations (Contract)",
       "period": "Dec 2022 - Present",
       "summary": "Designs evaluation protocols, prompts, and test scenarios for language models; authors technical reports and contributes detailed response evaluations to dataset creation.",
+      "skills": ["Prompt engineering", "LLM evaluation"],
       "bullets": [
         "Developed structured test cases to assess language-model capabilities and limitations.",
         "Engineered prompts and natural-language scenarios to analyze model behavior in realistic use cases.",
@@ -99,6 +106,7 @@
       "organization": "The Handsomest Nerd, LLC",
       "period": "Sep 2022 - Present",
       "summary": "Builds and deploys React and Node.js applications for small businesses using Sanity CMS and GCP, including human-AI interfaces and multimodal generation workflows.",
+      "skills": ["React", "TypeScript", "Node.js", "Sanity.io", "GCP", "Firebase", "PostgreSQL", "Agent runtimes", "Authentication", "Jest", "Storybook", "Material UI", "TDD", "Shopify SDK", "GIMP", "OpenSpec", "OpenAI Codex"],
       "bullets": [
         "Develops and deploys React websites and applications for small-business clients.",
         "Builds Node.js backends and structured-content workflows with Sanity CMS and GCP.",
@@ -116,6 +124,7 @@
       "organization": "Assembled Financial",
       "period": "Jun 2021 - Sep 2022",
       "summary": "Built cryptocurrency banking web and mobile applications with React, Kotlin, Node.js, Flutter, Dart, and AWS; integrated Auth0, Prove, Plaid, and Marqeta services.",
+      "skills": ["React", "Kotlin", "Node.js", "Flutter", "Dart", "AWS", "PostgreSQL", "Authentication"],
       "bullets": [
         "Built React web experiences and Flutter and Dart mobile applications backed by Kotlin and Node.js endpoints on AWS.",
         "Integrated Auth0 authentication, Prove identity verification, Plaid account data, and Marqeta banking operations.",
@@ -127,6 +136,7 @@
       "organization": "Assembled Brands",
       "period": "Dec 2019 - Jun 2021",
       "summary": "Built React applications and Kotlin services on AWS, administering DynamoDB and PostgreSQL and integrating QuickBooks, Shopify, and Google Workspace APIs for lending workflows.",
+      "skills": ["React", "Kotlin", "AWS", "DynamoDB", "PostgreSQL", "API integrations", "WordPress", "Sanity.io"],
       "bullets": [
         "Built and maintained React applications and Kotlin services on AWS for lending workflows.",
         "Administered application data across DynamoDB and PostgreSQL stores.",
@@ -139,6 +149,7 @@
       "organization": "Northrop Grumman",
       "period": "Jan 2018 - Dec 2019",
       "summary": "Upgraded an Angular application, developed ngRx features and data-heavy interfaces, and contributed to the distributed Java and Spring API it consumed.",
+      "skills": ["Angular", "TypeScript", "Java", "Distributed systems"],
       "bullets": [
         "Helped upgrade the application from Angular 4 to Angular 6 while continuing feature delivery.",
         "Developed ngRx features from JIRA tasking and UI and UX mockups supplied by an external design team.",
@@ -151,6 +162,7 @@
       "organization": "Cybercore Technologies",
       "period": "Dec 2015 - Dec 2017",
       "summary": "Architected a React form and alerting application backed by Spring, Java, and MySQL, and reengineered an Ext JS interface with Angular and Bootstrap.",
+      "skills": ["React", "Angular", "Java", "JavaScript", "MySQL", "MongoDB", "CI/CD"],
       "bullets": [
         "Architected a React form that changed future fields from prior input, stored submissions in MySQL, and generated administrator alerts.",
         "Integrated the React application with an existing Spring and Java API in an Agile principal-engineering team.",
@@ -163,6 +175,7 @@
       "organization": "Cybercore Technologies",
       "period": "Jan 2014 - Jan 2015",
       "summary": "Supported production and prototype server-status interfaces built with AngularJS, Ext JS, Highcharts, and ng-grid against Java and Spring services.",
+      "skills": ["Angular", "Java", "JavaScript", "Node.js", "MongoDB"],
       "bullets": [
         "Supported two production interfaces, two prototype interfaces, and one legacy interface.",
         "Built prototypes with AngularJS while maintaining Ext JS and early Angular applications.",
@@ -175,6 +188,7 @@
       "organization": "SoftTech Solutions",
       "period": "Aug 2012 - Dec 2013",
       "summary": "Built a data-aggregation interface with Java, JSP, jQuery, HTML, LESS, Highcharts, MongoDB, Jasmine, Maven, and Tomcat.",
+      "skills": ["Java", "JavaScript", "MongoDB", "Automated testing"],
       "bullets": [
         "Consumed J2EE and Groovy APIs with jQuery, HTML, CSS, and LESS to unify data from different sources.",
         "Built JSP views and Highcharts visualizations backed by MongoDB and a Java and Hibernate data layer.",
@@ -187,6 +201,7 @@
       "organization": "Raytheon Company",
       "period": "Oct 2007 - Jul 2012",
       "summary": "Developed and maintained an internal social network with PHP, Elgg, MySQL, and jQuery and a distributed system using C++, Python, and MySQL.",
+      "skills": ["PHP", "JavaScript", "MySQL", "C/C++", "Python", "Distributed systems"],
       "bullets": [
         "Maintained an internal social network and developed custom Elgg plugins with PHP, JavaScript, and MySQL.",
         "Provided direct production support to users of the social-networking platform.",
@@ -199,6 +214,7 @@
       "organization": "L-3 Communications",
       "period": "Nov 2004 - Oct 2007",
       "summary": "Developed production PHP, Java, and JavaScript applications, created a Java SOAP API for CSV and XML data, and supported documentation, installations, training, and system demonstrations.",
+      "skills": ["PHP", "Java", "JavaScript", "MySQL", "API design"],
       "bullets": [
         "Developed a production application with PHP, HTML, JavaScript, MySQL, and Tomcat across spiral and waterfall delivery cycles.",
         "Created a Java SOAP API that served ingested data in CSV and XML formats.",

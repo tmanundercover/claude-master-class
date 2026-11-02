@@ -205,7 +205,7 @@ export function getResumeSearchItems(referenceDate = new Date()): ResumeSearchIt
       description: project.summary,
       metadata: project.tools,
       href: directUrl ?? links[0]?.url ?? "/#projects",
-      searchText: [project.title, project.context, project.summary, project.evidence, ...project.tools, ...links.flatMap((link) => [link.label, link.url])].join(" "),
+      searchText: [project.title, project.context, project.summary, ...project.tools, ...links.flatMap((link) => [link.label, link.url])].join(" "),
     };
   });
   const currentEducation = profile.education.map((education, index): ResumeSearchItem => ({

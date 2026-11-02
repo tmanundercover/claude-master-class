@@ -9,6 +9,10 @@ transcript, and source experience. The owner still needs a separate workspace.
 This exercise extends the classroom authentication from exercise 00. It does not
 add public accounts or claim that a a role dropdown is identity.
 
+Visitor-facing copy should describe interview questions and answers. Keep STAR and
+its component labels out of the guest page, transcripts, speech playback, and
+serialized guest data; the response-planning technique belongs to authoring.
+
 ## Work
 
 Build `/interview` and update the role-selection experience at `/login`.
@@ -30,14 +34,14 @@ Build `/interview` and update the role-selection experience at `/login`.
    client-side over approved metadata and transcripts; never expose private notes.
 6. Open a large response modal with normal video controls, summary, technology tags,
    and a separately scrollable transcript. Its experience card must show the source
-   role, organization, period, and complete experience description. Hovering or
-   keyboard-focusing the card animates at least three verified resume bullets beneath
+   role, organization, period, and complete experience description. Clicking the
+   More button reveals at least three verified resume bullets beneath
    the description. If a recording is not present, show an honest placeholder and
    allow browser speech playback of the approved transcript rather than rendering a
    broken video or fake completion.
 7. Reuse that same reduced-motion-safe experience reveal in the public homepage
    Experience section. Every homepage role needs at least three verified bullets,
-   animated beneath its existing summary on hover or keyboard focus. Keep the page
+   revealed beneath its existing summary only when More is activated. Keep the page
    server-rendered by isolating the interactive card in a small client component.
 8. Add an **I have another question** button. Its modal validates the question and
    opens a prepared email draft. Explain that the visitor must review and send it;
@@ -68,8 +72,8 @@ Each item needs a muted viewport-aware looping video preview, question title, su
 topic, technology tags, its verified resume experience, and a scrolling transcript
 excerpt beneath the preview. Add text search and topic, technology, and experience
 filters. The expanded modal needs normal video controls, the same metadata, a complete
-experience description, and a scrollable transcript. Hovering or keyboard-focusing
-the modal experience card must animate at least three verified resume bullets beneath
+experience description, and a scrollable transcript. Clicking More on
+the modal experience card must reveal at least three verified resume bullets beneath
 the description. Missing recordings need honest placeholders, not broken media or
 fake content.
 
@@ -89,7 +93,7 @@ infrastructure separately from what actually works.
   video paths, transcripts, source descriptions, and detailed experience bullets.
 - `data/profile.json` owns the public homepage experience summaries and bullets.
 - `src/components/ExpandableExperience.tsx` is the shared Motion client boundary used
-  by the response modal and homepage; do not duplicate the hover/focus state machine.
+  by the response modal and homepage; do not duplicate the click-to-expand state machine.
 - `src/entry-server.tsx` checks which local MP4 files exist before handing their
   IDs to `src/pages/Interview.tsx` and the client library. The repository intentionally ships no recordings.
 - `public/interview/README.md` is the filename contract for the welcome recording and
@@ -109,9 +113,9 @@ infrastructure separately from what actually works.
 - The expanded video has controls and the transcript scrolls independently.
 - Each response shows its verified job experience and technologies; the detailed
   modal also shows the full experience description.
-- Hovering or focusing a detailed experience animates at least three verified bullets
+- Activating More on a detailed experience reveals at least three verified bullets
   beneath the description, with reduced motion respected.
-- Every homepage experience has the same shared hover/focus bullet reveal beneath its
+- Every homepage experience has the same shared click-to-expand bullet reveal beneath its
   summary, including roles that do not yet have an interview response.
 - The welcome script types with Motion and becomes static with reduced motion.
 - The follow-up modal never claims a question was delivered unless delivery occurred.

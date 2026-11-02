@@ -2,9 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, readdir, access } from "node:fs/promises";
 import { join } from "node:path";
+import { assertPublicProjectsProtectEvidence } from "./public-evidence-assertions.mjs";
 
 const config = JSON.parse(await readFile("firebase.json", "utf8"));
 const html = await readFile("dist/hosting/index.html", "utf8");
+
+test("Hosting keeps project evidence out of public HTML, search data, and scripts", async () => {
+  await assertPublicProjectsProtectEvidence("dist/hosting");
+});
 
 test("Hosting serves the rendered public portfolio and rewrites dynamic requests to Functions", () => {
   assert.equal(config.hosting.public, "dist/hosting");
@@ -25,7 +30,7 @@ test("Hosting has no private route files that could bypass Functions authorizati
   }
 });
 
-test("Functions package is self-contained and declares its runtime dependencies and secrets", async () => {
+test("Functions package is self-contained and declares its runtime dependencies and environment configuration", async () => {
   const pkg = JSON.parse(await readFile("functions/package.json", "utf8"));
   assert.equal(pkg.engines.node, "22");
   for (const dependency of ["express", "firebase-functions", "react", "react-dom", "openai", "@anthropic-ai/sdk", "@google/genai", "motion", "@fortawesome/free-brands-svg-icons", "simple-icons"]) assert.ok(pkg.dependencies[dependency]);
@@ -35,7 +40,7 @@ test("Functions package is self-contained and declares its runtime dependencies 
   assert.equal(/\.listen\(|ssrLoadModule|createServer/.test(app), false, "Functions owns the runtime; no standalone server");
   assert.match(app, /request\.rawBody/);
   const entry = await readFile("functions/index.mjs", "utf8");
-  assert.ok(entry.includes("AI_API_KEY"));
+  assert.equal(/defineSecret|defineJsonSecret|secretEnvironmentVariables|\bsecrets\s*:/.test(entry), false);
   for (const name of ["SITE_PASSWORD", "INTERVIEW_PASSWORD", "SESSION_SECRET"]) assert.ok(!entry.includes(name));
   const server = await readFile("functions/dist/server/entry-server.js", "utf8");
   for (const match of server.matchAll(/from "([^".][^"]*)"/g)) {
@@ -47,4 +52,5 @@ test("Functions package is self-contained and declares its runtime dependencies 
   assert.match(server, /__session/);
   const module = await import("../functions/index.mjs");
   assert.equal(typeof module.portfolioApp, "function");
+  assert.deepEqual(module.portfolioApp.__endpoint.secretEnvironmentVariables ?? [], []);
 });

@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 
-const introduction = "Recruiters get a fast, evidence-led view of my experience. Interviewers can explore the same stories in depth and bring follow-up questions. I use the Terrell Singleton role to manage my private career workspace. Choose the view that matches your conversation, then come inside.";
+const introduction = "Get to know how I work through my answers to common interview questions. Explore my experience, watch recorded responses as they become available, and ask any follow-up questions you have.";
 
 export default function RoleIntroduction({ hasVideo }: { hasVideo: boolean }) {
   const reduceMotion = useReducedMotion();
@@ -10,11 +10,11 @@ export default function RoleIntroduction({ hasVideo }: { hasVideo: boolean }) {
       {hasVideo ? (
         <video className="welcome-video-player" src="/interview/welcome.mp4" controls playsInline preload="metadata" aria-label="Welcome from Terrell Singleton" />
       ) : (
-        <div className="welcome-video" aria-label="Welcome video placeholder">
+        <div className="welcome-video" aria-label="Welcome video coming soon">
           <div className="welcome-video-mark" aria-hidden="true">JTS</div>
           <div>
-            <strong>Welcome address</strong>
-            <span>Add /public/interview/welcome.mp4 to play your recorded introduction here.</span>
+            <strong>A welcome from Terrell</strong>
+            <span>Welcome video coming soon.</span>
           </div>
         </div>
       )}

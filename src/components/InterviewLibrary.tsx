@@ -143,8 +143,9 @@ function ResponseModal({ response, available, onClose }: { response: InterviewRe
             className="experience-card"
             ariaLabel={`${response.experience.role} experience details`}
             bullets={response.experience.bullets}
+            skills={response.experience.skills}
           >
-            <span>Story source</span>
+            <span>Related experience</span>
             <strong>{response.experience.role}</strong>
             <span>{response.experience.organization} · {response.experience.period}</span>
             <p>{response.experience.description}</p>

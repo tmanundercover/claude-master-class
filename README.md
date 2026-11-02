@@ -20,7 +20,8 @@ Open the local URL printed in the terminal, usually `http://127.0.0.1:5500`. Sto
 Ctrl+C.
 
 The public homepage works without an API key and includes a floating résumé search over current and
-approved historical evidence. Login uses a signed, four-hour role session. The job-fit, cover-letter,
+approved historical evidence. Project source notes stay in the owner-only résumé explorer;
+public projects show descriptions, technologies, and links. Experience bullets open with More. Login uses a signed, four-hour role session. The job-fit, cover-letter,
 interview-prep/study-plan, and résumé-evidence tools are implemented in the owner workspace; the
 interview room gives approved guests access to evidence-linked STAR responses.
 
@@ -85,8 +86,7 @@ for a four-hour Firebase session cookie, and verifies the cookie and revocation
 on the backend. The role dropdown cannot grant permissions. There is no public
 registration flow; unassigned accounts have no private access.
 
-Use `functions/.env.local` for non-secret backend AI settings and
-`functions/.secret.local` for the local `AI_API_KEY`. Site passwords and session
+Use `functions/.env.local` for all backend AI settings, including `AI_API_KEY`. Site passwords and session
 secrets are no longer used. Existing root `.env.local` values and their backend
 copies are retained for verification; do not delete them until confirmed.
 Frontend builds need no credentials or `VITE_` secrets.

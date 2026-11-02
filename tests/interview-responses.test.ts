@@ -7,10 +7,8 @@ test("interview responses have unique media ids and complete evidence metadata",
   for (const response of interviewResponses) {
     assert.match(response.question, /[?.]$/);
     assert.ok(response.summary.length > 30);
-    assert.ok(response.transcript.includes("Situation:"));
-    assert.ok(response.transcript.includes("Task:"));
-    assert.ok(response.transcript.includes("Action:"));
-    assert.ok(response.transcript.includes("Result:"));
+    assert.ok(response.transcript.length > 200);
+    assert.doesNotMatch(response.transcript, /\bSTAR\b|\b(?:Situation|Task|Action|Result):/i);
     assert.ok(response.technologies.length > 0);
     assert.ok(response.experience.role);
     assert.ok(response.experience.organization);

@@ -27,7 +27,7 @@ export default function Dashboard({ evidence }: { evidence: EvidenceSummary }) {
           <span className="badge">Exercise {index + 1}</span><h2>{tool.title}</h2><p>{tool.description}</p><span>Open exercise workspace</span>
         </AppLink>)}
         <AppLink className="panel tool-link" href="/interview">
-          <span className="badge">Exercise 4</span><h2>STAR Interview Responses</h2><p>Give recruiters and interviewers a searchable, evidence-linked library of recorded answers.</p><span>Open interview room</span>
+          <span className="badge">Exercise 4</span><h2>Interview Questions and Answers</h2><p>Give recruiters and interviewers a searchable, evidence-linked library of recorded answers.</p><span>View interview answers</span>
         </AppLink>
       </div>
     </>

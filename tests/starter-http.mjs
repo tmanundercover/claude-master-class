@@ -31,6 +31,17 @@ before(async () => {
   for (const user of users) tokens.set(user.role, await signIn(user.email, user.password));
 });
 
+test("project source notes stay behind owner authentication", async () => {
+  const profile = JSON.parse(await readFile("data/profile.json", "utf8"));
+  const publicHtml = await (await request("/")).text();
+  for (const project of profile.projects) assert.equal(publicHtml.includes(project.evidence), false);
+  assert.match(publicHtml, /Selected projects/);
+  const { pair } = await login("terrell", "owner-evidence");
+  const privateHtml = await (await request("/dashboard/resume", { headers: { Cookie: pair } })).text();
+  const payload = JSON.parse(privateHtml.match(/<script id="page-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
+  assert.deepEqual(payload.resume.currentProjects, profile.projects);
+});
+
 test("public configuration exposes only Firebase browser settings", async () => {
   const response = await request("/api/auth/config");
   assert.equal(response.status, 200);
@@ -97,7 +108,9 @@ test("interviewer and recruiter have the same guest access and no owner access",
     const { pair } = await login(role);
     const interview = await request("/interview", { headers: { Cookie: pair } });
     assert.equal(interview.status, 200);
-    assert.match(await interview.text(), /Start with the story/);
+    const guestHtml = await interview.text();
+    assert.match(guestHtml, /Interview questions/);
+    assert.doesNotMatch(guestHtml, /\bSTAR\b|\b(?:Situation|Task|Action|Result):/i);
     for (const path of ["/dashboard", "/dashboard/resume", "/dashboard/fit-analyzer"]) {
       const response = await request(path, { headers: { Cookie: pair } });
       assert.equal(response.status, 307);
