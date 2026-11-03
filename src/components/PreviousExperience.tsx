@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import ExpandableExperience from "@/components/ExpandableExperience";
+import ExperienceCard from "@/components/ExperienceCard";
 
 interface ExperienceRole {
   title: string;
@@ -9,6 +9,7 @@ interface ExperienceRole {
   summary: string;
   bullets: string[];
   skills: string[];
+  employmentType: string;
 }
 
 export default function PreviousExperience({ roles }: { roles: ExperienceRole[] }) {
@@ -30,16 +31,17 @@ export default function PreviousExperience({ roles }: { roles: ExperienceRole[] 
             transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
           >
             {roles.map((role) => (
-              <ExpandableExperience
+              <ExperienceCard
                 className="panel experience homepage-experience"
                 key={`${role.title}-${role.organization}`}
                 ariaLabel={`${role.title} at ${role.organization} experience details`}
                 bullets={role.bullets}
                 skills={role.skills}
+                period={role.period}
+                employmentType={role.employmentType}
               >
-                <p className="muted">{role.period}</p>
                 <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>
-              </ExpandableExperience>
+              </ExperienceCard>
             ))}
           </motion.div>
         )}

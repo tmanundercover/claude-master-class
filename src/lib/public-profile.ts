@@ -5,8 +5,8 @@ import type { PublicProfile } from "../app-types";
 export function publicProfile(): PublicProfile {
   return {
     ...profile,
-    projects: profile.projects.map(({ title, context, summary, tools, ...project }) => ({
-      title, context, summary, tools,
+    projects: profile.projects.map(({ title, context, summary, skills, tags, ...project }) => ({
+      title, context, summary, skills, tags,
       ...(project.url ? { url: project.url } : {}),
       ...(project.links ? { links: project.links } : {}),
     })),

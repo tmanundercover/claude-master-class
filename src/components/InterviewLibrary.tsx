@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
-import ExpandableExperience from "@/components/ExpandableExperience";
+import ExperienceCard from "@/components/ExperienceCard";
 import type { InterviewResponse } from "@/lib/interview-responses";
 
 function PreviewVideo({ response, available }: { response: InterviewResponse; available: boolean }) {
@@ -139,17 +139,21 @@ function ResponseModal({ response, available, onClose }: { response: InterviewRe
         <div>
           <h3>Response summary</h3>
           <p>{response.summary}</p>
-          <ExpandableExperience
+          <ExperienceCard
             className="experience-card"
             ariaLabel={`${response.experience.role} experience details`}
             bullets={response.experience.bullets}
             skills={response.experience.skills}
+            period={response.experience.period}
+            employmentType={response.experience.employmentType}
+            heading={<>
+              <span>Related experience</span>
+              <strong>{response.experience.role}</strong>
+              <span>{response.experience.organization}</span>
+            </>}
           >
-            <span>Related experience</span>
-            <strong>{response.experience.role}</strong>
-            <span>{response.experience.organization} · {response.experience.period}</span>
             <p>{response.experience.description}</p>
-          </ExpandableExperience>
+          </ExperienceCard>
           <div className="tags">{response.technologies.map((item) => <span className="badge" key={item}>{item}</span>)}</div>
           {!available && <ListenButton response={response} />}
         </div>

@@ -46,7 +46,7 @@ const PUBLIC_SKILL_ALIASES: Record<string, string[]> = {
   MongoDB: ["MongoDB"],
   DynamoDB: ["DynamoDB"],
   "Sanity.io": ["Sanity.io"],
-  Storybook: ["Storybook"],
+  Storybook: ["Storybook", "Storybook Component Library"],
   "Material UI": ["Material-ui"],
   "Google Forms Integrations": ["Google Forms"],
   n8n: ["n8n"],
@@ -203,9 +203,9 @@ export function getResumeSearchItems(referenceDate = new Date()): ResumeSearchIt
       title: project.title,
       subtitle: project.context,
       description: project.summary,
-      metadata: project.tools,
+      metadata: [...project.skills, ...project.tags],
       href: directUrl ?? links[0]?.url ?? "/#projects",
-      searchText: [project.title, project.context, project.summary, ...project.tools, ...links.flatMap((link) => [link.label, link.url])].join(" "),
+      searchText: [project.title, project.context, project.summary, ...project.skills, ...project.tags, ...links.flatMap((link) => [link.label, link.url])].join(" "),
     };
   });
   const currentEducation = profile.education.map((education, index): ResumeSearchItem => ({

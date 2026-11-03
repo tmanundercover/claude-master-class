@@ -11,6 +11,7 @@ export interface InterviewResponse {
     description: string;
     bullets: string[];
     skills?: string[];
+    employmentType?: string;
   };
   duration: string;
   videoSrc: string;

@@ -1,6 +1,8 @@
 :root { color-scheme: dark; --bg: #0a1020; --panel: #131d32; --text: #edf3ff; --muted: #b2bfd5; --accent: #98b8ff; --line: #334463; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* react-scroll owns animation while its destination has focus. */
+html:has(.skill-chip[id]:focus) { scroll-behavior: auto; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; line-height: 1.65; }
 a { color: var(--accent); text-underline-offset: .2em; overflow-wrap: anywhere; }
 a:hover { color: #d5e2ff; }
@@ -31,7 +33,7 @@ main { padding: 0 1.5rem 3rem; }
 .avatar-photo { object-fit: cover; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
 .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.experience { display: grid; grid-template-columns: 1fr 3fr; gap: 1rem; margin-top: 1rem; }
+.experience { display: grid; grid-template-columns: minmax(13rem, 1fr) minmax(0, 3fr); gap: 1.5rem; align-items: start; margin-top: 1rem; }
 .skills-heading { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 3rem; align-items: end; margin-bottom: 2rem; }
 .skills-heading h2 { max-width: 11ch; margin-bottom: 0; font-size: clamp(2.2rem, 5vw, 4.6rem); letter-spacing: -.055em; }
 .skills-heading p { max-width: 48ch; margin-bottom: .45rem; color: var(--muted); font-size: 1.02rem; }
@@ -47,17 +49,29 @@ main { padding: 0 1.5rem 3rem; }
 .skill-chip { display: grid; grid-template-columns: 1.9rem minmax(0, 1fr); gap: .7rem; align-items: start; padding: .62rem .75rem; border: 1px solid #3d5278; border-radius: .45rem; color: #e6eeff; background: linear-gradient(135deg, rgba(41, 62, 101, .68), rgba(18, 29, 50, .5)); font-size: .82rem; line-height: 1.25; box-shadow: inset 0 1px rgba(255, 255, 255, .035); transition: transform .18s ease, border-color .18s ease, background .18s ease; }
 .skill-icon { width: 1.9rem; height: 1.9rem; overflow: visible; fill: none; stroke: #b9ceff; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
 .skill-icon--brand { fill: #b9ceff; stroke: none; }
-.skill-icon[data-kind="spark"], .skill-icon[data-kind="automation"] { stroke: #d9c8ff; }
-.skill-icon[data-kind="database"], .skill-icon[data-kind="cloud"], .skill-icon[data-kind="queue"] { stroke: #a9e1ef; }
-.skill-icon[data-kind="commerce"], .skill-icon[data-kind="palette"] { stroke: #f3bedf; }
-.skill-icon[data-kind="testing"], .skill-icon[data-kind="security"] { stroke: #bce6bd; }
 .skill-chip-copy { display: grid; gap: .35rem; min-width: 0; }
-.skill-chip-name { font-weight: 700; }
+.skill-chip-name { font-weight: 700; overflow-wrap: anywhere; }
 .skill-chip-evidence { color: var(--muted); font-size: .68rem; line-height: 1.4; }
 .skill-chip:hover { transform: translateY(-2px); border-color: #7895c7; background: #1b2b49; }
+.skill-chip[id] { scroll-margin-block-start: 1.5rem; }
+.skill-chip[id]:focus { animation: skill-arrival 1.6s ease-out; }
+@keyframes skill-arrival { 0%, 45% { border-color: #98b8ff; box-shadow: 0 0 0 3px rgba(152, 184, 255, .5); } }
 .skill-evidence-note { max-width: 84ch; margin: 1.1rem 0 0; color: var(--muted); font-size: .76rem; }
 .actions, .tags { display: flex; flex-wrap: wrap; gap: .75rem; }
 .project-links { margin-top: 1rem; }
+.project-card { position: relative; display: flex; flex-direction: column; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.project-card--linked { cursor: pointer; }
+.project-card--linked:hover, .project-card--linked:focus-within { transform: translateY(-4px); border-color: #7895c7; box-shadow: 0 12px 28px rgba(0, 0, 0, .2); }
+.project-card .project-links { justify-content: flex-end; margin-top: auto; padding-top: 1.25rem; }
+.skill-chip--pill { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .6rem; border-radius: 2rem; font-size: .75rem; }
+.skill-chip--pill .skill-icon { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+.skill-chip--pill .skill-chip-name { font-weight: 600; }
+.project-skills .skill-chip--pill { background: #182943; transition: transform .18s ease, border-color .2s ease, background-color .2s ease; }
+.project-skills .skill-chip--pill:hover { background: #284266; }
+.project-tags { display: flex; align-items: baseline; gap: .45rem; margin: .85rem 0 0; color: var(--muted); font-size: .8rem; }
+.project-tags svg { width: 1rem; height: 1rem; flex-shrink: 0; align-self: flex-start; margin-top: .18rem; }
+.project-tag { transition: color .2s ease; }
+.project-tag:hover { color: #d5e2ff; }
 .button, button { border: 1px solid transparent; border-radius: .55rem; background: #98b8ff; color: #0b1630; padding: .7rem 1rem; font-weight: 700; text-decoration: none; display: inline-block; }
 .button:hover, button:hover { background: #c2d4ff; color: #0b1630; }
 .secondary { background: transparent; border-color: var(--line); color: var(--text); }
@@ -173,16 +187,24 @@ button:disabled { opacity: .65; cursor: wait; }
 .experience-card span { color: var(--muted); font-size: .78rem; }
 .experience-card strong { font-size: .95rem; }
 .experience-card p { margin: .65rem 0 0; color: #dbe6fb; font-size: .88rem; line-height: 1.6; }
-.interactive-experience { overflow: hidden; cursor: default; transition: border-color .2s ease, background .2s ease; }
-.interactive-experience:focus-within { border-color: #6680ad; background: #15233b; }
-.experience-toggle { justify-self: start; margin-top: .55rem; padding: .35rem .65rem; font-size: .78rem; }
-.experience-skills { display: flex; flex-wrap: wrap; gap: .5rem; min-width: 0; margin-top: .25rem; }
-.skill-chip--compact { grid-template-columns: 1.1rem minmax(0, 1fr); align-items: center; gap: .45rem; padding: .4rem .6rem; font-size: .75rem; }
-.skill-chip--compact .skill-icon { width: 1.1rem; height: 1.1rem; }
-.skill-chip--compact .skill-chip-name { font-weight: 600; }
+.experience-record { min-width: 0; }
+.experience-engagement { margin: .75rem 0 .25rem; }
+.experience-content, .experience-timeline { min-width: 0; }
+.experience-heading { display: grid; gap: .12rem; }
+.experience-timeline .experience-period { margin: 0; }
+.experience-skills { position: relative; grid-column: 1 / -1; min-width: 0; margin: .85rem 0 0; }
+.experience > .experience-skills { margin-top: 0; }
+.experience-skills-scroll { display: grid; grid-template-columns: repeat(var(--skill-columns), 4.95rem); grid-auto-rows: 4.95rem; gap: .5rem; overflow-x: auto; overflow-y: hidden; padding: 3px 0 2px; scrollbar-width: thin; scrollbar-color: #6680ad transparent; }
+.experience-skills-fade { position: absolute; inset: 0 0 0 auto; width: 2rem; border-right: 2px solid #7895c7; background: linear-gradient(to right, transparent, var(--skills-edge, var(--panel))); pointer-events: none; }
+.experience-skill-link { display: block; width: 4.95rem; min-width: 0; text-decoration: none; border-radius: .65rem; }
+.experience-skill-link:focus-visible { outline-offset: -2px; }
+.experience-card { --skills-edge: #101a2d; }
+.skill-chip--tile { display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1; min-width: 0; width: 4.95rem; flex: 0 0 4.95rem; gap: .27rem; padding: .18rem; border-radius: .65rem; }
+.skill-chip--tile .skill-icon { width: 1.8rem; height: 1.8rem; flex-shrink: 0; }
+.skill-chip--tile .skill-chip-copy { width: 100%; gap: 0; text-align: center; }
+.skill-chip--tile .skill-chip-name { display: block; color: #e6eeff; font-size: .6rem; line-height: 1.2; font-weight: 600; }
 .experience-bullets { display: grid; gap: .55rem; margin: .75rem 0 0; padding: .75rem 0 0 1.2rem; overflow: hidden; border-top: 1px solid var(--line); color: #dbe6fb; font-size: .84rem; line-height: 1.55; }
 .experience-bullets li { margin: 0; padding-left: .2rem; }
-.homepage-experience > .experience-skills, .homepage-experience > .experience-toggle, .homepage-experience > .experience-bullets { grid-column: 2; }
 .previous-experience { margin-top: 1rem; }
 .previous-experience-list { overflow: hidden; }
 .previous-experience-list .experience:first-child { margin-top: 0; }
@@ -273,7 +295,6 @@ code { overflow-wrap: anywhere; }
   .interview-row:hover { background: transparent; }
   .results-heading { align-items: stretch; flex-direction: column; }
   .results-heading button { width: 100%; }
-  .homepage-experience > .experience-skills, .homepage-experience > .experience-toggle, .homepage-experience > .experience-bullets { grid-column: 1; }
   .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .brand span { display: none; }
 }
@@ -281,8 +302,11 @@ code { overflow-wrap: anywhere; }
   html { scroll-behavior: auto; }
   .type-cursor { animation: none; }
   .interview-row { transition: none; }
-  .interactive-experience { transition: none; }
   .skill-chip { transition: none; }
+  .skill-chip[id]:focus { animation: none; border-color: var(--accent); }
+  .project-card { transition: none; }
+  .project-tag { transition: none; }
+  .project-card--linked:hover, .project-card--linked:focus-within { transform: none; }
   .resume-intelligence { transition: none; }
   .contact-icon-link { transition: none; }
   .previous-experience-toggle svg { transition: none; }

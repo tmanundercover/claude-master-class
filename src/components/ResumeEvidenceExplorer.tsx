@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import ProjectMetadata from "./ProjectMetadata";
 import type { SkillEvidence } from "@/lib/resume-evidence";
 
 interface ArchivedExperience {
@@ -35,7 +36,8 @@ interface CurrentProject {
   context: string;
   summary: string;
   evidence: string;
-  tools: string[];
+  skills: string[];
+  tags: string[];
   url?: string;
   links?: Array<{ label: string; url: string }>;
 }
@@ -77,7 +79,7 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
     experience.title, experience.organization, experience.period, experience.summary, ...experience.bullets,
   ], query)), [currentExperiences, query]);
   const filteredCurrentProjects = useMemo(() => currentProjects.filter((project) => includesQuery([
-    project.title, project.context, project.summary, project.evidence, ...project.tools,
+    project.title, project.context, project.summary, project.evidence, ...project.skills, ...project.tags,
     ...(project.links?.flatMap((link) => [link.label, link.url]) ?? []),
   ], query)), [currentProjects, query]);
   const resultCount = (kind === "All" || kind === "Skills" ? filteredSkills.length : 0)
@@ -189,7 +191,7 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
                 <h3>{project.title}</h3>
                 <p>{project.summary}</p>
                 <p><strong>Evidence:</strong> {project.evidence}</p>
-                <div className="tags">{project.tools.map((tool) => <span className="badge" key={tool}>{tool}</span>)}</div>
+                <ProjectMetadata skills={project.skills} tags={project.tags} />
                 {project.url && <p><a href={project.url} target="_blank" rel="noreferrer">Visit project ↗</a></p>}
                 {project.links && (
                   <div className="actions project-links">

@@ -76,13 +76,13 @@ export async function resolveRequest(request: Request, publicRoot = join(process
     if (access instanceof Response) return access.status === 503 ? { page: "configuration" } : access;
     if (pathname === "/interview") return { page: "interview", interview: {
       role: access,
-      responses: interviewResponses.map((response) => ({
-        ...response,
-        experience: {
-          ...response.experience,
-          skills: profile.experience.find((role) => role.title === response.experience.role && role.period === response.experience.period)?.skills ?? [],
-        },
-      })),
+      responses: interviewResponses.map((response) => {
+        const role = profile.experience.find((role) => role.title === response.experience.role && role.period === response.experience.period);
+        return {
+          ...response,
+          experience: { ...response.experience, skills: role?.skills ?? [], employmentType: role?.employmentType },
+        };
+      }),
       availableVideoIds: interviewResponses.filter((item) => hasPublicFile(item.videoSrc.slice(1), publicRoot)).map((item) => item.id),
     } };
     if (pathname === "/dashboard") return { page: "dashboard", evidence: getResumeEvidenceSummary() };

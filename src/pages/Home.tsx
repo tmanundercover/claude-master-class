@@ -1,14 +1,18 @@
 import { faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
+import { useEffect } from "react";
 import AppLink from "@/components/AppLink";
 import { siGithub } from "simple-icons";
 import ContactForm from "@/components/ContactForm";
-import ExpandableExperience from "@/components/ExpandableExperience";
+import ExperienceCard from "@/components/ExperienceCard";
 import PreviousExperience from "@/components/PreviousExperience";
 import ResumeSearchFab from "@/components/ResumeSearchFab";
 import SkillChip from "@/components/SkillChip";
+import ProjectMetadata from "@/components/ProjectMetadata";
 import { sitePath } from "@/lib/site-path";
 import type { HomeData, PublicProfile } from "@/app-types";
 import { formatDocumentedYears } from "@/lib/evidence-format";
+import { skillTargetId } from "@/lib/skill-target";
+import { scrollToSkill } from "@/lib/scroll-to-skill";
 
 const skillGroupBlueprints = [
   {
@@ -19,12 +23,12 @@ const skillGroupBlueprints = [
   {
     title: "Services & systems",
     description: "APIs, distributed services, and mature codebases.",
-    skills: ["Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "API design", "Distributed systems", "API integrations", "Authentication", "Multi-tenant architecture"],
+    skills: ["Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "API design", "Distributed systems", "API integrations", "Resend API", "Auth0", "Firebase Authentication", "Custom authentication", "Multi-tenant architecture"],
   },
   {
     title: "Cloud platforms",
     description: "Compute, functions, queues, and managed application platforms.",
-    skills: ["AWS", "GCP", "AWS Lambda", "Firebase", "SQS", "Firebase Functions"],
+    skills: ["AWS", "GCP", "AWS Lambda", "Firebase", "Firebase Hosting", "SQS", "Firebase Functions"],
   },
   {
     title: "Databases",
@@ -49,7 +53,7 @@ const skillGroupBlueprints = [
   {
     title: "CMS & commerce",
     description: "Content systems, storefronts, and their supporting creative tooling.",
-    skills: ["Sanity.io", "Custom CMS architecture", "Shopify SDK", "WordPress", "Wix", "GIMP"],
+    skills: ["Sanity.io", "Custom CMS architecture", "Shopify", "Shopify SDK", "WordPress", "Wix", "GIMP"],
   },
   {
     title: "Automations",
@@ -87,6 +91,20 @@ function ContactIcon({ kind }: { kind: "email" | "linkedin" | "github" }) {
 }
 
 export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, searchItems, profile }: HomeData & { profile: PublicProfile }) {
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (!id.startsWith("skill-")) return;
+    function followSkillFragment() {
+      if (window.location.hash === `#${id}`) void scrollToSkill(id);
+    }
+    // Wait for the responsive experience rows to settle before following a deep link.
+    let layoutFrame = 0;
+    const frame = requestAnimationFrame(() => { layoutFrame = requestAnimationFrame(followSkillFragment); });
+    return () => {
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(layoutFrame);
+    };
+  }, []);
   const listedSkills = new Set(Object.values(profile.skills).flat());
   const groupedSkills = new Set<string>(skillGroupBlueprints.flatMap((group) => group.skills));
   const skillGroups = skillGroupBlueprints
@@ -131,16 +149,17 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
         <p className="eyebrow">01 / Experience</p>
         <h2>What I have contributed</h2>
         {recentExperience.map((role) => (
-          <ExpandableExperience
+          <ExperienceCard
             className="panel experience homepage-experience"
             key={`${role.title}-${role.organization}`}
             ariaLabel={`${role.title} at ${role.organization} experience details`}
             bullets={role.bullets}
             skills={role.skills}
+            period={role.period}
+            employmentType={role.employmentType}
           >
-            <p className="muted">{role.period}</p>
             <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>
-          </ExpandableExperience>
+          </ExperienceCard>
         ))}
         <PreviousExperience roles={previousExperience} />
       </section>
@@ -166,7 +185,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
                   const evidence = skillEvidence[skill];
                   const documentedYears = formatDocumentedYears(evidence.documentedRoleYears);
                   return (
-                    <SkillChip skill={skill} key={skill}>
+                    <SkillChip skill={skill} key={skill} id={skillTargetId(skill)} tabIndex={-1}>
                       {(evidence.firstDocumented || documentedYears || evidence.proficiency !== null) && (
                         <span className="skill-chip-evidence">
                           {[
@@ -190,20 +209,27 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
         <p className="eyebrow">03 / Projects</p>
         <h2>Selected projects</h2>
         <div className="grid">
-          {profile.projects.map((project) => (
-            <article className="panel project-card" key={project.title}>
+          {profile.projects.map((project) => {
+            const links = [
+              ...("url" in project && project.url ? [{ label: "Visit project", url: project.url }] : []),
+              ...("links" in project && project.links ? project.links : []),
+            ];
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- The native project links provide keyboard access; the card delegates pointer clicks without covering hoverable tags.
+            return <article className={`panel project-card${links.length > 0 ? " project-card--linked" : ""}`} key={project.title} onClick={links.length > 0 ? (event) => {
+              if ((event.target as Element).closest("a, button") || window.getSelection()?.isCollapsed === false) return;
+              event.currentTarget.querySelector<HTMLAnchorElement>(".project-primary-link")?.click();
+            } : undefined}>
               <p className="muted">{project.context}</p>
               <h3>{project.title}</h3>
               <p>{project.summary}</p>
-              <div className="tags">{project.tools.map((tool) => <span className="badge" key={tool}>{tool}</span>)}</div>
-              {"url" in project && project.url && <p><a href={project.url} target="_blank" rel="noreferrer">Visit project ↗</a></p>}
-              {"links" in project && project.links && (
-                <div className="actions project-links">
-                  {project.links.map((link) => <a href={link.url} key={link.url} target="_blank" rel="noreferrer">{link.label} ↗</a>)}
+              <ProjectMetadata skills={project.skills} tags={project.tags} />
+              {links.length > 0 && (
+                <div className="actions project-links" aria-label="Project links">
+                  {links.map((link, index) => <a className={index === 0 ? "project-primary-link" : "project-secondary-link"} href={link.url} key={link.url} target="_blank" rel="noreferrer" aria-label={`${link.label}: ${project.title} (opens in a new tab)`}>{link.label} ↗</a>)}
                 </div>
               )}
-            </article>
-          ))}
+            </article>;
+          })}
         </div>
       </section>
 

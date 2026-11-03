@@ -4,7 +4,7 @@ import test from "node:test";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8")) as {
   experience: Array<{ title: string; organization: string; bullets: string[] }>;
-  projects: Array<{ title: string; summary: string; evidence: string; tools: string[]; url?: string; links?: Array<{ label: string; url: string }> }>;
+  projects: Array<{ title: string; summary: string; evidence: string; skills: string[]; tags: string[]; url?: string; links?: Array<{ label: string; url: string }> }>;
   skills: Record<string, string[]>;
 };
 
@@ -42,7 +42,7 @@ test("the current résumé remains intact alongside the archive", () => {
   const currentSkills = Object.values(profile.skills).flat();
 
   assert.equal(profile.experience.length, 16);
-  assert.equal(profile.projects.length, 12);
+  assert.equal(profile.projects.length, 13);
   assert.ok(profile.experience.some((experience) => experience.title === "Automation Engineer" && experience.organization === "MTC Art Studios"));
   assert.ok(profile.projects.some((project) => project.title === "White-label application generator"));
   assert.ok(currentSkills.includes("React"));
@@ -53,8 +53,8 @@ test("the current résumé remains intact alongside the archive", () => {
   assert.ok(currentSkills.includes("Wix Automations"));
   assert.ok(currentSkills.includes("n8n"));
   const questionnaire = profile.projects.find((project) => project.title === "Dorothea Project questionnaire publishing");
-  assert.ok(questionnaire?.tools.includes("Google Forms"));
-  assert.ok(questionnaire?.tools.includes("Google Sheets"));
+  assert.ok(questionnaire?.skills.includes("Google Forms"));
+  assert.ok(questionnaire?.skills.includes("Google Sheets"));
 });
 
 test("the consolidated résumé adds recent consulting without losing earlier work", () => {
@@ -67,7 +67,7 @@ test("the consolidated résumé adds recent consulting without losing earlier wo
   for (const organization of ["Northrop Grumman", "Cybercore Technologies", "Raytheon Company", "L-3 Communications"]) {
     assert.ok(organizations.includes(organization), `${organization} historical experience was removed`);
   }
-  for (const project of ["Time Allocation by Percentage", "Dorothea Project questionnaire publishing", "Black Workers Together website", "Versioned agent execution runtime"]) {
+  for (const project of ["Time Allocation by Percentage", "Dorothea Project questionnaire publishing", "Black Workers Together website", "AI Code Generation"]) {
     assert.ok(projectTitles.includes(project), `${project} is missing from the consolidated projects`);
   }
 });
@@ -102,7 +102,7 @@ test("Shopify projects credit complete site ownership as well as their standout 
 });
 
 test("recent consulting evidence identifies Codex as a development tool", () => {
-  const codexProjects = profile.projects.filter((project) => project.tools.includes("OpenAI Codex"));
+  const codexProjects = profile.projects.filter((project) => project.skills.includes("OpenAI Codex"));
   const recentConsultingOrganizations = ["Addition, Inc.", "Dorothea Project", "Black Workers Together", "Chef Jamie G", "MTC Art Studios"];
 
   assert.ok(codexProjects.length >= 8);
