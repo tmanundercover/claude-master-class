@@ -103,3 +103,7 @@ The repository currently uses demo projects; no live users or resources are crea
 `npm run build:pages` remains available for a public-only export in `dist/pages`.
 For a project site, set `BASE_PATH=/YOUR_REPOSITORY/`; use `/` for a root site.
 Private URLs in that export explain that Firebase Functions is required.
+
+## Owner email
+
+See [Owner inbox](docs/owner-inbox.md) for backend modes, the private API, contact delivery, local emulator acceptance, and separate live-activation gates.

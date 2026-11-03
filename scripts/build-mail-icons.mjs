@@ -1,0 +1,29 @@
+// Raster versions of the site's existing icons for email clients that strip inline SVG.
+import { build } from 'vite';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { chromium } from 'playwright';
+import { readFile, mkdir, rm } from 'node:fs/promises';
+import { faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+
+const renderer = '.firebase/mail-icon-renderer';
+await build({ build: { ssr: 'src/components/SkillIcon.tsx', outDir: renderer, emptyOutDir: true } });
+const { default: SkillIcon } = await import(`../${renderer}/SkillIcon.js`);
+const profile = JSON.parse(await readFile('data/profile.json', 'utf8'));
+const output = 'src/assets/mail-icons';
+await mkdir(output, { recursive: true });
+const slug = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const icons = profile.skills.strong.map(skill => [slug(skill), renderToStaticMarkup(createElement(SkillIcon, { skill }))]);
+for (const [name, definition] of [['linkedin', faLinkedinIn], ['github', faGithub]]) {
+  const [w, h, , , paths] = definition.icon;
+  icons.push([name, `<svg viewBox="0 0 ${w} ${h}" class="skill-icon skill-icon--brand"><path d="${Array.isArray(paths) ? paths.join(' ') : paths}"/></svg>`]);
+}
+icons.push(['portfolio', '<svg class="skill-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>']);
+icons.push(['email', '<svg class="skill-icon" viewBox="0 0 24 24"><path d="M3 5h18v14H3Zm0 0 9 8 9-8"/></svg>']);
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
+try {
+  const page = await browser.newPage({ viewport: { width: 600, height: 600 }, deviceScaleFactor: 2 });
+  await page.setContent(`<style>html,body{margin:0;background:transparent}.icon{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center}.skill-icon{width:20px;height:20px;fill:none;stroke:#47668f;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.skill-icon--brand{fill:#47668f;stroke:none}</style>${icons.map(([name, svg]) => `<span class="icon" id="${name}">${svg}</span>`).join('')}`);
+  for (const [name] of icons) await page.locator(`#${name}`).screenshot({ path: `${output}/${name}.png`, omitBackground: true });
+  console.log(`Generated ${icons.length} email PNG icons from the portfolio icon set.`);
+} finally { await browser.close(); await rm(renderer, { recursive: true, force: true }); }

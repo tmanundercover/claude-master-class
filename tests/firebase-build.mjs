@@ -1,4 +1,5 @@
 import test from "node:test";
+import ts from "typescript";
 import assert from "node:assert/strict";
 import { readFile, readdir, access } from "node:fs/promises";
 import { join } from "node:path";
@@ -21,19 +22,26 @@ test("Hosting serves the rendered public portfolio and rewrites dynamic requests
 
 test("Hosting has no private route files that could bypass Functions authorization", async () => {
   const entries = await readdir("dist/hosting");
-  assert.ok(entries.every((entry) => ["assets", "index.html", "profile-photo.jpg"].includes(entry)));
+  assert.ok(entries.every((entry) => ["assets", "email-icons", "index.html", "profile-photo.jpg"].includes(entry)));
+  const icons = await readdir("dist/hosting/email-icons");
+  assert.deepEqual(icons.sort(), (await readdir("src/assets/mail-icons")).sort());
+  for (const icon of icons) {
+    assert.match(icon, /^[a-z0-9-]+\.png$/);
+    const bytes = await readFile(join("dist/hosting/email-icons", icon));
+    assert.equal(bytes.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  }
   assert.equal(/"responses":|"experiences":|"page":"resume"/.test(html), false);
   const files = await readdir("dist/hosting/assets");
   for (const filename of files.filter((file) => file.endsWith(".js"))) {
     const source = await readFile(join("dist/hosting/assets", filename), "utf8");
-    assert.equal(/createHmac|readSessionRole|Sanity homepage archive|Situation:|process\.env\.AI_/.test(source), false, `Private content found in ${filename}`);
+    assert.equal(/Local correspondence|Local attachment only|fixture-owner|createHmac|readSessionRole|Sanity homepage archive|Situation:|process\.env\.AI_/.test(source), false, `Private content found in ${filename}`);
   }
 });
 
 test("Functions package is self-contained and declares its runtime dependencies and environment configuration", async () => {
   const pkg = JSON.parse(await readFile("functions/package.json", "utf8"));
   assert.equal(pkg.engines.node, "22");
-  for (const dependency of ["express", "firebase-functions", "react", "react-dom", "openai", "@anthropic-ai/sdk", "@google/genai", "motion", "@fortawesome/free-brands-svg-icons", "simple-icons"]) assert.ok(pkg.dependencies[dependency]);
+  for (const dependency of ["express", "firebase-functions", "react", "react-dom", "openai", "@anthropic-ai/sdk", "@google/genai", "motion", "@fortawesome/free-brands-svg-icons", "simple-icons", "resend", "sanitize-html"]) assert.ok(pkg.dependencies[dependency]);
   await access("functions/dist/server/entry-server.js");
   await access("functions/dist/client/index.html");
   const app = await readFile("functions/app.mjs", "utf8");
@@ -43,8 +51,13 @@ test("Functions package is self-contained and declares its runtime dependencies 
   assert.equal(/defineSecret|defineJsonSecret|secretEnvironmentVariables|\bsecrets\s*:/.test(entry), false);
   for (const name of ["SITE_PASSWORD", "INTERVIEW_PASSWORD", "SESSION_SECRET"]) assert.ok(!entry.includes(name));
   const server = await readFile("functions/dist/server/entry-server.js", "utf8");
-  for (const match of server.matchAll(/from "([^".][^"]*)"/g)) {
-    const name = match[1];
+  const moduleSyntax = ts.createSourceFile("entry-server.js", server, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+  for (const statement of moduleSyntax.statements) {
+    if (!ts.isImportDeclaration(statement) && !ts.isExportDeclaration(statement)) continue;
+    const specifier = statement.moduleSpecifier;
+    if (!specifier || !ts.isStringLiteral(specifier)) continue;
+    const name = specifier.text;
+    if (name.startsWith(".")) continue;
     if (name.startsWith("node:")) continue;
     const packageName = name.startsWith("@") ? name.split("/").slice(0, 2).join("/") : name.split("/")[0];
     assert.ok(pkg.dependencies[packageName], `Missing deployed dependency: ${packageName}`);

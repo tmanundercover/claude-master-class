@@ -34,6 +34,14 @@ Add `/dashboard/inbox` to the page resolver, `PageData`, `App.tsx`, and a new ow
 
 Public contact and signed webhooks are separate endpoints with their own validation, rather than exceptions that weaken the private mail dispatcher. Continue `private, no-store` responses and `Vary: Cookie` for private resources. Use the existing same-origin Hosting rewrite; do not expose the API key to the browser.
 
+```text
+Public form --> /api/contact ------+
+                                  +--> Resend API / owner inbox
+Owner UI --> /api/inbox/** --------+
+
+Resend events --> signed callback --> safe refresh/cache invalidation
+```
+
 Alternative: a separate Express or mail server. Rejected because the existing Firebase boundary already handles authentication, deployment, and local HTTP execution.
 
 ### 2. Add a narrow provider adapter and explicit modes
@@ -42,7 +50,7 @@ Define typed mail operations for summary, threads/search, message reading, send/
 
 The live adapter uses a pinned official Resend SDK version whose inbox methods are verified by focused contract checks. Add its server runtime dependency to both the build package and self-contained Functions package as appropriate. Match current SDK payload shapes rather than guessing them from UI descriptions.
 
-An in-process fixture adapter runs inside the existing Functions emulator. It implements deterministic mailbox records, contacts, drafts, and idempotency without HTTP servers or real sends. `RESEND_MODE=fixture` is permitted only in emulator execution; production fixture mode is a configuration error. Live mode is explicit and is never inferred merely from the presence of an API key. Missing live configuration returns unavailable status rather than fixture mail or zero counts.
+An in-process fixture adapter runs inside the existing Functions emulator. It implements deterministic mailbox records, contacts, drafts, and idempotency without HTTP servers or real sends. `RESEND_MODE=fixture` is permitted only in emulator execution; production fixture mode is a configuration error. Fixture emulator startup uses Firebase’s serialized single-process execution mode (`--inspect-functions`) so simultaneous browser requests share the same in-process fixture mailbox; this is not production-concurrency evidence. Live mode is explicit and is never inferred merely from the presence of an API key. Missing live configuration returns unavailable status rather than fixture mail or zero counts.
 
 ### 3. Use backend configuration for identity and ordinary environment values
 
@@ -98,7 +106,7 @@ Add `POST /api/contact` with validated name, email, message, and a submission at
 
 Send transactional email from the configured contact identity to the fixed owner inbox with the validated visitor as `Reply-To`. Encode visitor content as text or escaped HTML. Do not send acknowledgements or subscribe visitors automatically. A success response means provider acceptance, not proof that delivery finished. Display errors and preserve form values on failure or uncertainty.
 
-In fixture mode, the adapter inserts a received conversation so the complete public-form/private-inbox flow can be tested locally. Mark that result as a local test. The decisive live proof is a controlled submission, owner reply to the visitor, and visitor reply returning to the same thread. Acceptance and threading must be verified rather than inferred from an SDK success response.
+In fixture mode, the adapter inserts a received conversation so the complete public-form/private-inbox flow can be tested locally. Mark that result as a local test. Live acceptance exposed that Resend groups the website's outbound notification and its actual inbound SMTP copy into one thread, which can initially be Sent and then Spam. The contact handler therefore reconciles the accepted send ID against bounded native recent thread/message pages, requires a correlated inbound SMTP Message-ID and matching sender/owner/visitor bindings, then files the received conversation in Inbox as unread. Reconciliation has a seven-second read/write budget; pending or failed filing returns uncertainty and retains the same provider idempotency key. It never moves arbitrary same-subject mail or reclassifies unrelated spam, and it preserves already-filed read state and deliberate Archive/Trash choices. Native replies and reply drafts selected on the notification's outbound copy are rebound to its correlated received copy to avoid replying to the owner recipient. No background database, webhook mutation, or synthetic Inbox counts are introduced. Fixtures now model both copies instead of inventing a direct message from the visitor. The decisive live proof is a controlled submission, owner reply to the visitor, and visitor reply returning to the same thread. Acceptance and threading must be verified rather than inferred from an SDK success response.
 
 ### 9. Refresh from Resend and keep webhooks side-effect safe
 
@@ -147,6 +155,7 @@ Operational tasks remain unchecked until their own evidence exists. Local accept
 - The actual Resend inbox ID, domain verification state, exact region-specific DNS records, and webhook signing value will be obtained during provider setup.
 - Other active `thehandsomestnerd.com` recipients must be inventoried before the already-selected domain cutover; this gates operations, not local implementation.
 - Confirm the proposed contact sender `website@thehandsomestnerd.com` and outgoing display name before live activation.
+- Select the real Firebase deployment project and confirm DNS-management access during authorized activation; the existing demo project remains the local default.
 
 ## Provider References
 

@@ -9,7 +9,12 @@ const data = ".firebase/emulator-data";
 let imported = [];
 try { await access(`${data}/firebase-export-metadata.json`); imported = ["--import", data]; }
 catch (error) { if (error.code !== "ENOENT") throw error; }
-const child = spawn(process.execPath, ["node_modules/firebase-tools/lib/bin/firebase.js", "emulators:start", "--only", "auth,hosting,functions", "--project", projectId, "--export-on-exit", data, ...imported], { stdio: "inherit" });
+// In-process fixtures require one Functions process across concurrent browser requests.
+let mailFixture = process.env.RESEND_MODE === 'fixture';
+try { mailFixture ||= /^\s*RESEND_MODE\s*=\s*["']?fixture["']?\s*(?:#.*)?$/m.test(await readFile('functions/.env.local', 'utf8')); }
+catch (error) { if (error.code !== 'ENOENT') throw error; }
+const fixtureArgs = mailFixture ? ['--inspect-functions', process.env.FUNCTIONS_DEBUG_PORT || '9229'] : [];
+const child = spawn(process.execPath, ["node_modules/firebase-tools/lib/bin/firebase.js", "emulators:start", "--only", "auth,hosting,functions", "--project", projectId, ...fixtureArgs, "--export-on-exit", data, ...imported], { stdio: "inherit" });
 let exited = false;
 const completion = new Promise((resolve, reject) => {
   child.once("error", reject);

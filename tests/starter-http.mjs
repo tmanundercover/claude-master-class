@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { before, test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -54,7 +55,7 @@ test("public configuration exposes only Firebase browser settings", async () => 
 test("the portfolio is public and invalid sessions disclose no private pages", async () => {
   assert.equal((await request("/")).status, 200);
   for (const cookie of [undefined, "__session=forged-token"]) {
-    for (const path of ["/dashboard", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/dashboard/resume", "/interview"]) {
+    for (const path of ["/dashboard", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/dashboard/resume", "/dashboard/inbox", "/interview"]) {
       const response = await request(path, { headers: cookie ? { Cookie: cookie } : {} });
       assert.equal(response.status, 307, path);
       assert.equal(new URL(response.headers.get("location"), base).pathname, "/login");
@@ -96,7 +97,7 @@ test("session exchange rejects wrong origins, invalid identities, and client-sel
 test("owner Firebase sessions use four-hour secure cookies and open private pages", async () => {
   const { cookie, pair } = await login("terrell");
   for (const pattern of [/^__session=/, /HttpOnly/i, /SameSite=Strict/i, /Max-Age=14400/i, /Secure/i]) assert.match(cookie, pattern);
-  for (const [path, text] of [["/dashboard", /Your next four builds/], ["/dashboard/fit-analyzer", /id="jd"/], ["/dashboard/resume", /The evidence behind the timeline/], ["/interview", /Terrell Singleton/]]) {
+  for (const [path, text] of [["/dashboard", /Your workspace/], ["/dashboard/fit-analyzer", /id="jd"/], ["/dashboard/resume", /The evidence behind the timeline/], ["/interview", /Terrell Singleton/]]) {
     const response = await request(path, { headers: { Cookie: pair } });
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), text);
@@ -111,7 +112,7 @@ test("interviewer and recruiter have the same guest access and no owner access",
     const guestHtml = await interview.text();
     assert.match(guestHtml, /Interview questions/);
     assert.doesNotMatch(guestHtml, /\bSTAR\b|\b(?:Situation|Task|Action|Result):/i);
-    for (const path of ["/dashboard", "/dashboard/resume", "/dashboard/fit-analyzer"]) {
+    for (const path of ["/dashboard", "/dashboard/resume", "/dashboard/inbox", "/dashboard/fit-analyzer"]) {
       const response = await request(path, { headers: { Cookie: pair } });
       assert.equal(response.status, 307);
       assert.equal(response.headers.get("location"), "/interview");
@@ -162,4 +163,53 @@ test("revoked Firebase sessions cannot keep using private routes", async () => {
   const response = await request("/interview", { headers: { Cookie: pair } });
   assert.equal(response.status, 307);
   assert.equal(response.headers.get("location"), "/login");
+});
+
+
+test("owner inbox runs through Hosting/Functions with public ingress, private authorization, downloads and signed replay", async () => {
+  const paths = ["summary", "threads", "threads/foreign", "threads/foreign/messages", "threads/foreign/messages/email/attachments/file", "drafts", "drafts/foreign/send", "labels", "contacts", "settings"];
+  const { pair } = await login("terrell", "owner-inbox");
+  const page = await request("/dashboard/inbox", { headers: { Cookie: pair } });
+  assert.equal(page.status, 200); assert.match(await page.text(), /Your inbox/);
+  const dashboard = await (await request("/dashboard", { headers: { Cookie: pair } })).text();
+  assert.doesNotMatch(dashboard, /Exercise [1-4]|Open exercise/);
+  for (const link of ["/dashboard/inbox", "/dashboard/resume", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/interview"]) assert.ok(dashboard.includes(link));
+  for (const path of paths) {
+    const response = await request(`/api/inbox/${path}`, { method: "POST", body: "x".repeat(50000) });
+    assert.equal(response.status, 401, path); assert.match(response.headers.get("cache-control"), /private.*no-store/);
+    const guest = await login("interviewer", "guest-inbox");
+    assert.equal((await request(`/api/inbox/${path}`, { headers: { Cookie: guest.pair } })).status, 403);
+  }
+  const value = { name: "HTTP Visitor", email: "http-visitor@example.test", message: "HTTP acceptance message", website: "", attempt: "http-contact-attempt-0001" };
+  for (let i=0; i<2; i++) {
+    const accepted = await request("/api/contact", { method: "POST", headers: jsonHeaders(undefined, "contact-http"), body: JSON.stringify(value) });
+    assert.equal(accepted.status, 202); assert.deepEqual(await accepted.json(), { status: "accepted", localTest: true });
+  }
+  const get = async path => { const response = await request(`/api/inbox/${path}`, { headers: { Cookie: pair } }); assert.equal(response.status, 200, path); return response.json(); };
+  const threads = await get("threads?query=HTTP%20acceptance"); assert.equal(threads.data.length, 1);
+  const summary = await get("summary"); assert.equal(summary.mode, "fixture"); assert.equal(typeof summary.unread, "number");
+  const threadId = threads.data[0].id, message = (await get(`threads/${threadId}/messages`)).data[0]; assert.deepEqual(message.reply_to, [value.email]);
+  const content = { to: [value.email], cc: [], bcc: [], subject: "Re: question", text: "An owner reply", html: "" };
+  const respond = () => request(`/api/inbox/threads/${threadId}/messages/${message.id}/reply`, { method: "POST", headers: jsonHeaders(pair), body: JSON.stringify({ content, attempt: "http-reply-attempt-00001" }) });
+  assert.equal((await respond()).status, 200); assert.equal((await respond()).status, 200);
+  const messages = (await get(`threads/${threadId}/messages`)).data; assert.equal(messages.length, 3); assert.deepEqual(messages[2].to, [value.email]);
+  assert.equal(messages[0].direction, "outbound"); assert.equal(messages[1].direction, "inbound");
+  assert.equal((await get(`threads/${threadId}`)).folder, "inbox");
+  const download = await request("/api/inbox/threads/thread-1/messages/email-2/attachments/attachment-1", { headers: { Cookie: pair } }); assert.equal(download.status, 200); assert.equal(download.headers.get("content-type"), "application/octet-stream"); assert.match(download.headers.get("content-disposition"), /attachment/);
+  assert.equal((await request("/api/inbox/threads/thread-1", { method: "PATCH", headers: jsonHeaders(pair, "origin-inbox", "https://evil.example"), body: JSON.stringify({ read: true }) })).status, 403);
+  assert.equal((await request("/api/contact", { method: "POST", headers: jsonHeaders(undefined, "origin-contact", "https://evil.example"), body: JSON.stringify(value) })).status, 403);
+  const event = JSON.stringify({ type: "inbox.email.received", created_at: new Date().toISOString(), data: { inbox_id: "fixture-owner" } });
+  const timestamp = String(Math.floor(Date.now()/1000)), id = "http-event-1";
+  const signature = createHmac("sha256", Buffer.from("fixture-signing-secret")).update(`${id}.${timestamp}.${event}`).digest("base64");
+  for (let i=0; i<2; i++) assert.equal((await request("/api/mail/events", { method: "POST", headers: { "Content-Type": "application/json", "svix-id": id, "svix-timestamp": timestamp, "svix-signature": `v1,${signature}` }, body: event })).status, 200);
+  assert.equal((await request("/api/mail/events", { method: "POST", headers: { "svix-id": id, "svix-timestamp": timestamp, "svix-signature": `v1,${signature}` }, body: event + " " })).status, 401);
+  assert.equal((await get("contacts")).data.length, 0);
+});
+
+test("revoked owner cannot read inbox pages, statistics or attachment bytes", async () => {
+  const { pair } = await login("terrell", "revoke-owner-inbox");
+  await new Promise(resolve => setTimeout(resolve, 1100));
+  await admin.revokeRefreshTokens(users.find(user => user.role === "terrell").uid);
+  assert.equal((await request("/dashboard/inbox", { headers: { Cookie: pair } })).status, 307);
+  for (const path of ["summary", "threads", "contacts", "drafts", "settings", "threads/thread-1/messages/email-2/attachments/attachment-1"]) assert.equal((await request(`/api/inbox/${path}`, { headers: { Cookie: pair } })).status, 401);
 });

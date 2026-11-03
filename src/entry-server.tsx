@@ -15,7 +15,13 @@ import * as fit from "./server/routes/fit-analyzer";
 import * as letter from "./server/routes/cover-letter";
 import * as career from "./server/routes/career-plan";
 
+import { inboxRoute } from "./server/routes/inbox";
+import { contactRoute } from "./server/routes/contact";
+import { mailEvents } from "./server/routes/mail-events";
+
 const apiRoutes: Record<string, Partial<Record<string, (request: Request) => Promise<Response>>>> = {
+  "/api/contact": { POST: contactRoute },
+  "/api/mail/events": { POST: mailEvents },
   "/api/auth/config": { GET: auth.configuration },
   "/api/auth": { POST: auth.POST, DELETE: auth.DELETE },
   "/api/fit-analyzer": { POST: fit.POST },
@@ -57,6 +63,7 @@ export async function authorizeMedia(request: Request): Promise<Response | null>
 export async function resolveRequest(request: Request, publicRoot = join(process.cwd(), "public")): Promise<PageData | Response> {
   const pathname = new URL(request.url).pathname.replace(/\/+$/, "") || "/";
   if (pathname === "/api" || pathname.startsWith("/api/")) {
+    if (pathname === "/api/inbox" || pathname.startsWith("/api/inbox/")) return inboxRoute(request);
     const handlers = apiRoutes[pathname];
     if (!handlers) return Response.json({ error: "API route not found." }, { status: 404 });
     const allow = [...Object.keys(handlers), "OPTIONS"].join(", ");
@@ -85,6 +92,7 @@ export async function resolveRequest(request: Request, publicRoot = join(process
       }),
       availableVideoIds: interviewResponses.filter((item) => hasPublicFile(item.videoSrc.slice(1), publicRoot)).map((item) => item.id),
     } };
+    if (pathname === "/dashboard/inbox") return { page: "inbox" };
     if (pathname === "/dashboard") return { page: "dashboard", evidence: getResumeEvidenceSummary() };
     if (pathname === "/dashboard/resume") return { page: "resume", resume: {
       summary: getResumeEvidenceSummary(),

@@ -258,7 +258,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
             </div>
             <p className="muted contact-workspace-link"><AppLink href="/login">Log in to watch my answers to common interview questions.</AppLink></p>
           </div>
-          <ContactForm />
+          <ContactForm candidateName={profile.name} />
         </div>
       </section>
       <ResumeSearchFab items={searchItems} />

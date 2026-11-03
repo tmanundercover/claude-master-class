@@ -7,11 +7,12 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Tool from "./pages/Tool";
 import Resume from "./pages/Resume";
+import Inbox from "./pages/Inbox";
 import Interview from "./pages/Interview";
 
 function Workspace({ children }: { children: ReactNode }) {
   return <main id="main" className="workspace">
-    <div className="workspace-header"><p className="eyebrow">Private career workspace</p><LogoutButton /></div>
+    <div className="workspace-header"><p className="eyebrow">Private workspace</p><LogoutButton /></div>
     {children}
   </main>;
 }
@@ -21,6 +22,7 @@ function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
     case "home": return <Home {...data.home} profile={profile} />;
     case "login": return <Login hasWelcomeVideo={data.hasWelcomeVideo} />;
     case "dashboard": return <Workspace><Dashboard evidence={data.evidence} /></Workspace>;
+    case "inbox": return <main id="main" className="workspace inbox-workspace"><Inbox profile={profile} /></main>;
     case "tool": return <Workspace><Tool id={data.id} /></Workspace>;
     case "resume": return <Workspace><Resume {...data.resume} /></Workspace>;
     case "interview": return <Interview {...data.interview} />;
@@ -30,7 +32,7 @@ function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
     </main>;
     case "static-unavailable": return <main id="main" className="workspace">
       <h1>The private workspace needs Firebase Functions</h1>
-      <p>This GitHub Pages site hosts the public portfolio. Login, the interview room, and AI tools run in Firebase Functions.</p>
+      <p>This GitHub Pages site hosts the public portfolio. Login, the interview room, email, and AI tools run in Firebase Functions.</p>
       <p>To use the private workspace locally, run <code>npm run dev</code> in the project folder and open the URL printed in the terminal.</p>
       <AppLink className="button" href="/">Back to portfolio</AppLink>
     </main>;
@@ -39,11 +41,11 @@ function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
 }
 
 export default function App({ data, profile }: { data: PageData; profile: PublicProfile }) {
-  const ownerView = data.page === "dashboard" || data.page === "tool" || data.page === "resume"
+  const ownerView = data.page === "dashboard" || data.page === "inbox" || data.page === "tool" || data.page === "resume"
     || (data.page === "interview" && data.interview.role === "terrell");
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <header className="site-header">
+    <header className={`site-header ${data.page === "inbox" ? "mail-site-header" : ""}`}>
       <AppLink className="brand" href="/">{profile.name}<span> / portfolio</span></AppLink>
       <nav aria-label="Main navigation">
         <AppLink href="/#projects">Projects</AppLink>
@@ -53,6 +55,6 @@ export default function App({ data, profile }: { data: PageData; profile: Public
       </nav>
     </header>
     <Page data={data} profile={profile} />
-    <footer className="site-footer">Built from evidence. Improved through practice.</footer>
+    {data.page !== "inbox" && <footer className="site-footer">Built from evidence. Improved through practice.</footer>}
   </>;
 }

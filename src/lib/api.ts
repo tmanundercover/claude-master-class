@@ -1,5 +1,5 @@
-import { authConfiguration, currentSessionRole } from "./auth";
-import { isSameOrigin } from "./origin";
+import { authConfiguration, currentSessionRole } from "./auth.ts";
+import { isSameOrigin } from "./origin.ts";
 
 export async function requireApiSession(request: Request): Promise<Response | null> {
   let role;

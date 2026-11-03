@@ -14,7 +14,7 @@ try {
   await access("public/profile-photo.jpg");
   await cp("public/profile-photo.jpg", join(destination, "profile-photo.jpg"));
 } catch (error) { if (error.code !== "ENOENT") throw error; }
-for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan"]) {
+for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan"]) {
   const directory = join(destination, route);
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, "index.html"), renderPage(template, { page: "static-unavailable" }));

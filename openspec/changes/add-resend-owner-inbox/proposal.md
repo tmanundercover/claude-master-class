@@ -13,7 +13,7 @@ The portfolio contact form currently cannot deliver messages, and the owner work
 - Deliver the public contact form through the backend using Resend, directing submissions to the owner inbox and preserving the visitor's reply address.
 - Use Resend as the authoritative mail store; retain Firebase Auth and the existing Hosting/Functions deployment. Keep all provider credentials in ordinary Functions environment variables.
 - Support local acceptance through Auth, Hosting, and Functions emulators with an in-process mail fixture adapter. Live provider operations and DNS changes remain separate operational tasks.
-- **BREAKING (mail routing):** plan a direct receiving-MX cutover for `thehandsomestnerd.com` from its current Google routing to Resend. The chosen direction is confirmed; capture actual DNS records, other active recipients, provider verification, rollback, and explicit operational authorization before executing the cutover.
+- **BREAKING** (mail routing): plan a direct receiving-MX cutover for `thehandsomestnerd.com` from its current Google routing to Resend. The chosen direction is confirmed; capture actual DNS records, other active recipients, provider verification, rollback, and explicit operational authorization before executing the cutover.
 
 ## Capabilities
 

@@ -6,7 +6,7 @@ import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
 
 const fixtures = new Map([
-  ["functions/.env.local", "AI_API_KEY=unused-emulator-key\nAI_PROVIDER=\nAI_MODEL=\nAI_BASE_URL=\nAI_REASONING_EFFORT=\n"],
+  ["functions/.env.local", "RESEND_MODE=fixture\nRESEND_INBOX_ID=fixture-owner\nRESEND_WEBHOOK_SECRET=whsec_Zml4dHVyZS1zaWduaW5nLXNlY3JldA==\nAI_API_KEY=unused-emulator-key\nAI_PROVIDER=\nAI_MODEL=\nAI_BASE_URL=\nAI_REASONING_EFFORT=\n"],
 ]);
 const previous = new Map();
 const configDirectory = await mkdtemp(join(tmpdir(), "portfolio-firebase-test-"));
@@ -30,7 +30,7 @@ try {
   }
   child = spawn(process.execPath, [
     "node_modules/firebase-tools/lib/bin/firebase.js",
-    "emulators:exec", "--config", configPath, "--only", "auth,hosting,functions", "--project", "demo-portfolio-migration",
+    "emulators:exec", "--inspect-functions", String(await unusedPort()), "--config", configPath, "--only", "auth,hosting,functions", "--project", "demo-portfolio-migration",
     "node scripts/run-emulator-tests.mjs",
   ], {
     stdio: "inherit",

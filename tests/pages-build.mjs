@@ -20,6 +20,7 @@ test("Pages contains rendered portfolio content, crawler metadata, and hydration
   assert.match(html, /property="og:description"/);
   assert.match(html, /id="page-data" type="application\/json">\{"page":"home"/);
   assert.ok(!html.includes("<!--app-"));
+  assert.match(html, /Message delivery is unavailable on this static site/);
 });
 
 test("Pages internal links and assets respect the configured base path", async () => {
@@ -36,7 +37,7 @@ test("Pages internal links and assets respect the configured base path", async (
 });
 
 test("static private routes show availability and never embed private page data", async () => {
-  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan"]) {
+  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan"]) {
     const page = await readFile(join(directory, route, "index.html"), "utf8");
     assert.match(page, /The private workspace needs Firebase Functions/);
     assert.match(page, /"page":"static-unavailable"/);
@@ -56,7 +57,7 @@ test("Pages artifact excludes private data, server code, environment files, and 
     assert.doesNotMatch(path, /(?:entry-server|\.env|\.mp4|\.zip|snapshot|\.map$)/);
     if (path.endsWith(".js")) {
       const source = await readFile(path, "utf8");
-      assert.equal(/createHmac|readSessionRole|process\.env\.(?:AI_|SITE_PASSWORD|SESSION_SECRET)|Sanity homepage archive|Situation:/.test(source), false, `Private data found in ${path}`);
+      assert.equal(/Local correspondence|Local attachment only|fixture-owner|createHmac|readSessionRole|process\.env\.(?:AI_|SITE_PASSWORD|SESSION_SECRET)|Sanity homepage archive|Situation:/.test(source), false, `Private data found in ${path}`);
     }
   }
 });

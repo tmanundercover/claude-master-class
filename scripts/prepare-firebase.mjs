@@ -6,6 +6,7 @@ const hosting = "dist/hosting";
 await rm(hosting, { recursive: true, force: true });
 await mkdir(hosting, { recursive: true });
 await cp("dist/client/assets", join(hosting, "assets"), { recursive: true });
+await cp("src/assets/mail-icons", join(hosting, "email-icons"), { recursive: true });
 const template = await readFile("dist/client/index.html", "utf8");
 await writeFile(join(hosting, "index.html"), renderPage(template, publicPageData()));
 try {

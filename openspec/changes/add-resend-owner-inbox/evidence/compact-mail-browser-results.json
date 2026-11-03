@@ -1,0 +1,67 @@
+[
+  {
+    "width": 375,
+    "contact": true,
+    "reply": true,
+    "compose": true,
+    "drafts": true,
+    "ccBcc": true,
+    "attachments": true,
+    "forward": true,
+    "labels": true,
+    "searchPagination": true,
+    "organization": true,
+    "contacts": true,
+    "settings": true,
+    "htmlSandbox": true,
+    "templatePreview": true,
+    "templateDraftRetained": true,
+    "fullContactLinks": true,
+    "copyEmail": true,
+    "bulkRead": true,
+    "contactFocusSpacing": true,
+    "overflow": false,
+    "hydrationErrors": []
+  },
+  {
+    "width": 375,
+    "guestInboxDenied": true
+  },
+  {
+    "recovery": true,
+    "sessionExpiry": true,
+    "uncertainSendDeduplicated": true,
+    "emptyStaleError": true,
+    "obsoleteResponsesSuppressed": true,
+    "hiddenTabPollingPaused": true,
+    "rateLimitBackoff": true
+  },
+  {
+    "width": 1440,
+    "contact": true,
+    "reply": true,
+    "compose": true,
+    "drafts": true,
+    "ccBcc": true,
+    "attachments": true,
+    "forward": true,
+    "labels": true,
+    "searchPagination": true,
+    "organization": true,
+    "contacts": true,
+    "settings": true,
+    "htmlSandbox": true,
+    "templatePreview": true,
+    "templateDraftRetained": true,
+    "fullContactLinks": true,
+    "copyEmail": true,
+    "bulkRead": true,
+    "contactFocusSpacing": true,
+    "overflow": false,
+    "hydrationErrors": []
+  },
+  {
+    "width": 1440,
+    "guestInboxDenied": true
+  }
+]

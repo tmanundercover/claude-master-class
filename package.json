@@ -22,7 +22,8 @@
     "firebase:deploy": "firebase deploy --only functions:portfolio,hosting",
     "test:firebase": "node --test tests/firebase-build.mjs",
     "test:firebase:emulator": "npm run build:firebase && node scripts/test-firebase-emulator.mjs",
-    "firebase:seed-auth": "node scripts/seed-auth-emulator.mjs"
+    "firebase:seed-auth": "node scripts/seed-auth-emulator.mjs",
+    "test:mail:browser": "npm run build:firebase && node scripts/test-firebase-emulator.mjs --browser-script scripts/test-mail-browser.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.135.0",
@@ -37,6 +38,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-scroll": "1.9.3",
+    "resend": "6.37.0",
+    "sanitize-html": "2.18.1",
     "simple-icons": "^16.35.0"
   },
   "devDependencies": {
@@ -45,12 +48,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-scroll": "1.8.10",
+    "@types/sanitize-html": "2.16.2",
     "@vitejs/plugin-react": "6.1.2",
     "eslint": "^9",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.0.0",
     "firebase-tools": "15.34.2",
     "globals": "^16.5.0",
+    "playwright": "1.58.2",
     "typescript": "^5",
     "typescript-eslint": "^8.56.0",
     "vite": "8.3.5"

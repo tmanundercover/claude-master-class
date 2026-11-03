@@ -29,6 +29,7 @@ export type PageData =
   | { page: "home"; home: HomeData }
   | { page: "login"; hasWelcomeVideo: boolean }
   | { page: "dashboard"; evidence: EvidenceSummary }
+  | { page: "inbox" }
   | { page: "tool"; id: string }
   | { page: "resume"; resume: ResumeData }
   | { page: "interview"; interview: InterviewData }

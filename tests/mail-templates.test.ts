@@ -1,0 +1,34 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync, existsSync } from 'node:fs';
+import type { PublicProfile } from '../src/app-types';
+import { resumeMailTemplate, resumeContactLink, previewEmailDocument } from '../src/lib/mail-templates.ts';
+
+const profile = JSON.parse(readFileSync(new URL('../data/profile.json', import.meta.url), 'utf8')) as PublicProfile;
+test('résumé email keeps full active contact links, emphasizes usernames, and packages every referenced PNG icon', () => {
+  const template = resumeMailTemplate(profile);
+  for (const url of [profile.contact.linkedin, profile.contact.github]) {
+    const username = new URL(url).pathname.split('/').at(-1)!;
+    const link = resumeContactLink(url, url === profile.contact.github ? 'github' : 'linkedin');
+    assert.ok(link.includes(`href="${url}"`));
+    assert.ok(link.includes(`>${username}</strong>`));
+    assert.ok(link.replace(/<[^>]*>/g, '').includes(url));
+    assert.ok(template.text.includes(url));
+  }
+  for (const match of template.html.matchAll(/\/email-icons\/([a-z0-9-]+)\.png/g)) assert.ok(existsSync(new URL(`../src/assets/mail-icons/${match[1]}.png`, import.meta.url)), match[1]);
+  assert.ok(template.html.includes(profile.education[0]));
+  assert.ok(Buffer.byteLength(template.html + template.text) < 512 * 1024);
+  assert.throws(() => resumeContactLink('javascript:alert(1)', 'github'));
+});
+test('template escapes profile text and never serializes private project evidence', () => {
+  const dirty = structuredClone(profile);
+  dirty.name = '<script>alert("resume")</script>';
+  (dirty.projects[0] as unknown as Record<string, unknown>).evidence = ['PRIVATE-EVIDENCE-SENTINEL'];
+  const template = resumeMailTemplate(dirty);
+  assert.ok(!template.html.includes('<script>'));
+  assert.ok(template.html.includes('&lt;script&gt;'));
+  assert.ok(!JSON.stringify(template).includes('PRIVATE-EVIDENCE-SENTINEL'));
+  const preview = previewEmailDocument('<script>alert(1)</script><form action="https://example.test"></form>');
+  assert.ok(preview.indexOf("default-src 'none'") < preview.indexOf('<script>'));
+  assert.ok(preview.includes("form-action 'none'"));
+});
