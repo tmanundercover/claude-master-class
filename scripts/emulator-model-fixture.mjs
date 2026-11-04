@@ -6,6 +6,7 @@ export async function emulatorModelFixture(request, { ModelError }) {
   if (jd.includes('[fixture:rate-limit]')) throw new ModelError('Controlled provider rate limit.', 429, '17');
   if (jd.includes('[fixture:provider-error]')) throw new ModelError('Controlled provider failure.', 502);
   if (jd.includes('[fixture:malformed]')) return { incomplete: true };
+  if (request.schema.properties.company) return { company: jd.includes('Acme') ? 'Acme' : null, title: jd.includes('Engineer') ? 'Engineer' : null, location: null, requisition: null };
   if (request.schema.properties.headline) {
     const evidence = input.verifiedCandidateEvidence;
     if (!evidence.sources.some(source => source.text.length > 30)) throw new Error('Readable evidence is required.');
@@ -40,7 +41,7 @@ export async function emulatorModelFixture(request, { ModelError }) {
     return result;
   }
   if (request.schema.properties.letter) return {
-    letter: Array.from({ length: 20 }, () => 'I build dependable business applications and practical workflows for teams.').join(' '),
+    letter: Array.from({ length: 20 }, () => `${input.generationMode === 'revise' ? 'Revised' : input.generationMode === 'start-over' ? 'Fresh' : 'Initial'}: I build dependable business applications and practical workflows for teams.`).join(' '),
     evidenceUsed: ['Business allocation workflows at Addition.', 'Property-listing website with contact delivery.'], factsToVerify: [],
   };
   if (input.requestedMode === 'interview') return {

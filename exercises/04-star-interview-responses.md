@@ -1,4 +1,4 @@
-# 04 - Build STAR Interview Responses
+# Lesson 7 — Interview room
 
 ## Why
 
@@ -6,7 +6,13 @@ Turn verified resume evidence into a private, browsable interview room. Recruite
 need a quick way to scan relevant stories; interviewers need the full response,
 transcript, and source experience. The owner still needs a separate workspace.
 
-This exercise extends the classroom authentication from exercise 00. It does not
+This lesson follows Firebase authentication (Lesson 2) and Resume Tailor (Lesson 6).
+The interview room, source-linked responses and reduced-motion handling are supplied;
+inspect/verify them and agree on one bounded extension. No recordings ship in the repository.
+
+The legacy exercise 04 identifier inside the preserved prompt means this file,
+`exercises/04-star-interview-responses.md`; Resume Tailor is the other legacy 04 path.
+This exercise extends the classroom authentication from the legacy exercise 00. It does not
 add public accounts or claim that a a role dropdown is identity.
 
 Visitor-facing copy should describe interview questions and answers. Keep STAR and
@@ -57,9 +63,21 @@ Build `/interview` and update the role-selection experience at `/login`.
 Seed emulator accounts with `npm run dev` or `npm run firebase:seed-auth`.
 Local credentials are in the ignored `.firebase/auth-users.local.json` file.
 
-## Good Prompt
+## Explore and refine — assistant chat
+
+Prerequisites and acceptance checks below define this lesson's scope. Copy this
+whole block, including the wrapper. Discuss what already works and agree on one
+bounded improvement or verification task before proposing. Use the corresponding
+installed invocation for other assistants from [Lesson 0](openspec-workflow.md).
 
 ```text
+$openspec-explore
+Explore only Lesson 7 — Interview room in exercises/04-star-interview-responses.md.
+The original prompt below is a feature brief: its implementation verbs describe
+our desired outcome. Inspect supplied behavior, discuss unknowns and tradeoffs,
+and refine the acceptance checks with me. Do not edit implementation files or
+create planning artifacts yet. Preserve satisfied behavior and unrelated work.
+
 Implement exercise 04 in this existing Vite React app.
 Trace the Express request adapter, Vite entries, and server-only imports before editing auth or routing.
 Preserve the owner dashboard and tool APIs. Add Recruiter, Interviewer, and Terrell
@@ -87,12 +105,48 @@ experience tests; run the full checks; and report missing recordings or delivery
 infrastructure separately from what actually works.
 ```
 
+## Propose, review, then Apply
+
+After exploration is satisfactory, send this separate assistant instruction:
+
+```text
+$openspec-propose lesson-interview-room
+Use our agreed Lesson 7 discussion only. Preserve satisfied behavior.
+Write planning artifacts; do not implement yet.
+```
+
+Review the proposal, design, applicable specs, and tasks. Confirm the named files,
+role boundaries, evidence rules, failure cases, and this lesson's observable checks.
+Correct the plan before proceeding. Then explicitly send:
+
+```text
+$openspec-apply-change lesson-interview-room
+Implement the reviewed lesson tasks and report actual verification results.
+```
+
+## Verify before continuing
+
+Run the lesson checks below and record expected versus actual results. Inspect
+supplied behavior instead of removing working features. An unchecked or failed
+check keeps this lesson open. Resume the same `lesson-interview-room` change after diagnosis;
+see [same-change recovery](openspec-workflow.md#same-change-recovery). No automatic
+sending, deployment, sync, or archive follows lesson completion.
+
+## Current-code notes
+
+The original prompt is retained verbatim above. Its `ExpandableExperience.tsx`
+name was superseded by `src/components/ExperienceCard.tsx` and related experience
+components; inspect current consumers rather than recreating a removed component.
+`functions/app.mjs` adapts requests, `src/entry-server.tsx` authorizes and renders,
+and Vite builds the client/server entries. Historical implementation verbs and
+numbers in the brief are desired behavior, not permission to edit during Explore.
+
 ## Implementation Shape
 
 - `src/lib/interview-responses.ts` owns the approved questions, summaries, filters,
   video paths, transcripts, source descriptions, and detailed experience bullets.
 - `data/profile.json` owns the public homepage experience summaries and bullets.
-- `src/components/ExpandableExperience.tsx` is the shared Motion client boundary used
+- `src/components/ExperienceCard.tsx` is the shared Motion interaction used
   by the response modal and homepage; do not duplicate the click-to-expand state machine.
 - `src/entry-server.tsx` checks which local MP4 files exist before handing their
   IDs to `src/pages/Interview.tsx` and the client library. The repository intentionally ships no recordings.
@@ -128,7 +182,7 @@ infrastructure separately from what actually works.
 
 | Boundary | Do | Don't |
 |---|---|---|
-| Identity | Sign and authorize the selected role on the server | Trust a dropdown, query string, or localStorage role |
+| Identity | Authorize the Admin-assigned signed portfolioRole on the server | Trust a dropdown, query string, or localStorage role |
 | Secrets | Keep provider keys in Functions and let Firebase Auth verify passwords | Use `VITE_`, commit values, or log passwords |
 | Evidence | Trace every story to the verified profile and label missing media | Invent metrics, employers, outcomes, or recordings |
 | Playback | Autoplay list previews muted only while visible; give full videos controls | Autoplay sound or keep every offscreen video running |
@@ -147,3 +201,5 @@ Skip authorization tests because the page is hidden from navigation.
 
 This exposes credentials, confuses interface state with authorization, fabricates
 career evidence, wastes device resources, and reports an external action that did not happen.
+
+Previous: [Lesson 6 — Resume Tailor](04-resume-tailor.md) · Next: [Lesson 8 — Inbox](inbox.md).

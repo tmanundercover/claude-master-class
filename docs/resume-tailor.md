@@ -5,8 +5,7 @@ Sign in as the owner, open **Resume Tailor** from the workspace (or go directly 
 choose **Run tool**. No Job Fit result, score, or prior tool use is required.
 The page shows a complete, scrollable résumé preview, **Download HTML**, and
 **Copy plain text**. Sources and optional review notes appear below the preview
-and are excluded from both exports. A new submission clears the previous result
-and action feedback; failure produces an error without a fallback document.
+and are excluded from both exports. Pending or failed replacements preserve Current and Previous without manufacturing a fallback document. Export feedback resets when the selected saved version changes.
 
 ## Evidence and contracts
 
@@ -69,15 +68,19 @@ Long documents scroll in the preview and export in full.
 
 The inbox **Send my résumé** template remains a public-profile adapter with its
 subject, email introduction, sign-off, full contact URLs, and editable/autosaved
-draft behavior. Its sent icons retain portfolio URLs. Tailored results stay in
-page memory and never modify the profile, inbox template, or mail drafts.
-Exports are HTML and text; there is no PDF attachment, automatic send, application
-submission, or publication. Copy/download errors are shown while keeping the result.
+draft behavior. Its sent icons retain portfolio URLs. Tailored results persist in the private job workspace and never modify the approved profile or existing public-profile inbox template. HTML/text exports remain available alongside revision-bound PDFs. Application drafts require explicit preparation in the composer; nothing is sent, submitted, or published automatically. Copy/download errors are shown while keeping the result.
 
 ## Verification
 
 Unit tests cover evidence, contracts, assembly, rendering, and prompt boundaries.
 The Firebase Auth/Hosting/Functions harness covers authorization and HTTP errors.
-Controlled browser fixtures and real-provider writing evaluation are recorded
-separately in the change's `evidence/` directory. Fixture output is deterministic
+Current workspace browser evidence is recorded separately from real-provider writing evaluation in `openspec/changes/add-job-workspaces-and-versioned-artifacts/verification.md`. Focused browser scripts write only ignored/local evidence. Fixture output is deterministic
 acceptance evidence, not proof of real model writing quality.
+
+## Saved jobs and PDF documents
+
+Run résumé tailoring directly with a posting or reopen a saved job at `/dashboard/jobs`. A fit score is never required. The workspace saves structured content and Markdown, then automatically creates a matching résumé PDF. Revise uses Current plus requested changes; Start over writes fresh content for the same job. Compare Current with Previous and use Undo / Switch back to swap the pair. Only these two versions remain retrievable. PDF failure leaves saved text intact; Retry PDF uses that saved content without another model call.
+
+The public profile offers **Download résumé (PDF)** directly beneath its identity card. Both Firebase and Pages builds generate this standard document from the approved public profile without a model/storage request. The identical release bytes are packaged for the explicit standard-résumé email choice. Private tailored PDFs, notes, source evidence, and generation provenance never enter public exports. PDF components share the whitelisted résumé document model, palette, approved contacts and local skill icons with the existing HTML/email renderer; PDF margins/wrapping use print primitives. See [job-workspaces.md](job-workspaces.md).
+
+Tailored documents retain selected experience and main skills, include “Previous experience available upon request” when other roles are omitted, and list the remaining approved skills in a separate Additional skills cloud. HTML, Markdown/plain text and PDF share these sections. The public profile-card download is the full public résumé instead: all public roles and bullets, plus compact project entries with links. Download names use candidate-position-company-document-type-year rather than revision IDs.

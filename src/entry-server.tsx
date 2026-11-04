@@ -4,6 +4,7 @@ import { renderToString } from "react-dom/server";
 import App from "./App";
 import type { PageData } from "./app-types";
 import { authConfiguration, currentSessionRole } from "./lib/auth";
+import { applicationReturnReference } from "./lib/job-return";
 import { SESSION_ROLES, type SessionRole } from "./lib/session";
 import { tools } from "./lib/tools";
 import { interviewResponses } from "./lib/interview-responses";
@@ -20,7 +21,12 @@ import { inboxRoute } from "./server/routes/inbox";
 import { contactRoute } from "./server/routes/contact";
 import { mailEvents } from "./server/routes/mail-events";
 
+import { jobWorkspaceRoute } from "./server/routes/job-workspaces";
+import { profilePhotoRoute } from './server/profile-photo';
+
 const apiRoutes: Record<string, Partial<Record<string, (request: Request) => Promise<Response>>>> = {
+  '/api/profile-photo': { GET: profilePhotoRoute, HEAD: profilePhotoRoute, POST: profilePhotoRoute },
+  '/api/profile-photo/settings': { GET: profilePhotoRoute },
   "/api/contact": { POST: contactRoute },
   "/api/mail/events": { POST: mailEvents },
   "/api/auth/config": { GET: auth.configuration },
@@ -48,7 +54,11 @@ async function authorize(request: Request, allowedRoles: readonly SessionRole[])
   try {
     authConfiguration();
     const role = await currentSessionRole(request);
-    if (!role) return new Response(null, { status: 307, headers: { Location: "/login" } });
+    if (!role) {
+      const url = new URL(request.url);
+      const reference = url.pathname.startsWith('/dashboard/') ? applicationReturnReference(url.search) : null;
+      return new Response(null, { status: 307, headers: { Location: reference ? `/login?applicationReturn=${encodeURIComponent(reference)}` : '/login' } });
+    }
     if (!allowedRoles.includes(role)) return new Response(null, { status: 307, headers: { Location: "/interview" } });
     return role;
   } catch {
@@ -65,6 +75,7 @@ export async function authorizeMedia(request: Request): Promise<Response | null>
 export async function resolveRequest(request: Request, publicRoot = join(process.cwd(), "public")): Promise<PageData | Response> {
   const pathname = new URL(request.url).pathname.replace(/\/+$/, "") || "/";
   if (pathname === "/api" || pathname.startsWith("/api/")) {
+    if (pathname === "/api/job-workspaces" || pathname.startsWith("/api/job-workspaces/")) return jobWorkspaceRoute(request);
     if (pathname === "/api/inbox" || pathname.startsWith("/api/inbox/")) return inboxRoute(request);
     const handlers = apiRoutes[pathname];
     if (!handlers) return Response.json({ error: "API route not found." }, { status: 404 });
@@ -95,6 +106,8 @@ export async function resolveRequest(request: Request, publicRoot = join(process
       }),
       availableVideoIds: interviewResponses.filter((item) => hasPublicFile(item.videoSrc.slice(1), publicRoot)).map((item) => item.id),
     } };
+    if (pathname === "/dashboard/jobs") return { page: "jobs" };
+    if (/^\/dashboard\/jobs\/[A-Za-z0-9_-]{8,128}$/.test(pathname)) return { page: "job", id: pathname.split("/").at(-1)! };
     if (pathname === "/dashboard/inbox") return { page: "inbox" };
     if (pathname === "/dashboard") return { page: "dashboard", evidence: getResumeEvidenceSummary() };
     if (pathname === "/dashboard/resume") return { page: "resume", resume: {
@@ -129,4 +142,12 @@ export function renderPage(template: string, data: PageData): string {
   return template.replace("<!--app-head-->", () => head)
     .replace("<!--app-html-->", () => renderToString(<App data={data} profile={publicData} />))
     .replace("<!--app-data-->", () => serialized);
+}
+
+// Server/build-only entry for packaging and the Node runtime compatibility probe.
+import { renderResumePdf, pdfIconsDirectory } from "./server/jobs/pdf";
+import { publicResumeDocument } from "./lib/resume-document";
+export { renderResumePdf };
+export async function publicStandardResumePdf() {
+  return renderResumePdf(publicResumeDocument(publicProfile(), { full: true }), await pdfIconsDirectory(), { compactProjects: true });
 }

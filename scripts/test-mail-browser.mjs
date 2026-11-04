@@ -204,7 +204,7 @@ try {
     await composer.getByLabel('Subject', { exact: true }).fill(`Saved draft ${width}`); await composer.getByLabel('Message', { exact: true }).fill(`Draft content ${width}`);
     await composer.locator('input[type=file]').setInputFiles({ name: 'browser-note.txt', mimeType: 'text/plain', buffer: Buffer.from('Browser attachment') });
     // Browsing is read-only; Edit HTML makes an editable copy in this draft.
-    await composer.locator('.mail-html-section > summary').click();
+    await composer.locator('.mail-html-section > summary').filter({ hasText: 'HTML & templates' }).click();
     await composer.getByLabel('Email template', { exact: true }).selectOption('resume');
     await composer.getByRole('button', { name: 'Preview template', exact: true }).click();
     const preview = composer.frameLocator('iframe[title="HTML email preview"]');
@@ -267,7 +267,7 @@ try {
     await page.locator('.mail-thread').filter({ hasText: `Saved draft ${width}` }).click();
     composer = page.getByRole('region', { name: 'Mail composer' }); assert.equal(await composer.getByLabel('Message', { exact: true }).inputValue(), `Draft content ${width}`);
     await composer.getByText('browser-note.txt', { exact: true }).waitFor();
-    await composer.locator('.mail-html-section > summary').click();
+    await composer.locator('.mail-html-section > summary').filter({ hasText: 'HTML & templates' }).click();
     await composer.frameLocator('iframe[title="HTML email preview"]').getByRole('heading', { name: 'James Terrell Singleton', exact: true }).waitFor();
     await composer.frameLocator('iframe[title="HTML email preview"]').getByText(oneTimeNote, { exact: true }).waitFor();
     await composer.getByRole('button', { name: 'Send message', exact: true }).click(); await composer.getByRole('status').filter({ hasText: 'Accepted for sending' }).waitFor(); await composer.getByRole('button', { name: 'Close composer' }).click();

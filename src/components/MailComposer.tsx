@@ -5,9 +5,17 @@ import MailHtmlEditor from './MailHtmlEditor';
 import { MailIcon, MailIconButton } from './MailUI';
 import { mailApi, jsonWrite, MailClientError } from '../lib/mail-client';
 export type ComposerTarget = { draft?: Draft; threadId?: string; emailId?: string; action?: 'reply' | 'reply-all' | 'forward'; initial?: Partial<Composition> };
+import ApplicationComposerTools, { type DocumentChoices } from './ApplicationComposerTools';
+import { jobRequest } from '../lib/job-client';
+import { applicationMailTemplate } from '../lib/application-template';
+import type { ApplicationLink } from '../server/jobs/application';
+import type { Workspace } from '../lib/job-contracts';
 const blank: Composition = { to: [], cc: [], bcc: [], subject: '', text: '', html: '' };
 export default function MailComposer({ target, contacts, profile, onClose, onSent }: { profile: PublicProfile; target: ComposerTarget; contacts: MailContact[]; onClose: () => void; onSent: () => void }) {
   const original = target.draft;
+  const [applicationBusy, setApplicationBusy] = useState(false);
+  const [applicationLink, setApplicationLink] = useState<ApplicationLink | null>(null);
+  const preparation = useRef<{ hash: string; attempt: string } | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [content, setContent] = useState<Composition>(() => ({ ...blank, ...target.initial, ...(original ? { to: original.to ?? [], cc: original.cc, bcc: original.bcc, subject: original.subject ?? '', text: original.text ?? '', html: original.html ?? '', ...(original.thread_id ? { threadId: original.thread_id, replyToEmailId: original.reply_to_email_id! } : {}) } : {}), ...(target.threadId && target.action !== 'forward' ? { threadId: target.threadId, replyToEmailId: target.emailId } : {}) }));
   const [recipients, setRecipients] = useState(() => ({ to: content.to.join(', '), cc: content.cc.join(', '), bcc: content.bcc.join(', ') }));
@@ -51,16 +59,50 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
     };
   }, []);
   useEffect(() => {
-    if (frozen || sending || sent || (!draftId.current && !hasDraftContent(content)) || JSON.stringify(content) === saved.current) return;
+    if (applicationBusy || frozen || sending || sent || (!draftId.current && !hasDraftContent(content)) || JSON.stringify(content) === saved.current) return;
     const timer = window.setTimeout(() => { if (!paused.current) void saveRef.current?.(content).catch(() => {}); }, 900);
     return () => clearTimeout(timer);
-  }, [content, frozen, sending, sent]);
+  }, [content, frozen, sending, sent, applicationBusy]);
   useEffect(() => {
     const guard = (event: BeforeUnloadEvent) => { if (JSON.stringify(latest.current) !== saved.current || paused.current) event.preventDefault(); };
     window.addEventListener('beforeunload', guard); return () => window.removeEventListener('beforeunload', guard);
   }, []);
+  useEffect(() => {
+    if (!original?.id) return;
+    let active = true;
+    void jobRequest<{ link: ApplicationLink | null; attachments?: Composition['attachments'] }>(`/application-drafts/${original.id}`).then(data => {
+      if (!active || !data.link) return;
+      setApplicationLink(data.link);
+      if (data.attachments && latest.current.attachments === undefined && JSON.stringify(latest.current) === saved.current) {
+        const next = { ...latest.current, attachments: data.attachments }; latest.current = next; setContent(next); saved.current = JSON.stringify(next);
+      }
+    }).catch(() => { /* Normal native drafts do not require workspace storage. */ });
+    return () => { active = false; };
+  }, [original?.id]);
+  async function prepare(workspace: Workspace, action: 'apply' | 'refresh' | 'handoff', choices: DocumentChoices) {
+    if (applicationBusy || frozen || sending || sent) return;
+    paused.current = true; setApplicationBusy(true); setError('');
+    try {
+      await queue.current.catch(() => {});
+      let snapshot = latest.current;
+      if (!snapshot.subject && !snapshot.text && !snapshot.html) {
+        const initial = applicationMailTemplate(profile, workspace, { resume: null, coverLetter: false });
+        snapshot = { ...snapshot, subject: initial.subject, text: initial.text, html: initial.html }; edit(snapshot);
+      }
+      const id = await saveRef.current!(snapshot);
+      const payload = { draftId: id, content: snapshot, action, ...choices };
+      const identity = JSON.stringify({ workspaceId: workspace.id, ...payload });
+      if (preparation.current?.hash !== identity) preparation.current = { hash: identity, attempt: crypto.randomUUID() };
+      const operation = queue.current.catch(() => {}).then(() => jobRequest<{ link: ApplicationLink; content: Composition }>(`/${workspace.id}/application-draft`, 'POST', { ...payload, attemptId: preparation.current!.attempt }));
+      queue.current = operation;
+      const result = await operation;
+      latest.current = result.content; setContent(result.content); saved.current = JSON.stringify(result.content); setStatus('Saved'); setApplicationLink(result.link); preparation.current = null;
+      if (action === 'handoff') { paused.current = false; window.location.assign(`/dashboard/jobs/${workspace.id}?tool=resume&return=${encodeURIComponent(result.link.returnRef)}`); }
+    } catch (error) { setStatus('Application save failed — edits retained'); setError((error as Error).message); }
+    finally { paused.current = false; setApplicationBusy(false); }
+  }
   async function send(event: FormEvent) {
-    event.preventDefault(); if (sending || sent) return;
+    event.preventDefault(); if (sending || sent || applicationBusy) return;
     if (!latest.current.to.length || !(latest.current.text || latest.current.html) || (!latest.current.threadId && !latest.current.subject)) {
       setError('Add a recipient, subject, and message before sending.'); return;
     }
@@ -86,22 +128,26 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
   async function files(selected: FileList | null) {
     if (!selected) return;
     try {
+      if (original?.attachments.length && latest.current.attachments === undefined) throw new Error('Wait for saved attachment recovery before adding files. Existing files remain in the draft.');
       const list = Array.from(selected);
       if (list.length > MAIL_LIMITS.files || list.reduce((n, f) => n + f.size, 0) > MAIL_LIMITS.attachments || list.some(f => !FILE_TYPES.includes(f.type) || !f.size)) throw new Error('Use up to 10 supported, nonempty files totaling at most 10 MiB.');
       const attachments = await Promise.all(list.map(file => new Promise<{ filename: string; contentType: string; content: string }>((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve({ filename: file.name, contentType: file.type, content: String(reader.result).split(',')[1] }); reader.onerror = () => reject(new Error('Could not read attachment.')); reader.readAsDataURL(file); })));
-      edit({ ...latest.current, attachments });
+      const combined = [...(latest.current.attachments ?? []), ...attachments];
+      if (combined.length > MAIL_LIMITS.files || combined.reduce((n, file) => n + atob(file.content).length, 0) > MAIL_LIMITS.attachments) throw new Error('Combined attachments exceed the 10-file / 10 MiB limit.');
+      edit({ ...latest.current, attachments: combined });
     } catch (error) { setError((error as Error).message); }
   }
   const recipient = (field: 'to' | 'cc' | 'bcc') => <label>{field.toUpperCase()}<input list="mail-contact-suggestions" value={recipients[field]} disabled={frozen || sending || (field === 'to' && !!target.action && target.action !== 'forward')} onChange={event => { const value = event.target.value; setRecipients(v => ({ ...v, [field]: value })); edit({ ...latest.current, [field]: value.split(',').map(s => s.trim()).filter(Boolean) }); }} /></label>;
   return <section className={`mail-composer ${expanded ? 'mail-composer-expanded' : ''}`} aria-label="Mail composer">
-    <div className="mail-heading"><h2>{target.action ? target.action.replace('-', ' ') : 'New message'}</h2><div className="mail-heading-tools"><MailIconButton name="expand" label={expanded ? 'Restore composer' : 'Expand composer'} onClick={() => setExpanded(v => !v)} /><MailIconButton name="close" label="Close composer" onClick={onClose} disabled={!sent && (sending || frozen || (status !== 'Saved' && status !== 'Ready to write'))} /></div></div>
+    <div className="mail-heading"><h2>{target.action ? target.action.replace('-', ' ') : 'New message'}</h2><div className="mail-heading-tools"><MailIconButton name="expand" label={expanded ? 'Restore composer' : 'Expand composer'} onClick={() => setExpanded(v => !v)} /><MailIconButton name="close" label="Close composer" onClick={onClose} disabled={!sent && (applicationBusy || sending || frozen || (status !== 'Saved' && status !== 'Ready to write'))} /></div></div>
     <form onSubmit={send}>
       <datalist id="mail-contact-suggestions">{contacts.map(c => <option key={c.id} value={c.email}>{c.first_name} {c.last_name}</option>)}</datalist>
-      <fieldset disabled={frozen || sending || sent}>
+      <fieldset disabled={applicationBusy || frozen || sending || sent}>
         {recipient('to')}<div className="mail-two">{recipient('cc')}{recipient('bcc')}</div>
         <label>Subject<input maxLength={998} value={content.subject} onChange={e => edit({ ...content, subject: e.target.value })} /></label>
         <label>Message<textarea aria-label="Message" rows={8} value={content.text} onChange={e => edit({ ...content, text: e.target.value })} /></label>
         {content.html && <p className="mail-limit-note">Edit the HTML below for the styled email. The message above is its plain-text alternative.</p>}
+        <ApplicationComposerTools link={applicationLink} busy={applicationBusy} prepare={prepare} />
         <MailHtmlEditor profile={profile} html={content.html} onEdit={html => edit({ ...latest.current, html })} onApply={template => edit({ ...latest.current, subject: template.subject, text: template.text, html: template.html })} />
         <label className="mail-attachment-input"><span><MailIcon name="attachment" /> Attachments</span><input type="file" multiple accept={FILE_TYPES.join(',')} onChange={e => void files(e.target.files)} /></label>
         <p className="mail-limit-note">Up to 10 files · 10 MiB total · PDF, text, CSV, images, ZIP</p>
@@ -110,11 +156,11 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
       </fieldset>
       <p className="mail-save-status" role="status">{status}</p>{copyNotice && <p role="status">{copyNotice}</p>}{error && <p role="alert" className="error">{error}</p>}
       <div className="mail-actions">
-        <button className="mail-send" type="submit" disabled={sending || sent}><MailIcon name="sent" />{sending ? 'Sending…' : frozen ? 'Retry unchanged send' : 'Send message'}</button>
-        <button type="button" disabled={sending || frozen || sent || !hasDraftContent(content)} onClick={() => void saveRef.current!(latest.current).catch(() => {})}>Save draft</button>
+        <button className="mail-send" type="submit" disabled={applicationBusy || sending || sent}><MailIcon name="sent" />{sending ? 'Sending…' : frozen ? 'Retry unchanged send' : 'Send message'}</button>
+        <button type="button" disabled={applicationBusy || sending || frozen || sent || !hasDraftContent(content)} onClick={() => void saveRef.current!(latest.current).catch(() => {})}>Save draft</button>
         <button type="button" onClick={() => void navigator.clipboard.writeText(JSON.stringify({ ...content, attachments: content.attachments?.map(a => a.filename) }, null, 2)).then(() => setCopyNotice('Copied editable content')).catch(() => setError('Copy failed. Select and copy your message manually.'))}>Copy content</button>
         {error && needsSignIn && <a href="/login" target="_blank" rel="noopener noreferrer">Sign in in another tab</a>}
-        {!frozen && !sending && <button type="button" onClick={async () => { paused.current = true; await queue.current.catch(() => {}); try { if (draftId.current) await mailApi(`drafts/${draftId.current}`, jsonWrite('DELETE')); onClose(); onSent(); } catch (error) { paused.current = false; setError((error as Error).message); } }}>Discard draft</button>}
+        {!applicationBusy && !frozen && !sending && <button type="button" onClick={async () => { paused.current = true; await queue.current.catch(() => {}); try { if (draftId.current) await mailApi(`drafts/${draftId.current}`, jsonWrite('DELETE')); onClose(); onSent(); } catch (error) { paused.current = false; setError((error as Error).message); } }}>Discard draft</button>}
       </div>
     </form>
   </section>;

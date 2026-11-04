@@ -33,8 +33,6 @@ export function modelConfiguration(): ModelConfig {
   if (provider === "openai-compatible") {
     if (!baseURL) throw new ModelConfigurationError("AI_BASE_URL is required when AI_PROVIDER is openai-compatible.");
     config.baseURL = baseURL;
-  } else if (baseURL) {
-    throw new ModelConfigurationError("AI_BASE_URL is only used when AI_PROVIDER is openai-compatible. Leave it empty.");
   }
 
   const effort = env("AI_REASONING_EFFORT");

@@ -22,3 +22,6 @@ functions/public/
 functions/.env*
 !functions/.env.example
 functions/.secret*
+
+# Private job-workspace fixtures
+.job-workspace-fixtures/

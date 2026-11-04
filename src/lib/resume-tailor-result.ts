@@ -76,6 +76,8 @@ export function assembleTailorResult(result: TailorModelResult, profile: Candida
       name: profile.name, location: profile.location, contact: { email: profile.contact.email, linkedin: profile.contact.linkedin, github: profile.contact.github },
       education: [...profile.education], headline: result.headline.text, summary: result.summary.text,
       skills: result.skills.map(id => evidence.skills.find(skill => skill.id === id)!.text),
+      previousExperienceAvailableUponRequest: result.experience.length < profile.experience.length,
+      additionalSkills: evidence.skills.filter(skill => !result.skills.includes(skill.id)).map(skill => skill.text),
       experience: result.experience.map(role => {
         const source = profile.experience[evidence.experience.findIndex(item => item.id === role.id)];
         return { title: source.title, organization: source.organization, period: source.period, summary: role.summary.text, bullets: role.bullets.map(bullet => bullet.text) };

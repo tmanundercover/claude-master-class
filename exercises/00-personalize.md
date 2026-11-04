@@ -1,4 +1,4 @@
-# 00 - PDF to Your Portfolio
+# Lesson 1 — Personalize your portfolio
 
 ## Why
 
@@ -6,6 +6,20 @@ Learn to turn unstructured and historical source material into reviewed structur
 data without asking AI to invent a professional identity. One current profile grounds
 the public portfolio and private tools; an optional normalized archive can add dated
 evidence without replacing the current résumé.
+
+## Prerequisites and current supplied behavior
+
+Complete [Lesson 0](openspec-workflow.md). The supplied portfolio already renders
+approved current facts and historical evidence. Use your own approved identity;
+do not erase the maintainer's real profile to recreate a fictional starter.
+
+## Source-fact approval gate
+
+First use the extraction exploration block below with redacted attachments. Review
+all extracted facts, omissions and conflicts. Explicitly approve the public facts
+before requesting the personalization proposal. Approval of facts is separate
+from approval of implementation. Do not edit portfolio files during extraction
+or exploration. The implementation brief stays inactive until both reviews pass.
 
 ## Work
 
@@ -15,9 +29,21 @@ Do not upload raw sources to the portfolio or commit them. Inspect `data/profile
 export, normalize only approved résumé records into a small JSON evidence file; do not
 ship its raw backup, binary assets, drafts, or unrelated CMS documents.
 
-## Good Prompt
+## Explore and refine — assistant chat
+
+Prerequisites and acceptance checks below define this lesson's scope. Copy this
+whole block, including the wrapper. Discuss what already works and agree on one
+bounded improvement or verification task before proposing. Use the corresponding
+installed invocation for other assistants from [Lesson 0](openspec-workflow.md).
 
 ```text
+$openspec-explore
+Explore only Lesson 1 — Personalize your portfolio in exercises/00-personalize.md.
+The original prompt below is a feature brief: its implementation verbs describe
+our desired outcome. Inspect supplied behavior, discuss unknowns and tradeoffs,
+and refine the acceptance checks with me. Do not edit implementation files or
+create planning artifacts yet. Preserve satisfied behavior and unrelated work.
+
 Use my attached resume PDF and project notes as evidence.
 Inspect data/profile.json and its consumers before editing.
 Extract my identity, experience, skills, projects, education, and approved contact.
@@ -34,6 +60,33 @@ historical evidence explorer owner-only in the private dashboard.
 Update the public portfolio and metadata; preserve login and exercise shells.
 Check 375px and 1440px layouts. Explain the edits and remaining unknowns.
 ```
+
+## Propose, review, then Apply
+
+After exploration is satisfactory, send this separate assistant instruction:
+
+```text
+$openspec-propose lesson-personalize-portfolio
+Use our agreed Lesson 1 discussion only. Preserve satisfied behavior.
+Write planning artifacts; do not implement yet.
+```
+
+Review the proposal, design, applicable specs, and tasks. Confirm the named files,
+role boundaries, evidence rules, failure cases, and this lesson's observable checks.
+Correct the plan before proceeding. Then explicitly send:
+
+```text
+$openspec-apply-change lesson-personalize-portfolio
+Implement the reviewed lesson tasks and report actual verification results.
+```
+
+## Verify before continuing
+
+Run the lesson checks below and record expected versus actual results. Inspect
+supplied behavior instead of removing working features. An unchecked or failed
+check keeps this lesson open. Resume the same `lesson-personalize-portfolio` change after diagnosis;
+see [same-change recovery](openspec-workflow.md#same-change-recovery). No automatic
+sending, deployment, sync, or archive follows lesson completion.
 
 ## Done When
 
@@ -74,6 +127,13 @@ This expands scope and crosses the public/private boundary.
 ## Good Extraction Prompt
 
 ```text
+$openspec-explore
+Explore only Lesson 1 — Personalize your portfolio in exercises/00-personalize.md.
+The original prompt below is a feature brief: its implementation verbs describe
+our desired outcome. Inspect supplied behavior, discuss unknowns and tradeoffs,
+and refine the acceptance checks with me. Do not edit implementation files or
+create planning artifacts yet. Preserve satisfied behavior and unrelated work.
+
 Extract facts from my redacted resume and project notes into the existing profile
 schema. If an older portfolio export is available, normalize its approved dated roles,
 projects, skills, versions, and proficiency values into a separate evidence snapshot.
@@ -82,5 +142,7 @@ facts for my review before changing files. Do not invent achievements or publish
 source documents. Wait for my approval.
 ```
 
-Use the good implementation prompt above only after approving the extracted facts.
-Next: [build authentication](00-authentication.md) before opening private tools.
+Use the implementation exploration brief above only after approving the extracted facts.
+Review the proposal separately before applying portfolio edits.
+
+Previous: [Lesson 0 — OpenSpec workflow](openspec-workflow.md) · Next: [Lesson 2 — Firebase authentication](00-authentication.md).

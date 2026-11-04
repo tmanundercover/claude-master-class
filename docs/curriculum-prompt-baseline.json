@@ -1,0 +1,55 @@
+{
+  "algorithm": "SHA-256 over exact UTF-8 bytes inside original text fence, including final newline; exploration prefix excluded",
+  "coordination": "User confirmed the job-workspace session finished and released exercises/03-career-plan.md before its baseline capture and curriculum edits on 2026-11-04. Its private-notes and saved-version acceptance changes are preserved.",
+  "prompts": [
+    {
+      "sourcePath": "exercises/00-personalize.md",
+      "originalHeading": "Good Prompt",
+      "block": "implementation",
+      "sha256": "eb0bd9d46228e8839aae161ebc33e714d34621898fc1889070b0742b520a03fc",
+      "bytes": 1110,
+      "capture": "2026-11-04, before curriculum edits to this unshared file; shared career-plan baseline captured later after handoff"
+    },
+    {
+      "sourcePath": "exercises/00-personalize.md",
+      "originalHeading": "Good Extraction Prompt",
+      "block": "extraction",
+      "sha256": "087c34857c6ac1accf545ac8aa98a6a1aac3a303399d5f7c426f70bd9a668885",
+      "bytes": 464,
+      "capture": "2026-11-04, before curriculum edits to this unshared file; shared career-plan baseline captured later after handoff"
+    },
+    {
+      "sourcePath": "exercises/01-job-fit.md",
+      "originalHeading": "Good Prompt",
+      "block": "implementation",
+      "sha256": "0640eae79c4b7211644c80dd97725866b48d9016a80c7b70f7b71cd68194269b",
+      "bytes": 1010,
+      "capture": "2026-11-04, before curriculum edits to this unshared file; shared career-plan baseline captured later after handoff"
+    },
+    {
+      "sourcePath": "exercises/02-cover-letter.md",
+      "originalHeading": "Good Prompt",
+      "block": "implementation",
+      "sha256": "3126a72b338c7bf18182cbc96a2f84962c98c38b18aa5070e9f4b26a6f85b361",
+      "bytes": 718,
+      "capture": "2026-11-04, before curriculum edits to this unshared file; shared career-plan baseline captured later after handoff"
+    },
+    {
+      "sourcePath": "exercises/04-star-interview-responses.md",
+      "originalHeading": "Good Prompt",
+      "block": "implementation",
+      "sha256": "4b9ad30e2fd43f005ffd210d05778948136f223e4b961b715daf58eac500b20f",
+      "bytes": 1800,
+      "capture": "2026-11-04, before curriculum edits to this unshared file; shared career-plan baseline captured later after handoff"
+    },
+    {
+      "sourcePath": "exercises/03-career-plan.md",
+      "originalHeading": "Good Prompt",
+      "block": "implementation",
+      "sha256": "2599c66f47112f3cafa39255814f1d125f5b2db8a15078496ac8231b4278f3d2",
+      "bytes": 1030,
+      "capture": "2026-11-04, after explicit user-confirmed shared-file release; before curriculum edits",
+      "sourceFileSha256AtHandoff": "bacd575a2a615a1def01b2f6ba269921a9c9d3cabb24eeea1e25e58aa4791907"
+    }
+  ]
+}

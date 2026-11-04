@@ -1,11 +1,14 @@
 import { spawn } from "node:child_process";
-import { readFile, access } from "node:fs/promises";
+import { readFile, access, mkdir } from "node:fs/promises";
+import { resolve } from 'node:path';
 import { seedAuthEmulator } from "./seed-auth-emulator.mjs";
 
 const projectId = "demo-portfolio-local";
 const config = JSON.parse(await readFile("firebase.json", "utf8"));
 const authHost = `${config.emulators.auth.host}:${config.emulators.auth.port}`;
 const data = ".firebase/emulator-data";
+const tempDirectory = resolve('.firebase/emulator-tmp');
+await mkdir(tempDirectory, { recursive: true, mode: 0o700 });
 let imported = [];
 try { await access(`${data}/firebase-export-metadata.json`); imported = ["--import", data]; }
 catch (error) { if (error.code !== "ENOENT") throw error; }
@@ -14,7 +17,12 @@ let mailFixture = process.env.RESEND_MODE === 'fixture';
 try { mailFixture ||= /^\s*RESEND_MODE\s*=\s*["']?fixture["']?\s*(?:#.*)?$/m.test(await readFile('functions/.env.local', 'utf8')); }
 catch (error) { if (error.code !== 'ENOENT') throw error; }
 const fixtureArgs = mailFixture ? ['--inspect-functions', process.env.FUNCTIONS_DEBUG_PORT || '9229'] : [];
-const child = spawn(process.execPath, ["node_modules/firebase-tools/lib/bin/firebase.js", "emulators:start", "--only", "auth,hosting,functions", "--project", projectId, ...fixtureArgs, "--export-on-exit", data, ...imported], { stdio: "inherit" });
+const child = spawn(process.execPath, ["node_modules/firebase-tools/lib/bin/firebase.js", "emulators:start", "--only", "auth,hosting,functions,firestore,storage", "--project", projectId, ...fixtureArgs, "--export-on-exit", data, ...imported], {
+  stdio: 'inherit',
+  // Forward terminal Ctrl+C once. Two SIGINTs make Firebase abort its data export.
+  detached: process.platform !== 'win32',
+  env: { ...process.env, TMPDIR: tempDirectory, TMP: tempDirectory, TEMP: tempDirectory, JOB_WORKSPACE_EMULATORS: 'true' },
+});
 let exited = false;
 const completion = new Promise((resolve, reject) => {
   child.once("error", reject);

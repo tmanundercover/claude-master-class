@@ -9,6 +9,8 @@ export function isTailorResult(value: unknown): value is TailorResult {
   const d = value.document;
   return string(d.name) && string(d.headline) && string(d.location) && string(d.summary) && record(d.contact)
     && [d.contact.email, d.contact.linkedin, d.contact.github].every(string) && strings(d.education, 30) && strings(d.skills, 40)
+    && (d.previousExperienceAvailableUponRequest === undefined || typeof d.previousExperienceAvailableUponRequest === 'boolean')
+    && (d.additionalSkills === undefined || strings(d.additionalSkills, 250))
     && Array.isArray(d.experience) && d.experience.length > 0 && d.experience.length <= 16
     && d.experience.every(role => record(role) && [role.title, role.organization, role.period, role.summary].every(string) && strings(role.bullets, 8))
     && Array.isArray(d.projects) && d.projects.length <= 13 && d.projects.every(project => record(project)

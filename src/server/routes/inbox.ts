@@ -3,6 +3,8 @@ import { isSameOrigin } from '../../lib/origin.ts';
 import { mailbox } from '../mail/index.ts';
 import { safeEmailDocument } from '../mail/html.ts';
 import { MailError, mailJson, composition, identifier, attemptId, keys, object, search, string, contactInput, agentInput } from '../mail/validation.ts';
+import { jobRepository } from './job-workspaces.ts';
+import { captureApplicationFiles } from '../jobs/application.ts';
 import type { Mailbox } from '../../lib/mail-types.ts';
 export function privateResponse(response: Response): Response { response.headers.set('Cache-Control', 'private, no-store'); response.headers.set('Vary', 'Cookie'); response.headers.set('X-Content-Type-Options', 'nosniff'); return response; }
 export function mailFailure(error: unknown): Response {
@@ -66,7 +68,12 @@ async function dispatch(request: Request, getMailbox: () => Mailbox): Promise<Re
     if (id && parts.length === 2 && method === 'DELETE') return json(await getMailbox().discardDraft(id));
     if ((!id && method === 'POST') || (id && parts.length === 2 && method === 'PATCH')) {
       const v = await body(); keys(v, ['content','attempt']); const content = composition(v.content), attempt = attemptId(v.attempt);
-      return json(await getMailbox().saveDraft(id ?? null, content, attempt));
+      const mail = getMailbox(); const saved = await mail.saveDraft(id ?? null, content, attempt);
+      if (process.env.JOB_WORKSPACE_MODE && content.attachments !== undefined) {
+        try { const repo = await jobRepository(request); await captureApplicationFiles(repo, await mail.draft(saved.id), content); }
+        catch { throw new MailError('The native draft saved, but attachment recovery metadata did not. Keep this composer open and retry saving before navigating.', 503, 'partial_save'); }
+      }
+      return json(saved);
     }
     if (id && child === 'send' && parts.length === 3 && method === 'POST') { const v = await body(); keys(v, ['attempt']); const attempt = attemptId(v.attempt); return json(await getMailbox().sendDraft(id, attempt)); }
   }

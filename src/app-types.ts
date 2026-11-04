@@ -30,6 +30,8 @@ export type PageData =
   | { page: "login"; hasWelcomeVideo: boolean }
   | { page: "dashboard"; evidence: EvidenceSummary }
   | { page: "inbox" }
+  | { page: "jobs" }
+  | { page: "job"; id: string }
   | { page: "tool"; id: string }
   | { page: "resume"; resume: ResumeData }
   | { page: "interview"; interview: InterviewData }

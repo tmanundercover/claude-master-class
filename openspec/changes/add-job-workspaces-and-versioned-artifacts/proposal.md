@@ -26,11 +26,11 @@ Career-tool results currently disappear when the page is left or refreshed. The 
 
 ### Modified Capabilities
 
-None in the canonical inventory. The pending `resume-tailoring` and `owner-inbox` capabilities remain owned by their existing changes; this proposal adds coordinated behavior rather than duplicating their underlying generation or mail transport requirements.
+`resume-tailoring`: its change archived on 2026-11-04 before this apply completed. The modified failure-handling requirement now preserves saved Current/Previous documents during pending/failed replacement and resets export feedback on version selection. Existing evidence, writing, authorization, and rendering contracts remain intact. The pending `owner-inbox` capability retains ownership of native mail transport and its operational acceptance; this change adds workspace integration.
 
 ## Impact
 
 - Adds Firestore workspace/revision metadata and private Cloud Storage documents behind owner-authorized Functions; extends routing, tool requests/results, dashboard navigation, and inbox composition.
 - Adds `@react-pdf/renderer` to relevant build/runtime packages, PDF layouts, public build allowlists, and a base-path-aware public download link.
 - Coordinates with `add-resume-tailor-and-candidate-advocacy` for tailored document contracts/shared HTML presentation and `add-resend-owner-inbox` for native drafts/attachments. This change supersedes page-state-only result handling when integrated; it does not block either change's narrower implementation.
-- Includes unit, persistence/failure, Auth/Hosting/Functions emulator, responsive browser, PDF, and public-export acceptance. Real storage/provider/deployed acceptance is recorded separately. Deployment, DNS changes, new storage emulators, historical result recovery, and automatic sending are outside implementation authorization for this proposal.
+- Includes unit, persistence/failure, Auth/Hosting/Functions/Firestore/Cloud Storage emulator, responsive browser, PDF, and public-export acceptance. Local HTTP/browser checks use the real server SDK adapters against the storage emulators with checked-in rules. Real provider and deployed acceptance are recorded separately. Deployment, DNS changes, historical result recovery, and automatic sending are outside implementation authorization for this proposal; cloud runtime permissions are a release check rather than a local implementation gate.

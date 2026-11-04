@@ -10,9 +10,13 @@ import Resume from "./pages/Resume";
 import Inbox from "./pages/Inbox";
 import Interview from "./pages/Interview";
 
-function Workspace({ children }: { children: ReactNode }) {
+import Jobs from "./pages/Jobs";
+import JobWorkspace from "./pages/JobWorkspace";
+import ProfileAvatar from './components/ProfileAvatar';
+
+function Workspace({ children, profile }: { children: ReactNode; profile: PublicProfile }) {
   return <main id="main" className="workspace">
-    <div className="workspace-header"><p className="eyebrow">Private workspace</p><LogoutButton /></div>
+    <div className="workspace-header"><div className="workspace-identity"><ProfileAvatar name={profile.name} initials={profile.initials} className="workspace-account-avatar" /><div><p className="eyebrow">Private workspace</p><span>{profile.name}</span></div></div><LogoutButton /></div>
     {children}
   </main>;
 }
@@ -21,10 +25,12 @@ function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
   switch (data.page) {
     case "home": return <Home {...data.home} profile={profile} />;
     case "login": return <Login hasWelcomeVideo={data.hasWelcomeVideo} />;
-    case "dashboard": return <Workspace><Dashboard evidence={data.evidence} /></Workspace>;
+    case "dashboard": return <Workspace profile={profile}><Dashboard evidence={data.evidence} profile={profile} /></Workspace>;
     case "inbox": return <main id="main" className="workspace inbox-workspace"><Inbox profile={profile} /></main>;
-    case "tool": return <Workspace><Tool id={data.id} /></Workspace>;
-    case "resume": return <Workspace><Resume {...data.resume} /></Workspace>;
+    case "jobs": return <Workspace profile={profile}><Jobs /></Workspace>;
+    case "job": return <Workspace profile={profile}><JobWorkspace id={data.id} /></Workspace>;
+    case "tool": return <Workspace profile={profile}><Tool id={data.id} /></Workspace>;
+    case "resume": return <Workspace profile={profile}><Resume {...data.resume} /></Workspace>;
     case "interview": return <Interview {...data.interview} />;
     case "configuration": return <main id="main" className="workspace">
       <h1>Configure your private workspace</h1>
@@ -41,7 +47,7 @@ function Page({ data, profile }: { data: PageData; profile: PublicProfile }) {
 }
 
 export default function App({ data, profile }: { data: PageData; profile: PublicProfile }) {
-  const ownerView = data.page === "dashboard" || data.page === "inbox" || data.page === "tool" || data.page === "resume"
+  const ownerView = data.page === "jobs" || data.page === "job" || data.page === "dashboard" || data.page === "inbox" || data.page === "tool" || data.page === "resume"
     || (data.page === "interview" && data.interview.role === "terrell");
   return <>
     <a className="skip-link" href="#main">Skip to content</a>

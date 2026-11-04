@@ -92,3 +92,30 @@ Only the standard résumé built from approved public profile data SHALL be inte
 - **WHEN** generated content contains an arbitrary resource URL or private source notes are present in server evidence
 - **THEN** PDF rendering does not fetch the arbitrary resource
 - **AND** the public standard PDF contains no workspace data, private source notes, or provider configuration
+
+### Requirement: Descriptive download and attachment names
+
+PDF, Markdown and tailored HTML downloads and managed application attachments SHALL use lowercase descriptive filenames in candidate-position-company-document-type-year order, omitting unknown position/company labels. Public standard downloads SHALL use candidate-resume-year. Filenames MUST NOT include workspace or revision IDs, path characters or header-injection characters. The year for a saved artifact SHALL come from its creation date.
+
+#### Scenario: Clover résumé
+- **WHEN** James Terrell Singleton downloads a 2026 résumé for Fullstack Developer at Clover
+- **THEN** the file is named `james-terrell-singleton-fullstack-developer-clover-resume-2026.pdf`
+- **AND** equivalent Markdown, HTML and managed attachment names use the same descriptive labels
+
+### Requirement: Tailored résumé supplementary sections
+
+Tailored résumés SHALL retain their selected experience and main selected skills. When other public experience is omitted, the document SHALL include a Previous experience section stating that previous experience is available upon request. A separate Additional skills cloud SHALL contain the remaining approved skills not selected in the tailored résumé, without duplicates or invented skills. The shared HTML, plain-text, Markdown and PDF adapters SHALL preserve these sections.
+
+#### Scenario: Focused résumé selects a subset
+- **WHEN** tailoring selects fewer roles and skills than the approved catalog
+- **THEN** selected roles remain the detailed experience
+- **AND** the document includes the previous-experience availability statement and the unselected skills cloud
+
+### Requirement: Full public résumé
+
+The profile-card download SHALL include every approved public experience role and all its public bullets. Public projects SHALL use compact entries with links. Tailored résumés SHALL retain selected experience instead of inheriting the full public experience list.
+
+#### Scenario: Download complete public experience
+- **WHEN** a visitor downloads the standard résumé beneath the public profile card
+- **THEN** all public experience summaries, dates, titles, organizations and bullets are present
+- **AND** projects are compact entries with their approved links

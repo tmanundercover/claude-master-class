@@ -5,7 +5,7 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import globals from "globals";
 
 export default tseslint.config(
-  { ignores: ["**/dist/**", "node_modules/**", "functions/public/**", ".firebase/**"] },
+  { ignores: ["**/dist/**", "node_modules/**", "functions/public/**", ".firebase/**", "docs/slides/reveal.js"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -17,6 +17,10 @@ export default tseslint.config(
     plugins: { "react-hooks": reactHooks, "jsx-a11y": jsxA11y },
     rules: { ...reactHooks.configs.recommended.rules, ...jsxA11y.configs.recommended.rules },
     settings: { "jsx-a11y": { components: { AppLink: "a" } } },
+  },
+  {
+    files: ["docs/slides/presenter.js", "docs/slides/review.mjs"],
+    languageOptions: { globals: { Reveal: "readonly" } },
   },
   {
     files: ["src/components/InterviewLibrary.tsx"],

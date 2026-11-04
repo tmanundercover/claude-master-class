@@ -22,7 +22,7 @@ test("Hosting serves the rendered public portfolio and rewrites dynamic requests
 
 test("Hosting has no private route files that could bypass Functions authorization", async () => {
   const entries = await readdir("dist/hosting");
-  assert.ok(entries.every((entry) => ["assets", "email-icons", "index.html", "profile-photo.jpg"].includes(entry)));
+  assert.ok(entries.every((entry) => ["assets", "email-icons", "index.html", "profile-photo.jpg", "resume.pdf"].includes(entry)));
   const icons = await readdir("dist/hosting/email-icons");
   assert.deepEqual(icons.sort(), (await readdir("src/assets/mail-icons")).sort());
   for (const icon of icons) {
@@ -66,4 +66,19 @@ test("Functions package is self-contained and declares its runtime dependencies 
   const module = await import("../functions/index.mjs");
   assert.equal(typeof module.portfolioApp, "function");
   assert.deepEqual(module.portfolioApp.__endpoint.secretEnvironmentVariables ?? [], []);
+});
+
+test("standard PDF is public, valid, and identical to the packaged email fallback", async () => {
+  const publicPdf = await readFile("dist/hosting/resume.pdf");
+  assert.equal(publicPdf.subarray(0, 5).toString(), "%PDF-");
+  assert.deepEqual(publicPdf, await readFile("functions/dist/standard-resume.pdf"));
+  assert.match(html, /Download résumé \(PDF\)/);
+  assert.match(html, /href="\/resume.pdf"/);
+});
+
+test('the public portrait fallback is packaged while Firebase HTML uses the stored photo endpoint', async () => {
+  const portrait = await readFile('public/profile-photo.jpg');
+  assert.deepEqual(await readFile('dist/hosting/profile-photo.jpg'), portrait);
+  assert.deepEqual(await readFile('functions/dist/profile-photo.jpg'), portrait);
+  assert.match(html, /src="\/api\/profile-photo"/);
 });

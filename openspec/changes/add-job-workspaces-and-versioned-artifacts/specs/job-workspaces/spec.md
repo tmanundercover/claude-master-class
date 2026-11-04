@@ -88,3 +88,20 @@ Workspace descriptions, artifacts, notes, revisions, and private downloads MUST 
 - **WHEN** the public portfolio or static export is built
 - **THEN** no job workspace, private document, note, or revision is included
 - **AND** the intentionally public standard résumé remains available independently
+
+#### Scenario: Direct storage client access
+- **WHEN** an unauthenticated or authenticated client attempts to read or write workspace records or private objects directly
+- **THEN** the checked-in Firestore and Storage rules deny access
+- **AND** owner access continues through the authorized server API, whose Admin SDK bypasses client rules
+
+### Requirement: Local storage emulator acceptance
+
+Local development and HTTP/browser acceptance SHALL use Auth, Hosting, Functions, Firestore, and Cloud Storage emulators. Storage emulator mode MUST explicitly require local endpoints and a demo project without falling back to cloud resources. Local acceptance SHALL exercise the real server SDK adapters and MUST NOT require cloud IAM provisioning. Deployed runtime access SHALL be verified separately during release.
+
+#### Scenario: Restart and retrieve locally
+- **WHEN** an application process restarts while the configured storage emulators retain synthetic workspace data
+- **THEN** the server retrieves the same descriptions, Current/Previous versions, notes, and verified document bytes through the SDK adapters
+
+#### Scenario: Incomplete local configuration
+- **WHEN** emulator mode lacks either storage endpoint or specifies a nonlocal endpoint or non-demo project
+- **THEN** workspace storage fails before invoking a model or contacting cloud resources

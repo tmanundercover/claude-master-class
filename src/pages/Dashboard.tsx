@@ -1,15 +1,18 @@
 import InboxCard from "../components/InboxCard";
 import AppLink from "@/components/AppLink";
 import { tools } from "@/lib/tools";
-import type { EvidenceSummary } from "@/app-types";
+import type { EvidenceSummary, PublicProfile } from "@/app-types";
+import ProfilePhotoEditor from '../components/ProfilePhotoEditor';
 
-export default function Dashboard({ evidence }: { evidence: EvidenceSummary }) {
+export default function Dashboard({ evidence, profile }: { evidence: EvidenceSummary; profile: PublicProfile }) {
   return (
     <>
       <h1>Your workspace.</h1>
       <p>Manage correspondence, explore your résumé evidence, and prepare for your next conversation.</p>
+      <ProfilePhotoEditor name={profile.name} initials={profile.initials} />
       <p className="notice">This workspace is protected by a four-hour server session. Use any of the four tools independently: assess fit candidly, write a persuasive letter or résumé, or prepare for an interview. Each uses documented profile evidence and validates model output.</p>
       <InboxCard />
+      <AppLink className="panel tool-link" href="/dashboard/jobs"><h2>Saved jobs and application materials</h2><p>Reopen documents, revise, compare, undo, and prepare an application.</p></AppLink>
       <AppLink className="resume-intelligence" href="/dashboard/resume">
         <span>
           <span className="eyebrow">Résumé intelligence</span>

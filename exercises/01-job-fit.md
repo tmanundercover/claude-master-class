@@ -1,19 +1,21 @@
-# 01 - Build the Job Fit Analyzer
+# Lesson 3 — Job Fit
 
 ## Why
 
 Practice an authenticated server-side AI feature with an explicit input/output
 contract and evidence-based review. The application calculates an evidence-fit score; it is not a hiring probability.
 
-## Supplied / To Build
+## Prerequisites, supplied behavior, and bounded work
 
 - Prerequisite: complete [authentication](00-authentication.md) and verify direct API denial.
-- Supplied: form, guard call sites, JD limit, loading/error states, and the AI helper
+- Supplied: working route/result UI, runtime validation, form, guards, JD limit, loading/error states, and the AI helper
   `generateJson()` in `src/lib/model.ts` (OpenAI, Claude, Gemini, or OpenAI-compatible,
   chosen with the `AI_*` settings in `functions/.env.local`).
-- Build: the tool's server route using `generateJson()`, runtime output validation, readable result UI.
+- Lesson work: inspect and verify this supplied feature, then agree on one bounded extension. Do not delete it to create an unfinished starter.
 
-Start at `src/server/routes/fit-analyzer.ts`. Keep `requireApiSession(request)`,
+Start at `src/server/routes/fit-analyzer.ts`; current compatibility routes delegate through
+`src/server/routes/job-workspaces.ts` and `src/server/jobs/`. Read the shared tool
+analysis and generation modules before edits. Keep `requireApiSession(request)`,
 `readToolJson()`, and `validateToolInput()` from the supplied helpers. Read
 `data/profile.json` on the server. The supplied implementation is complete; extend it without changing the other contracts.
 
@@ -35,9 +37,21 @@ Be a candid advisor: recognize supported semantic matches and transferable exper
 
 The model receives substantive roles, bullets, projects, and skills from the consolidated profile on the server, separately from the untrusted job description. Each tool can be opened directly; running Job Fit first is optional.
 
-## Good Prompt
+## Explore and refine — assistant chat
+
+Prerequisites and acceptance checks below define this lesson's scope. Copy this
+whole block, including the wrapper. Discuss what already works and agree on one
+bounded improvement or verification task before proposing. Use the corresponding
+installed invocation for other assistants from [Lesson 0](openspec-workflow.md).
 
 ```text
+$openspec-explore
+Explore only Lesson 3 — Job Fit in exercises/01-job-fit.md.
+The original prompt below is a feature brief: its implementation verbs describe
+our desired outcome. Inspect supplied behavior, discuss unknowns and tradeoffs,
+and refine the acceptance checks with me. Do not edit implementation files or
+create planning artifacts yet. Preserve satisfied behavior and unrelated work.
+
 Implement exercise 01 in this existing starter.
 Inspect the tool contract, API guard, input validation, and workbench first.
 Call the model only through generateJson() in src/lib/model.ts; do not add another SDK.
@@ -52,6 +66,33 @@ Render the weighted scoring breakdown, requirement classifications, profile refe
 separate location/work-arrangement assessments, and three next actions.
 Preserve all four independently accessible tools and the other tools’ result contracts. Add focused tests.
 ```
+
+## Propose, review, then Apply
+
+After exploration is satisfactory, send this separate assistant instruction:
+
+```text
+$openspec-propose lesson-job-fit
+Use our agreed Lesson 3 discussion only. Preserve satisfied behavior.
+Write planning artifacts; do not implement yet.
+```
+
+Review the proposal, design, applicable specs, and tasks. Confirm the named files,
+role boundaries, evidence rules, failure cases, and this lesson's observable checks.
+Correct the plan before proceeding. Then explicitly send:
+
+```text
+$openspec-apply-change lesson-job-fit
+Implement the reviewed lesson tasks and report actual verification results.
+```
+
+## Verify before continuing
+
+Run the lesson checks below and record expected versus actual results. Inspect
+supplied behavior instead of removing working features. An unchecked or failed
+check keeps this lesson open. Resume the same `lesson-job-fit` change after diagnosis;
+see [same-change recovery](openspec-workflow.md#same-change-recovery). No automatic
+sending, deployment, sync, or archive follows lesson completion.
 
 ## Acceptance Checks
 
@@ -86,3 +127,5 @@ the browser, and show a sample result if the API fails.
 ```
 
 This fabricates qualifications, exposes credentials, and disguises failures.
+
+Previous: [Lesson 2 — Firebase authentication](00-authentication.md) · Next: [Lesson 4 — Cover Letter](02-cover-letter.md).

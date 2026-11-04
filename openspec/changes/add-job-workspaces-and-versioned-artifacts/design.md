@@ -2,7 +2,7 @@
 
 ## Context
 
-See [proposal.md](proposal.md) for motivation and the four delta specs for observable behavior. This design is required because the change introduces durable private data, revision transactions, document rendering, build output, and a mail handoff across existing routes.
+See [proposal.md](proposal.md) for motivation and the capability delta specs for observable behavior. This design is required because the change introduces durable private data, revision transactions, document rendering, build output, and a mail handoff across existing routes.
 
 Observed source behavior: `ToolWorkbench.tsx` holds results and personal interview notes in React state and clears them on submission. The three server routes authorize the owner, load approved candidate evidence, generate validated results, and return JSON without persistence. `src/lib/auth.ts` verifies revoked session cookies but currently returns only a role. Workspace ownership needs the verified UID as well. `career-plan` uses one endpoint for two different output modes.
 
@@ -21,7 +21,7 @@ The inbox already has native saved drafts, serialized autosave, idempotent expli
 **Non-Goals:**
 - No blank-workspace workflow, prescribed tool sequence, fit-score gate, multi-user collaboration, vector database, queue service, autonomous sending, or application tracking system.
 - No full artifact history, arbitrary older-version restoration, workspace duplication/parallel variants, historical résumé ingestion, profile evidence edits, arbitrary file upload workspace, or recovery of previously discarded page-state results. Artifact retirement is part of the two-version bound.
-- No new local Firestore/Storage emulator or standalone HTTP server. Local persistence fixtures are exercised through Auth, Hosting, and Functions only.
+- No standalone HTTP server. Local development and HTTP/browser acceptance use Auth, Hosting, Functions, Firestore, and Cloud Storage emulators.
 - No production provisioning, deployment, DNS change, or external message send during proposal creation; later apply work must keep actual operational evidence separate.
 
 ## Decisions
@@ -33,6 +33,8 @@ Implement this as a follow-on integration around each tool. The résumé-tailori
 When integrated, this change replaces transient result clearing with saved-current rendering, pending regeneration status, and comparison. It explicitly changes the prior UI-only-notes assumption to owner-private saved notes, while continuing to exclude personal notes from model requests and document exports. It does not change writing stance, résumé factual contracts, tool independence, or mail-send authority.
 
 One workspace represents one job. Its job description determines what application materials emphasize. Poor results or updated tool prompts are handled through Revise or Start over in that workspace; they do not create another job workspace. The `career-artifact-history` capability name remains for continuity, but its scope is Current plus one Previous version, not a general history system.
+
+Apply-time reconciliation: `add-resume-tailor-and-candidate-advocacy` is now archived under `2026-11-04-add-resume-tailor-and-candidate-advocacy`. This change includes a `resume-tailoring` MODIFIED delta for the previously canonical stale-result clearing requirement, so its approved saved-version behavior has an explicit override ready for later synchronization. Canonical specs and sibling archive artifacts are not changed during apply.
 
 Do not edit or check off the sibling changes' artifacts as part of this proposal. If integration occurs before they archive, record this layering in implementation evidence. If they archive first, reconcile the now-canonical requirements during apply/sync before final validation so stale-result clearing is not left as a contradictory requirement. Those lifecycle commands require the corresponding user request.
 
@@ -161,11 +163,13 @@ Create tailored résumé first flushes the composer save queue and saves its nat
 
 Use an owner-bound draft return reference, not an arbitrary return URL or browser-persisted mail body. The workspace shows Return to application email. Returning reloads the same native draft and offers to attach the newly ready résumé. Updating attachments preserves recipients, edited body, and unrelated files. If tailoring fails or the session expires, the previously saved email remains retrievable after signing in. Do not auto-attach an unrelated workspace résumé or send when returning.
 
-### 12. Keep local fixtures and live evidence distinct
+### 12. Exercise SDK storage adapters locally and keep deployed evidence distinct
 
-Use explicitly selected server fixture repositories for local HTTP/browser testing through the existing Auth, Hosting, and Functions emulator harness. Persist fixture data in an ignored task-scoped directory with serialized/atomic writes so reload and process-restart behavior is testable. Fixture content is synthetic and is neither production storage nor public build input. Unit tests exercise the live repository boundary with injected SDK clients; concurrency/failure tests must model manifest writes and pointer preconditions, not merely replay implementation internals.
+Use the server Firestore and Cloud Storage SDK adapters against their emulators for local HTTP/browser acceptance, alongside Auth, Hosting, and Functions. Explicit emulator configuration requires both loopback storage endpoints and a demo project, with no cloud fallback. Development exports/imports emulator data in an ignored private directory; tests use isolated ports and synthetic data without rewriting credential files. Retain file-backed fixtures for deterministic unit and fault-injection tests. Exercise transaction conflicts, hashes, cleanup, and retrieval from a restarted application process through the actual SDK adapters.
 
-No Firestore/Storage emulator or standalone server is added. A live adapter smoke test, when a designated nonproduction project/bucket and credentials are available, separately verifies write/read/restart/undo/download, the two-version bound, retired-object cleanup, and byte hashes with synthetic records. Keep absent credentials, service permissions, or bucket configuration as specific open acceptance gates, not reasons to replace the design with local-only persistence. Real-model Revise/Start over and external attachment delivery are independent acceptance records and remain unproven until performed under their applicable authorization.
+Record the Storage emulator’s missing generation-precondition enforcement; injected SDK contract tests verify the production precondition options without claiming emulator enforcement.
+
+Check in Firestore and Storage rules denying direct client reads/writes: private access goes through the owner-authorized Functions API. Verify unauthenticated and authenticated client denial separately, since the Admin SDK bypasses rules. No custom IAM role setup is required by this feature; local acceptance needs no cloud permissions. A normal separately authorized release smoke check verifies the designated cloud resources and runtime access; emulator evidence does not prove deployed permissions. Real-model Revise/Start over and external attachment delivery are independent acceptance records and remain unproven until performed under their applicable authorization.
 
 Firebase references: [Admin Cloud Storage](https://firebase.google.com/docs/storage/admin/start) and [Firestore transactions](https://firebase.google.com/docs/firestore/manage-data/transactions).
 
@@ -190,4 +194,8 @@ Firebase references: [Admin Cloud Storage](https://firebase.google.com/docs/stor
 3. Add the Revise/Start over controls, Current/Previous comparison, swap-based undo, retirement cleanup, and PDF layouts. Prove Node 22 rendering before broader integration; then wire automatic application PDFs, optional other PDFs, and public build artifacts/link.
 4. Add the application template, pinned document preparation, and saved-draft tailoring return flow using native mail operations. Exercise existing composer regressions after each integration.
 5. Run deterministic unit, storage-restart/concurrency/failure, emulator HTTP, responsive browser, PDF inspection, public-build/privacy, and full preflight checks. Include repeated replacements, undo/swap back, Start over context exclusion, duplicate-job reuse, late PDF completion, and email snapshots after source retirement. Record local proof separately from designated live-storage, real-model, and external-mail checks; keep unperformed gates unchecked.
-6. A separately authorized release provisions the named database/bucket and runtime access, deploys the verified package, and checks owner/non-owner/private/public paths. No workspace data backfill exists for lost transient results. Rollback disables new routes/template entry while preserving current/previous data, referenced objects, metadata, and native drafts; retired versions cannot be recovered as full history. Do not publish private files or discard retained data during rollback.
+6. A separately authorized release selects the named Firebase database/bucket with the normal Functions runtime identity, deploys the verified package, and checks owner/non-owner/private/public paths. No workspace data backfill exists for lost transient results. Rollback disables new routes/template entry while preserving current/previous data, referenced objects, metadata, and native drafts; retired versions cannot be recovered as full history. Do not publish private files or discard retained data during rollback.
+
+## Approved document follow-up
+
+The public profile-card download uses all 16 public experience roles and all their public bullets, plus compact project entries with HTTPS links. The existing email HTML template retains its compact projection. Tailored documents retain selected roles and skills, add a Previous experience available upon request section when roles are omitted, and render the unselected approved skills in a separate cloud across PDF/HTML/text. Native-provider configuration ignores unused AI_BASE_URL settings; OpenAI-compatible endpoints still require their endpoint. Connection failures do not suggest an unused environment variable. Downloads and managed attachments use descriptive candidate-position-company-document-type-year filenames without IDs, with unknown job labels omitted.

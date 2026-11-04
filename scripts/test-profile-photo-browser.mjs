@@ -1,0 +1,54 @@
+import { chromium } from 'playwright';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const base = process.env.TEST_BASE_URL;
+if (!base) throw new Error('Run with the Firebase emulator harness.');
+const owner = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, 'utf8')).find(user => user.role === 'terrell');
+const directory = '.firebase/profile-photo-browser'; await mkdir(directory, { recursive: true });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
+const outcomes = [];
+try {
+  for (const width of [375, 1440]) {
+    const context = await browser.newContext({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
+    const page = await context.newPage(); page.setDefaultTimeout(20000); const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(base + '/dashboard'); await page.waitForURL('**/login');
+    await page.locator('#role').selectOption('terrell'); await page.getByLabel('Email', { exact: true }).fill(owner.email); await page.getByLabel('Password', { exact: true }).fill(owner.password);
+    await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click(); await page.waitForURL('**/dashboard');
+    const editor = page.locator('#profile-photo');
+    await editor.getByLabel('Choose a photo', { exact: true }).setInputFiles('public/profile-photo.jpg');
+    await editor.getByAltText('Selected portrait preview').waitFor();
+    const saved = page.waitForResponse(response => new URL(response.url()).pathname === '/api/profile-photo' && response.request().method() === 'POST');
+    await editor.getByRole('button', { name: 'Save profile photo', exact: true }).click(); assert.equal((await saved).status(), 200);
+    await editor.getByText('Profile photo saved.', { exact: true }).waitFor();
+    await page.locator('.workspace-account-avatar').evaluate(async image => { if (!image.complete) await image.decode(); });
+    assert.equal(await page.locator('img.workspace-account-avatar').evaluate(image => image.naturalWidth > 0), true);
+    await page.screenshot({ path: `${directory}/dashboard-${width}.png`, fullPage: true });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+    const revision = await page.evaluate(async () => (await (await fetch('/api/profile-photo/settings')).json()).revision);
+    await page.reload(); assert.equal(await page.evaluate(async () => (await (await fetch('/api/profile-photo/settings')).json()).revision), revision);
+    await editor.getByLabel('Choose a photo', { exact: true }).setInputFiles({ name: 'invalid.svg', mimeType: 'image/svg+xml', buffer: Buffer.from('<svg onload="alert(1)"/>') });
+    await editor.getByRole('alert').filter({ hasText: 'Choose a JPEG' }).waitFor();
+    await editor.getByLabel('Choose a photo', { exact: true }).setInputFiles('public/profile-photo.jpg');
+    await editor.getByAltText('Selected portrait preview').waitFor();
+    await page.route('**/api/profile-photo', route => route.request().method() === 'POST' ? route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'Upload failed for this test.' }) }) : route.continue());
+    await editor.getByRole('button', { name: 'Save profile photo', exact: true }).click(); await editor.getByRole('alert').filter({ hasText: 'Upload failed' }).waitFor();
+    assert.equal(await page.evaluate(async () => (await (await fetch('/api/profile-photo/settings')).json()).revision), revision);
+    await page.unroute('**/api/profile-photo');
+    await page.goto(base + '/dashboard/inbox');
+    await page.locator('img.mail-account-avatar').evaluate(async image => { if (!image.complete) await image.decode(); });
+    assert.equal(await page.locator('img.mail-account-avatar').evaluate(image => image.naturalWidth > 0), true);
+    await page.goto(base + '/');
+    await page.locator('img.avatar').evaluate(async image => { if (!image.complete) await image.decode(); });
+    assert.equal(await page.locator('img.avatar').evaluate(image => image.naturalWidth > 0), true);
+    assert.equal(await page.locator('span.avatar').count(), 0);
+    await page.screenshot({ path: `${directory}/public-${width}.png`, fullPage: false });
+    const publicContext = await browser.newContext(); const publicPage = await publicContext.newPage();
+    const publicPhoto = await publicPage.request.get(base + '/api/profile-photo'); assert.equal(publicPhoto.status(), 200);
+    assert.equal(publicPhoto.headers().etag, `"${revision}"`);
+    await publicContext.close();
+    assert.deepEqual(errors, []); outcomes.push({ width, uploaded: true, accountAvatars: true, publicPortrait: true, reloadPersistence: true, invalidFileRejected: true, failedUploadPreservedSavedPhoto: true, overflow: false });
+    await context.close();
+  }
+  await writeFile(`${directory}/results.json`, JSON.stringify(outcomes, null, 2)); console.log(JSON.stringify({ passed: true, outcomes }));
+} finally { await browser.close(); }

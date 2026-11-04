@@ -1,5 +1,5 @@
-import { ModelConfigurationError, ModelError } from "./model";
-import { ModelOutputValidationError } from "./output-validation";
+import { ModelConfigurationError, ModelError } from "./model.ts";
+import { ModelOutputValidationError } from "./output-validation.ts";
 
 export function modelFailureResponse(error: unknown): Response | null {
   if (error instanceof ModelConfigurationError) {

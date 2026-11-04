@@ -15,6 +15,8 @@ import type { HomeData, PublicProfile } from "@/app-types";
 import { formatDocumentedYears } from "@/lib/evidence-format";
 import { skillTargetId } from "@/lib/skill-target";
 import { scrollToSkill } from "@/lib/scroll-to-skill";
+import { documentFilename } from '@/lib/document-filename';
+import ProfileAvatar from '../components/ProfileAvatar';
 
 const [linkedInWidth, linkedInHeight, , , linkedInPathData] = faLinkedinIn.icon;
 const linkedInPath = Array.isArray(linkedInPathData) ? linkedInPathData.join(" ") : linkedInPathData;
@@ -44,7 +46,7 @@ function ContactIcon({ kind }: { kind: "email" | "linkedin" | "github" }) {
   );
 }
 
-export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, searchItems, profile }: HomeData & { profile: PublicProfile }) {
+export default function Home({ yearsInSoftware, skillEvidence, searchItems, profile }: HomeData & { profile: PublicProfile }) {
   useEffect(() => {
     const id = window.location.hash.slice(1);
     if (!id.startsWith("skill-")) return;
@@ -78,23 +80,12 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
             <a className="button secondary" href="#contact">Get in touch</a>
           </div>
         </div>
-        <div className="identity-card">
-          {hasProfilePhoto ? (
-            <img
-              className="avatar avatar-photo"
-              src={sitePath("/profile-photo.jpg")}
-              width={100}
-              height={100}
-              alt=""
-              aria-hidden="true"
-            />
-          ) : (
-            <span className="avatar" aria-hidden="true">{profile.initials}</span>
-          )}
+        <div className="identity-column"><div className="identity-card">
+          <ProfileAvatar name={profile.name} initials={profile.initials} className="avatar" />
           <h2>{profile.name}</h2>
           <p>Fullstack engineering. AI systems. Product delivery.</p>
           <span className="badge">{yearsInSoftware}+ years in software · Since 2004</span>
-        </div>
+        </div><a className="resume-download" href={sitePath('/resume.pdf')} download={documentFilename(profile.name, null, 'resume', 'pdf')}><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg> Download résumé (PDF)</a></div>
       </section>
 
       <section className="section" id="experience">

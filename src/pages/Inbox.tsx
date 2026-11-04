@@ -6,6 +6,8 @@ import { MailIcon, MailIconButton, CopyMail, MailAddress, type MailIconName } fr
 import MailComposer, { type ComposerTarget } from '../components/MailComposer';
 import { mailApi, jsonWrite, useMail } from '../lib/mail-client';
 import { OWNER_EMAIL, type Thread, type Message, type Page, type Label, type MailContact, type Draft, type Agent, type Summary } from '../lib/mail-types';
+import { jobRequest } from '../lib/job-client';
+import ProfileAvatar from '../components/ProfileAvatar';
 type Settings = { name: string; fromName: string; agent: Agent };
 export default function Inbox({ profile }: { profile: PublicProfile }) {
   const searchForm = useRef<HTMLFormElement>(null);
@@ -31,7 +33,12 @@ export default function Inbox({ profile }: { profile: PublicProfile }) {
   const contacts = useMail<Page<MailContact>>(`contacts${contactCursor ? `?after=${contactCursor}` : ''}`, false);
   const drafts = useMail<Page<Draft>>(`drafts${draftCursor ? `?after=${draftCursor}` : ''}`, false, active === 'mail' && folder === 'drafts');
   const settings = useMail<Settings>('settings', false);
-  useEffect(() => { void Promise.resolve().then(() => setSelected(new URLSearchParams(window.location.search).get('thread'))); }, []);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    void Promise.resolve().then(() => setSelected(params.get('thread')));
+    const reference = params.get('applicationReturn');
+    if (reference) void jobRequest<{ draftId: string }>(`/application-returns/${encodeURIComponent(reference)}`).then(result => mailApi<Draft>(`drafts/${result.draftId}`)).then(draft => setComposer({ draft })).catch(error => setError(error.message));
+  }, []);
   useEffect(() => {
     function closeOutside(event: MouseEvent) { if (!accountMenu.current?.contains(event.target as Node)) accountMenu.current?.removeAttribute('open'); }
     function closeOnEscape(event: KeyboardEvent) { if (event.key === 'Escape' && accountMenu.current?.open) { accountMenu.current.removeAttribute('open'); accountMenu.current.querySelector('summary')?.focus(); } }
@@ -67,10 +74,10 @@ export default function Inbox({ profile }: { profile: PublicProfile }) {
         <label>Attachments<select name="hasAttachment"><option value="">Any</option><option value="true">With files</option><option value="false">Without files</option></select></label>
         <label>Label<select name="label" key={filters.label || ''} defaultValue={filters.label || ''}><option value="">Any label</option>{labels.value?.data.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}</select></label></div><button type="submit">Search</button></div></details>
       </form><div className="mail-account"><details className="mail-account-menu" ref={accountMenu}>
-        <summary aria-label="Account menu" title="Account menu"><span className="mail-account-avatar">{profile.initials}</span><MailIcon name="next" /></summary>
+        <summary aria-label="Account menu" title="Account menu"><ProfileAvatar name={profile.name} initials={profile.initials} className="mail-account-avatar" /><MailIcon name="next" /></summary>
         <div className="mail-account-dropdown"><p className="mail-account-email">{OWNER_EMAIL}</p>
           <nav className="mail-account-tools" aria-label="Mailbox tools">{(['mail','contacts','settings','labels'] as const).map(view => <button type="button" key={view} aria-pressed={active === view} onClick={() => openTool(view)}><MailIcon name={view} loading={active === view && toolLoading[view]} />{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
-          <div className="mail-account-actions"><AppLink href="/dashboard"><MailIcon name="back" />Workspace</AppLink></div>
+          <div className="mail-account-actions"><AppLink href="/dashboard"><MailIcon name="back" />Workspace</AppLink><AppLink href="/dashboard#profile-photo">Profile photo</AppLink></div>
           <LogoutButton />
         </div>
       </details></div>
@@ -143,7 +150,7 @@ function MessageReader({ threadId, message, compose }: { threadId: string; messa
     const to = action === 'forward' ? [] : [...new Set([...targets, ...(action === 'reply-all' ? [...message.to, ...message.cc] : [])])].filter(a => a.toLowerCase() !== OWNER_EMAIL);
     compose({ threadId, emailId: message.id, action, initial: { to, subject: `${action === 'forward' ? 'Fwd: ' : 'Re: '}${message.subject ?? ''}`, text: action === 'forward' ? `\n\nForwarded message\nFrom: ${message.from}\n${message.text ?? ''}` : '' } });
   }
-  return <article className="mail-message"><header className="mail-message-header"><span className="mail-message-avatar">{message.from.replace(/^["<]+/, '').slice(0, 1).toUpperCase()}</span><div className="mail-message-meta"><h3><MailAddress value={message.from} label="sender email" /></h3><div className="mail-message-recipients">To {message.to.map(address => <MailAddress key={address} value={address} label="recipient email" />)}{message.cc.length > 0 && <span>CC {message.cc.map(address => <MailAddress key={address} value={address} label="CC email" />)}</span>}</div></div><time title={message.received_at} dateTime={message.received_at}>{mailDate(message.received_at)}<span>{new Date(message.received_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</span></time><span className="mail-direction">{message.direction === 'inbound' ? 'Received' : 'Sent'}</span></header>
+  return <article className="mail-message"><header className="mail-message-header">{message.direction === 'outbound' || (message.from.match(/<([^>]+)>/)?.[1] ?? message.from).trim().toLowerCase() === OWNER_EMAIL.toLowerCase() ? <ProfileAvatar name="Your account" initials="" className="mail-message-avatar" /> : <span className="mail-message-avatar">{message.from.replace(/^["<]+/, '').slice(0, 1).toUpperCase()}</span>}<div className="mail-message-meta"><h3><MailAddress value={message.from} label="sender email" /></h3><div className="mail-message-recipients">To {message.to.map(address => <MailAddress key={address} value={address} label="recipient email" />)}{message.cc.length > 0 && <span>CC {message.cc.map(address => <MailAddress key={address} value={address} label="CC email" />)}</span>}</div></div><time title={message.received_at} dateTime={message.received_at}>{mailDate(message.received_at)}<span>{new Date(message.received_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}</span></time><span className="mail-direction">{message.direction === 'inbound' ? 'Received' : 'Sent'}</span></header>
     <div className="mail-message-body">
     {(detail.error || (images && remoteDetail.error)) && <p role="alert" className="error">{detail.error || remoteDetail.error}</p>}
     {document && <div className="mail-actions"><button type="button" aria-pressed={html} onClick={() => setHtml(v => !v)}>{html ? 'Read plain text' : 'Read sanitized HTML'}</button>{html && <button type="button" disabled={images && !remoteDetail.error} onClick={() => { setImages(true); if (remoteDetail.error) remoteDetail.refresh(); }}>Load remote images</button>}</div>}

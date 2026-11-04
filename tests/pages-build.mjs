@@ -37,7 +37,7 @@ test("Pages internal links and assets respect the configured base path", async (
 });
 
 test("static private routes show availability and never embed private page data", async () => {
-  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan", "dashboard/resume-tailor"]) {
+  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/jobs", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan", "dashboard/resume-tailor"]) {
     const page = await readFile(join(directory, route, "index.html"), "utf8");
     assert.match(page, /The private workspace needs Firebase Functions/);
     assert.match(page, /"page":"static-unavailable"/);
@@ -68,4 +68,20 @@ test("serialized page data cannot terminate its JSON script element", () => {
   const result = renderPage(template, { page: "tool", id: attack });
   assert.ok(!result.includes(attack));
   assert.match(result, /\\u003c\/script>/);
+});
+
+test("standard PDF and its download respect the Pages base path", async () => {
+  const pdf = await readFile(join(directory, "resume.pdf"));
+  assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+  const script = html.match(/<script[^>]+src="([^"]+assets\/[^"]+)"/)?.[1];
+  const base = script.slice(0, script.indexOf("assets/"));
+  assert.ok(html.includes(`href="${base}resume.pdf"`));
+});
+
+test('Pages bundles the approved portrait with a base-path-aware image URL', async () => {
+  const script = html.match(/<script[^>]+src="([^"]+assets\/[^"]+)"/)?.[1];
+  const base = script.slice(0, script.indexOf('assets/'));
+  assert.ok(html.includes(`src="${base}profile-photo.jpg"`));
+  assert.ok(!html.includes('src="/api/profile-photo"'));
+  assert.deepEqual(await readFile(join(directory, 'profile-photo.jpg')), await readFile('public/profile-photo.jpg'));
 });

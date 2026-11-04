@@ -1,0 +1,501 @@
+{
+  "scope": "Materials walkthrough, not application runtime acceptance",
+  "checks": [
+    {
+      "label": "Lesson 0 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 0 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 0 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 1 full prompt 2 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 2 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 3 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 4 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 5 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 6 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 7 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 8 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 9 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 heading and stable path",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 in README sequence",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 previous/next transition",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 Explore/refine and no-edit wrapper",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 separate named Propose/Apply",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 review/verification/recovery gates",
+      "pass": true
+    },
+    {
+      "label": "Lesson 10 full prompt 1 in slide paste order",
+      "pass": true
+    },
+    {
+      "label": "All six original preserved blocks have baselines",
+      "pass": true
+    },
+    {
+      "label": "exercises/00-personalize.md implementation exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "exercises/00-personalize.md extraction exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "exercises/01-job-fit.md implementation exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "exercises/02-cover-letter.md implementation exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "exercises/04-star-interview-responses.md implementation exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "exercises/03-career-plan.md implementation exact original bytes",
+      "pass": true
+    },
+    {
+      "label": "Source-fact approval precedes portfolio implementation",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/00-personalize.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/00-authentication.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/01-job-fit.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/02-cover-letter.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/03-career-plan.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/04-resume-tailor.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/04-star-interview-responses.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/inbox.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/contact-and-email-templates.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/verification-and-deployment.md → openspec-workflow.md#same-change-recovery",
+      "pass": true
+    },
+    {
+      "label": "Link anchor exercises/verification-and-deployment.md → ../README.md#class-path",
+      "pass": true
+    },
+    {
+      "label": "Core stopping point and continuation scope",
+      "pass": true
+    }
+  ],
+  "lessons": [
+    {
+      "number": 0,
+      "title": "OpenSpec workflow",
+      "path": "exercises/openspec-workflow.md",
+      "previous": "../docs/pre-class.md",
+      "next": "00-personalize.md"
+    },
+    {
+      "number": 1,
+      "title": "Personalize your portfolio",
+      "path": "exercises/00-personalize.md",
+      "previous": "openspec-workflow.md",
+      "next": "00-authentication.md"
+    },
+    {
+      "number": 2,
+      "title": "Firebase authentication",
+      "path": "exercises/00-authentication.md",
+      "previous": "00-personalize.md",
+      "next": "01-job-fit.md"
+    },
+    {
+      "number": 3,
+      "title": "Job Fit",
+      "path": "exercises/01-job-fit.md",
+      "previous": "00-authentication.md",
+      "next": "02-cover-letter.md"
+    },
+    {
+      "number": 4,
+      "title": "Cover Letter",
+      "path": "exercises/02-cover-letter.md",
+      "previous": "01-job-fit.md",
+      "next": "03-career-plan.md"
+    },
+    {
+      "number": 5,
+      "title": "Interview Prep / Study Plan",
+      "path": "exercises/03-career-plan.md",
+      "previous": "02-cover-letter.md",
+      "next": "04-resume-tailor.md"
+    },
+    {
+      "number": 6,
+      "title": "Resume Tailor",
+      "path": "exercises/04-resume-tailor.md",
+      "previous": "03-career-plan.md",
+      "next": "04-star-interview-responses.md"
+    },
+    {
+      "number": 7,
+      "title": "Interview room",
+      "path": "exercises/04-star-interview-responses.md",
+      "previous": "04-resume-tailor.md",
+      "next": "inbox.md"
+    },
+    {
+      "number": 8,
+      "title": "Inbox",
+      "path": "exercises/inbox.md",
+      "previous": "04-star-interview-responses.md",
+      "next": "contact-and-email-templates.md"
+    },
+    {
+      "number": 9,
+      "title": "Contact form and resume email templates",
+      "path": "exercises/contact-and-email-templates.md",
+      "previous": "inbox.md",
+      "next": "verification-and-deployment.md"
+    },
+    {
+      "number": 10,
+      "title": "Verification and deployment",
+      "path": "exercises/verification-and-deployment.md",
+      "previous": "contact-and-email-templates.md",
+      "next": "../README.md#class-path"
+    }
+  ],
+  "promptHashes": [
+    {
+      "sourcePath": "exercises/00-personalize.md",
+      "block": "implementation",
+      "sha256": "eb0bd9d46228e8839aae161ebc33e714d34621898fc1889070b0742b520a03fc",
+      "pass": true
+    },
+    {
+      "sourcePath": "exercises/00-personalize.md",
+      "block": "extraction",
+      "sha256": "087c34857c6ac1accf545ac8aa98a6a1aac3a303399d5f7c426f70bd9a668885",
+      "pass": true
+    },
+    {
+      "sourcePath": "exercises/01-job-fit.md",
+      "block": "implementation",
+      "sha256": "0640eae79c4b7211644c80dd97725866b48d9016a80c7b70f7b71cd68194269b",
+      "pass": true
+    },
+    {
+      "sourcePath": "exercises/02-cover-letter.md",
+      "block": "implementation",
+      "sha256": "3126a72b338c7bf18182cbc96a2f84962c98c38b18aa5070e9f4b26a6f85b361",
+      "pass": true
+    },
+    {
+      "sourcePath": "exercises/04-star-interview-responses.md",
+      "block": "implementation",
+      "sha256": "4b9ad30e2fd43f005ffd210d05778948136f223e4b961b715daf58eac500b20f",
+      "pass": true
+    },
+    {
+      "sourcePath": "exercises/03-career-plan.md",
+      "block": "implementation",
+      "sha256": "2599c66f47112f3cafa39255814f1d125f5b2db8a15078496ac8231b4278f3d2",
+      "pass": true
+    }
+  ],
+  "linksChecked": 90,
+  "failures": [],
+  "result": "pass"
+}

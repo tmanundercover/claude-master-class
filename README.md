@@ -1,6 +1,6 @@
 # Student Portfolio Starter
 
-Build and personalize a portfolio while completing the class exercises in order.
+Inspect and personalize the supplied portfolio through one reviewed OpenSpec lesson change at a time.
 
 ## Start Here
 
@@ -21,27 +21,56 @@ Ctrl+C.
 
 The public homepage works without an API key and includes a floating résumé search over current and
 approved historical evidence. Project source notes stay in the owner-only résumé explorer;
-public projects show descriptions, technologies, and links. Experience bullets open with More. Login uses a signed, four-hour role session. The job-fit, cover-letter,
-interview-prep/study-plan, and résumé-evidence tools are implemented in the owner workspace; the
-interview room gives approved guests access to evidence-linked STAR responses.
+public projects show descriptions, technologies, and links. Experience bullets open with More.
+Firebase Auth verifies accounts and four-hour sessions on the server. Four career tool
+entries are supplied: Job Fit, Cover Letter, Interview Prep / Study Plan (two modes of
+one entry), and Resume Tailor. The owner also has résumé evidence tools and Inbox.
+Approved guests can use the interview room; absent recordings show honest placeholders.
 
 ## Class Path
 
-1. [Personalize the portfolio](exercises/00-personalize.md).
-2. [Add authentication](exercises/00-authentication.md).
-3. [Build the job-fit analyzer](exercises/01-job-fit.md).
-4. [Build the cover-letter tool](exercises/02-cover-letter.md).
-5. [Build the career-plan tool](exercises/03-career-plan.md).
-6. [Build STAR interview responses](exercises/04-star-interview-responses.md).
+Explore and refine one lesson, propose its named change, review its artifacts, then
+explicitly Apply and Verify before beginning the next. Inspect and extend existing
+satisfied behavior instead of removing supplied features to rebuild a blank starter.
+Filename prefixes are legacy identifiers; the displayed sequence below is authoritative.
 
-Start by replacing the sample facts in [data/profile.json](data/profile.json) with verified
-information that you are comfortable publishing.
+| Lesson | Topic |
+|---|---|
+| 0 | [OpenSpec workflow](exercises/openspec-workflow.md) |
+| 1 | [Personalize your portfolio](exercises/00-personalize.md) |
+| 2 | [Firebase authentication](exercises/00-authentication.md) |
+| 3 | [Job Fit](exercises/01-job-fit.md) |
+| 4 | [Cover Letter](exercises/02-cover-letter.md) |
+| 5 | [Interview Prep / Study Plan](exercises/03-career-plan.md) |
+| 6 | [Resume Tailor](exercises/04-resume-tailor.md) |
+| 7 | [Interview room](exercises/04-star-interview-responses.md) |
+| 8 | [Inbox](exercises/inbox.md) |
+| 9 | [Contact form and resume email templates](exercises/contact-and-email-templates.md) |
+| 10 | [Verification and deployment](exercises/verification-and-deployment.md) |
+
+An introductory session can stop after Lesson 5 when its checks pass. Lessons 6–10
+are continuation material; the expanded series has no one-session duration promise.
+The teaching order does not impose tool dependencies: all four owner career tools
+open independently without a Job Fit score or preceding result.
+
+For personalization, extract and approve your own public facts first, review the
+proposal, then apply portfolio edits. Preserve current approved records in
+[data/profile.json](data/profile.json); never publish raw résumé sources or private
+job-search output. Local mail practice uses explicit isolated fixtures and no real mail.
+
+Saved jobs, versioned artifacts, application PDFs and document email integration are
+owned by the separate [job-workspace change](openspec/changes/add-job-workspaces-and-versioned-artifacts/tasks.md).
+Its [documentation](docs/job-workspaces.md) describes the concurrent implementation;
+remaining acceptance and live operations are not completed by this curriculum.
+Check its current status before using branch-specific controls in class.
 
 ## Course Materials
 
 - [Class slides (PDF)](docs/slides/portfolio-career-workspace.pdf)
 - [Interactive class slides (HTML)](docs/slides/portfolio-career-workspace.html)
 - [Firebase deployment guide](docs/deploy-firebase.md)
+- [Slide authoring and export](docs/slides/README.md)
+- [Curriculum review and prompt preservation](docs/curriculum-review.md)
 
 Download the HTML files before opening them in a browser from GitHub.
 
@@ -62,14 +91,18 @@ excludes generated files, environment files, and private inputs.
 
 ## Development and Deployment
 
-`npm run dev` builds with Vite and starts Firebase Auth, Hosting, and Functions
+The private dashboard supports [profile photo uploads](docs/profile-photo.md) to
+Cloud Storage. The saved portrait replaces the owner's initials on the portfolio
+and account avatars.
+
+`npm run dev` builds with Vite and starts Firebase Auth, Hosting, Functions, Firestore, and Cloud Storage
 emulators using `demo-portfolio-local`. Open `http://127.0.0.1:5500`.
 There is no standalone web server. After source edits, run `npm run build:firebase`
 in another terminal and refresh; Functions reloads its generated backend.
 
 The startup script seeds three Auth accounts with server-managed `portfolioRole`
 claims. Local passwords are generated and saved privately in
-`.firebase/auth-users.local.json`. Emulator Auth data exports to
+`.firebase/auth-users.local.json`. Emulator Auth, Firestore, and Storage data exports to
 `.firebase/emulator-data` on shutdown and imports on the next start.
 
 | Account | Role | Access |
@@ -92,8 +125,8 @@ copies are retained for verification; do not delete them until confirmed.
 Frontend builds need no credentials or `VITE_` secrets.
 
 `npm run preflight` runs unit, lint, type, build, and emulator HTTP checks. The
-HTTP suite uses isolated demo users and restores existing backend environment
-files after testing. No AI provider call is made by the automated suite.
+HTTP suite uses isolated demo users and a temporary Functions package with
+synthetic settings; it does not read or rewrite existing credential files. No AI provider call is made by the automated suite.
 
 Firebase Hosting serves the public portfolio and assets; Functions serves
 private routes, protected recordings, and AI endpoints on the same Hosting origin.

@@ -36,13 +36,20 @@ test("missing or inconsistent settings are configuration errors with a clear mes
     [{ AI_PROVIDER: "openai", AI_API_KEY: "k" }, /AI_MODEL is not set/],
     [{ AI_PROVIDER: "openai", AI_MODEL: "m" }, /AI_API_KEY is not set/],
     [{ AI_PROVIDER: "openai-compatible", AI_MODEL: "m", AI_API_KEY: "k" }, /AI_BASE_URL is required/],
-    [{ AI_PROVIDER: "gemini", AI_MODEL: "m", AI_API_KEY: "k", AI_BASE_URL: "https://x" }, /only used when AI_PROVIDER is openai-compatible/],
     [{ AI_PROVIDER: "gemini", AI_MODEL: "m", AI_API_KEY: "k", AI_REASONING_EFFORT: "low" }, /only with the openai and anthropic providers/],
     [{ AI_PROVIDER: "openai", AI_MODEL: "m", AI_API_KEY: "k", AI_REASONING_EFFORT: "fastest" }, /must be low, medium, high/],
   ];
   for (const [values, message] of cases) {
     setEnv(values);
     assert.throws(() => modelConfiguration(), (error: unknown) => error instanceof ModelConfigurationError && message.test(error.message), JSON.stringify(values));
+  }
+});
+
+test('unused AI_BASE_URL never blocks native providers or changes their endpoint configuration', async () => {
+  for (const provider of ['openai', 'anthropic', 'gemini']) {
+    setEnv({ AI_PROVIDER: provider, AI_MODEL: 'm', AI_API_KEY: 'synthetic-key', AI_BASE_URL: 'unused-setting' });
+    assert.equal(modelConfiguration().baseURL, undefined);
+    assert.deepEqual(await generateJson(request, async config => JSON.stringify({ provider: config.provider, defaultEndpoint: config.baseURL === undefined })), { provider, defaultEndpoint: true });
   }
 });
 

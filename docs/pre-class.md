@@ -1,6 +1,6 @@
 # Before Class: Student Setup
 
-**Goal:** arrive with the sample website running, an AI key ready, and your redacted resume PDF.
+**Goal:** arrive with the supplied website running, OpenSpec ready, and your redacted resume PDF.
 It works on **Mac and Windows**. Where a step differs, both are shown.
 
 | Step | What you set up | Why |
@@ -10,7 +10,7 @@ It works on **Mac and Windows**. Where a step differs, both are shown.
 | 3 | One coding assistant | Writes the code with you |
 | 4 | Git + the masterclass code | Your copy of the project |
 | 5 | Node.js + a check run | Runs the sample website on your laptop |
-| 6 | AI API key with $10 credit | Powers your website's three AI tools in class |
+| 6 | AI provider access | Powers four career tool entries when using a real provider |
 | 7 | Your resume and a job description | What you build from in class |
 
 Steps 1 to 3 get your editor ready. From step 4, your coding assistant can do most of the work:
@@ -31,29 +31,17 @@ such as Cursor or Windsurf? That works too. The steps are the same; open the fol
 ## 3. Set Up One Coding Assistant
 
 The assistant reads your project, edits files and runs terminal commands for you. Pick **one**.
-The entry-level plan is enough for class.
+Confirm current account access and usage limits with your chosen provider before class.
 
-| Assistant | Plan you need | Setup guide |
-|---|---|---|
-| **GitHub Copilot** | Copilot Free works to start (monthly limits); Copilot Pro if you run out | [Set up Copilot in VS Code](https://code.visualstudio.com/docs/copilot/setup) |
-| **Claude Code** | A paid Claude plan (Pro or higher) or a Claude Console account; the free Claude plan doesn't include it | [Claude Code for VS Code](https://code.claude.com/docs/en/vs-code) |
-| **OpenAI Codex** | ChatGPT Plus or higher (Free and Go don't include the VS Code extension) | [Codex IDE extension](https://developers.openai.com/codex/ide) |
+| Assistant | Official setup |
+|---|---|
+| GitHub Copilot | [VS Code setup](https://code.visualstudio.com/docs/copilot/setup) |
+| Claude Code | [VS Code extension](https://code.claude.com/docs/en/vs-code) |
+| OpenAI Codex | [Official IDE extension setup](https://developers.openai.com/codex/ide/) |
 
-**GitHub Copilot**
-1. Copilot is built into VS Code. Hover over the **Copilot icon** in the Status Bar (bottom of the window) -> **Use AI Features**.
-2. Sign in with your GitHub account. Without a paid plan you are put on Copilot Free.
-3. Open the chat: **Ctrl+Alt+I** (Windows) or **Ctrl+Cmd+I** (Mac).
-4. In the chat, set the mode to **Agent**, so it can edit files and run commands.
-
-**Claude Code**
-1. In VS Code, open **Extensions** (**Ctrl+Shift+X** / **Cmd+Shift+X**), search **Claude Code**, and install the one published by **Anthropic**.
-2. Click the **Spark icon** in the left sidebar (or at the top right of an open file) to open it.
-3. Sign in with your Claude account and approve in the browser.
-
-**OpenAI Codex**
-1. In VS Code, open **Extensions**, search **Codex**, and install the one published by **OpenAI**.
-2. Click the **Codex icon** in the sidebar. Not there? Open the Command Palette (**Ctrl+Shift+P** / **Cmd+Shift+P**) and run **Codex: Open Codex Sidebar**.
-3. Choose **Sign in with ChatGPT** and approve in the browser.
+Install your chosen provider's official extension, sign in, and open its chat in
+this project folder. Use its agent capability for implementation after reviewing
+the lesson proposal. The OpenSpec introduction distinguishes planning from edits.
 
 **Check it works:** send `Hello, can you see my files?` in the assistant's chat. It should reply.
 When it asks for permission to edit a file or run a command, read what it wants to do, then allow it.
@@ -87,10 +75,14 @@ code .
 
 If `code .` is not recognized, use **File -> Open Folder** and select the cloned `my-portfolio` folder.
 
-**Already cloned it before?** Open the folder and run `git pull` to get the latest version.
+**Already cloned it before?** Open that folder and inspect `git status` first. Preserve local work; coordinate with your instructor before pulling updates into a dirty tree.
 **Clone once. Do not clone individual folders or copy `node_modules`.**
 
 ## 5. Install Node.js and Check the Sample Website
+
+The Firestore and Storage emulators also need Java. Install Java JDK 21+ and
+confirm `java -version` works in your terminal before running the checks below.
+See [Firebase's Java guidance](https://firebase.google.com/docs/emulator-suite/connect_firestore).
 
 **The fast way.** In the `my-portfolio` window, paste this into your coding assistant's chat:
 
@@ -138,36 +130,46 @@ support contact so the mirror can be checked.
 
 **Pass:** Node is 22.18+, the checks in `npm run preflight` finish without errors, and the sample
 portfolio opens at the local URL, usually **http://127.0.0.1:5500**. Stop the Firebase emulators with Ctrl+C.
-Login and the private tools are unfinished; blocked screens or 501 messages there are expected.
+Login and four career tool entries are supplied: Job Fit, Cover Letter,
+Interview Prep / Study Plan (one entry, two modes), and Resume Tailor. Sign in
+with the demo accounts in the ignored `.firebase/auth-users.local.json` manifest.
+An unauthenticated API returns 401; a guest calling an owner API receives 403.
+Missing provider/storage configuration is a visible configuration failure, not an
+unfinished endpoint. Interview media may be absent and must have honest placeholders.
+Inbox/contact practice uses isolated local fixtures and sends no real mail.
+Saved jobs, versioned artifacts, and application PDFs are separate work in progress;
+read current [workspace documentation](job-workspaces.md) and change status before
+teaching extensions. They are not completion claims of this curriculum.
 
 **If a step fails:** copy the whole error, paste it into your coding assistant and ask it to fix it.
 That's also how we work in class. Do not delete the lockfile or run force-fix commands.
 
-## 6. Get an AI API Key with $10 of Credit
+## 6. Prepare backend AI configuration
 
-Your website's three AI tools (Job Fit, Cover Letter, Interview Prep) call an AI model with your own key.
-This is separate from your coding assistant's plan. The key and credit are yours: only the tools you run use it.
+Four career tool entries can call the shared server model adapter. Your coding
+assistant subscription and application API usage are separate. Choose a supported
+provider and check its current access, model, and billing requirements:
+[OpenAI](https://platform.openai.com/api-keys),
+[Anthropic](https://console.anthropic.com/settings/keys), or
+[Gemini](https://aistudio.google.com/apikey). OpenAI-compatible endpoints are also
+supported by the existing adapter. No fixed credit amount guarantees class usage.
 
-Pick **one** provider:
+Keep `AI_PROVIDER`, `AI_MODEL`, `AI_API_KEY`, and optional `AI_BASE_URL` /
+`AI_REASONING_EFFORT` in backend configuration. Do not paste keys into chat, email,
+Git, or frontend variables. Preserve every existing `.env.*` value. Inspect names
+in `functions/.env.example`; do not copy it over an existing credential file.
+Only enter your own approved values privately when needed. Deterministic fixture
+checks need no paid provider and do not measure real writing quality.
 
-| Provider | Create a key | Add credit |
-|---|---|---|
-| **OpenAI** | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) | [Billing](https://platform.openai.com/settings/organization/billing) -> add $10 |
-| **Anthropic** | [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys) | [Billing](https://console.anthropic.com/settings/billing) -> buy $10 of credits |
-| **Google Gemini** | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | Starts on a free tier; turn on billing in AI Studio if you hit limits |
-
-1. Sign up, add **$10** of credit. That is plenty to start.
-2. Create a key and copy it into a private note. Most sites show it only once.
-3. **Keep it private.** Do not paste it into chat, email, your coding assistant or Git.
-   We put it in a private backend `functions/.env.local` file together in class.
-
-You don't need the key to finish steps 1 to 5; it's only used once the AI tools are built in class.
+You can finish setup without a real model key. See the
+[Firebase guide](deploy-firebase.md) for server configuration and fixture boundaries.
 
 ## 7. Bring This to Class
 
 - [ ] Sample homepage working.
 - [ ] VS Code open with the student app and your coding assistant signed in.
-- [ ] Your AI API key with credit, kept private.
+- [ ] Your own provider access if needed for real writing, kept private.
+- [ ] OpenSpec CLI and chosen assistant integration verified below.
 - [ ] Your **redacted resume PDF** (no phone number or home address), plus plain text as a fallback.
 - [ ] One target job description, at most 15,000 characters.
 - [ ] Optional: a square photo of yourself for your portfolio.
@@ -178,3 +180,33 @@ The website has no PDF upload feature. Do not put raw resumes in public folders 
 
 Next time you open the app, open the same cloned folder and run
 `npm run dev`. No need to clone or install again unless dependencies change.
+
+## 8. Check OpenSpec before initialization
+
+In the project terminal, run these read-only checks first:
+
+```text
+openspec --version
+openspec list --json
+```
+
+This curriculum was checked with OpenSpec 1.14.1. If the executable is absent,
+install the [official npm package](https://github.com/Fission-AI/OpenSpec#quick-start)
+with `npm install -g @fission-ai/openspec@1.14.1`, then rerun the checks.
+The existing clone should return a `root` object. Read `.agents/skills/` and confirm
+the explore, propose, and apply skills are available to your chosen assistant.
+Use the [workflow introduction](../exercises/openspec-workflow.md) invocation table.
+Seeing files alone is insufficient: confirm the assistant can discover/read them.
+
+Do not initialize an already-configured clone again. A root/store declaration
+error needs its stated repair, not a new local root. Only for a genuinely
+uninitialized student project, after agreeing that initialization is wanted,
+run `openspec init --tools codex` (or `claude` / `github-copilot` for the selected
+integration). Review the files it creates and recheck discovery. Missing integration
+in an initialized clone needs deliberate setup review; do not silently overwrite
+workflow configuration or installed skills. Restart the assistant if necessary.
+
+Start [Lesson 0](../exercises/openspec-workflow.md), then complete one lesson at a
+time. The introductory session can stop after Lesson 5 once its checks pass;
+Lessons 6–10 are continuation material. There is no promise to finish the expanded
+series in one 90-minute session.

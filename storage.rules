@@ -1,0 +1,9 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Private downloads go through Functions; no public files or client uploads.
+    match /{object=**} {
+      allow read, write: if false;
+    }
+  }
+}

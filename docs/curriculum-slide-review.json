@@ -1,0 +1,39 @@
+{
+  "slides": 91,
+  "bounds": [],
+  "assets": [],
+  "console": [],
+  "navigation": {
+    "right": true,
+    "left": true,
+    "pageDown": true,
+    "overview": true,
+    "lesson": true
+  },
+  "speaker": {
+    "thumbnails": 91,
+    "selectionSync": true,
+    "audienceSync": true,
+    "notes": true,
+    "current": true,
+    "next": true,
+    "lastHasNoNext": true
+  },
+  "pdf": {
+    "pages": 91,
+    "countMatches": true,
+    "titleOrderMismatches": [],
+    "promptMismatches": [],
+    "emptyPages": []
+  },
+  "directory": "/var/folders/nz/7z5wsn4n00d3wl9391730bhc0000gn/T/portfolio-curriculum-review-rpyY9o",
+  "visualReview": {
+    "allHtmlSlides": 91,
+    "allPdfPages": 91,
+    "contactSheetsPerFormat": 8,
+    "densePromptAndSpeakerInspected": true,
+    "handoffContentChangesReinspected": true,
+    "result": "pass"
+  },
+  "scope": "Course slide export and file-only review; no application runtime, provider, deployment or live mail proof."
+}

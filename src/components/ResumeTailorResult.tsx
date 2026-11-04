@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react';
 import type { TailorResult } from '@/lib/resume-tailor-result';
 import { resumeExports } from '@/lib/resume-export';
 import { copyText } from '@/lib/clipboard';
+import { documentFilename } from '@/lib/document-filename';
+import type { JobMetadata } from '@/lib/job-contracts';
 
-export default function ResumeTailorResult({ result }: { result: TailorResult }) {
+export default function ResumeTailorResult({ result, job, savedAt }: { result: TailorResult; job?: JobMetadata; savedAt?: string }) {
   const [feedback, setFeedback] = useState<{ error: boolean; message: string } | null>(null);
   const exported = useMemo(() => {
     try { return { ...resumeExports(result.document), error: '' }; }
@@ -25,7 +27,7 @@ export default function ResumeTailorResult({ result }: { result: TailorResult })
     try {
       url = URL.createObjectURL(new Blob([exported.html], { type: 'text/html;charset=utf-8' }));
       anchor.href = url;
-      anchor.download = 'tailored-resume.html';
+      anchor.download = documentFilename(result.document.name, job ?? null, 'resume', 'html', savedAt);
       document.body.append(anchor);
       anchor.click();
       setFeedback({ error: false, message: 'HTML download started.' });

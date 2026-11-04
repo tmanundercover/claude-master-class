@@ -42,3 +42,21 @@ test("revoked, expired, disabled, and tampered sessions deny access; service fai
     await assert.rejects(() => currentSessionRole(request, async () => { throw new Error("service unavailable"); }), /service unavailable/);
   } finally { if (previous === undefined) delete process.env.GCLOUD_PROJECT; else process.env.GCLOUD_PROJECT = previous; }
 });
+
+test("workspace principal trusts verified UID and role only", async () => {
+  const { currentSessionPrincipal } = await import('../src/lib/auth.ts');
+  const previous = process.env.GCLOUD_PROJECT;
+  process.env.GCLOUD_PROJECT = 'demo-test';
+  const request = new Request('http://localhost?uid=owner', { headers: { Cookie: '__session=signed', 'X-Owner-Uid': 'owner' } });
+  try {
+    for (const role of ['terrell', 'recruiter', 'interviewer']) {
+      assert.deepEqual(await currentSessionPrincipal(request, async () => ({ uid: 'verified-user', portfolioRole: role })), { uid: 'verified-user', role });
+    }
+    assert.equal(await currentSessionPrincipal(request, async () => ({ portfolioRole: 'terrell' })), null);
+    assert.equal(await currentSessionPrincipal(request, async () => ({ uid: '../owner', portfolioRole: 'terrell' })), null);
+    assert.equal(await currentSessionPrincipal(new Request('http://localhost')), null);
+    for (const code of ['auth/session-cookie-expired', 'auth/session-cookie-revoked']) {
+      assert.equal(await currentSessionPrincipal(request, async () => { throw { code }; }), null);
+    }
+  } finally { if (previous === undefined) delete process.env.GCLOUD_PROJECT; else process.env.GCLOUD_PROJECT = previous; }
+});

@@ -25,13 +25,16 @@ try {
     await page.waitForURL('**/dashboard');
     await page.getByRole('link', { name: /Job Fit Analyzer/ }).click();
     await page.waitForURL('**/dashboard/fit-analyzer');
+    let caseNumber = 0;
     async function run(jd, status = 200) {
+      await page.goto(`${base}/dashboard/fit-analyzer`);
+      jd += ` Requisition browser-${width}-${++caseNumber}.`;
       await page.locator('#jd').fill(jd);
-      const pending = page.waitForResponse(response => response.url().endsWith('/api/fit-analyzer'));
+      const pending = page.waitForResponse(response => response.url().endsWith('/artifacts/job-fit/generate'));
       await page.getByRole('button', { name: 'Run tool', exact: true }).click();
       const response = await pending;
       assert.equal(response.status(), status);
-      return response.json();
+      const value = await response.json(); return response.ok() ? value.result : value;
     }
     const result = await run(posting);
     assert.equal(result.score, 80);
@@ -64,7 +67,7 @@ try {
     await run('[fixture:rate-limit] Required: React.', 429);
     await page.getByRole('alert').filter({ hasText: /17 seconds/ }).waitFor();
     // A successful-looking API envelope with bad arithmetic must fail client validation.
-    await page.route('**/api/fit-analyzer', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ...result, score: 99 }) }), { times: 1 });
+    await page.route('**/artifacts/job-fit/versions/*', async route => { const response = await route.fetch(); const saved = await response.json(); await route.fulfill({ response, json: { ...saved, result: { ...saved.result, score: 99 } } }); }, { times: 1 });
     await run(posting);
     await page.getByRole('alert').filter({ hasText: 'invalid job-fit result' }).waitFor();
     assert.equal(await page.locator('.fit-result').count(), 0);
@@ -73,19 +76,18 @@ try {
     let release, reached;
     const gate = new Promise(resolve => { release = resolve; });
     const started = new Promise(resolve => { reached = resolve; });
-    await page.route('**/api/fit-analyzer', async route => { reached(); await gate; await route.continue(); }, { times: 1 });
-    await page.locator('#jd').fill('[fixture:provider-error] Required: React.');
-    await page.getByRole('button', { name: 'Run tool', exact: true }).click();
+    await page.route('**/artifacts/job-fit/generate', async route => { reached(); await gate; await route.fulfill({ status: 502, json: { error: 'Controlled provider failure.' } }); }, { times: 1 });
+    await page.getByRole('button', { name: 'Start over', exact: true }).click();
     await started;
-    assert.equal(await page.locator('.fit-result').count(), 0);
-    await page.getByRole('button', { name: 'Working...', exact: true }).waitFor();
+    assert.equal(await page.locator('.fit-result').count(), 1);
+    await page.getByRole('status').filter({ hasText: 'Your saved documents remain available.' }).waitFor();
     release();
     await page.getByRole('alert').filter({ hasText: 'Controlled provider failure.' }).waitFor();
-    assert.equal(await page.locator('.fit-result').count(), 0);
+    assert.equal(await page.locator('.fit-result').count(), 1);
     assert.deepEqual(errors, []);
     results.push({ width, score: 80, weightedBreakdown: true, classificationsAndReferences: true, separateLogistics: true,
       missingCategoriesNormalized: true, logisticsOnlyScore: null, invalidEvidenceRejected: true,
-      numericProviderScoreRejected: true, clientArithmeticValidated: true, staleAnalysisCleared: true, noOverflow: true, errors });
+      numericProviderScoreRejected: true, clientArithmeticValidated: true, savedAnalysisPreservedDuringFailedReplacement: true, noOverflow: true, errors });
     await context.close();
   }
   await writeFile(`${directory}/results.json`, JSON.stringify({ controlledModelFixture: true, results }, null, 2) + '\n');

@@ -49,6 +49,6 @@ export function providerFailure(status: number | undefined, retryAfter?: string 
 }
 
 export const timeoutFailure = () => new ModelError(`The AI provider took longer than ${MODEL_TIMEOUT_MS / 1_000} seconds to respond. Try again, or use a shorter job description.`, 504);
-export const connectionFailure = () => new ModelError("Could not reach the AI provider. Check your connection, and AI_BASE_URL if you set one.", 502);
+export const connectionFailure = () => new ModelError("Could not reach the AI provider. The connection failed; please try again. Your saved documents are unchanged.", 502);
 export const declinedFailure = () => new ModelError("The AI provider declined this request.", 502);
 export const truncatedFailure = () => new ModelError("The AI response was cut off before it finished.", 502);

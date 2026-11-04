@@ -5,7 +5,7 @@ import { renderResumeDocument } from '../src/lib/resume-document.ts';
 
 const base = process.env.TEST_BASE_URL;
 if (!base || process.env.TEST_MODEL_FIXTURES !== 'true') throw new Error('Run with the Firebase emulator harness and --model-fixtures.');
-const directory = 'openspec/changes/add-resume-tailor-and-candidate-advocacy/evidence';
+const directory = '.firebase/resume-tailor-browser';
 await mkdir(directory, { recursive: true });
 await mkdir('/tmp/resume-tailor-browser', { recursive: true });
 const users = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, 'utf8'));
@@ -30,14 +30,14 @@ try {
     await page.waitForURL('**/dashboard/resume-tailor');
     assert.equal(await page.locator('#jd').getAttribute('maxlength'), '15000');
     assert.equal(await page.getByText('Do not paste confidential information.').count(), 0);
-    await page.locator('#jd').fill('[fixture:success] React engineer at Example. Build business applications and automation.'.padEnd(15000, 'x'));
+    await page.locator('#jd').fill(`[fixture:success] React engineer at Example. Build business applications and automation. Requisition ${width}.`.padEnd(15000, 'x'));
     assert.equal(await page.locator('#jd-count').innerText(), '15,000 / 15,000 characters');
     const counter = await page.locator('#jd-count').evaluate(element => ({ align: getComputedStyle(element).textAlign, size: parseFloat(getComputedStyle(element).fontSize) }));
     assert.equal(counter.align, 'right');
     assert.ok(counter.size < await page.locator('#jd').evaluate(element => parseFloat(getComputedStyle(element).fontSize)));
-    const response = page.waitForResponse(response => response.url().endsWith('/api/resume-tailor'));
+    const response = page.waitForResponse(response => response.url().endsWith('/artifacts/resume/generate'));
     await page.getByRole('button', { name: 'Run tool', exact: true }).click();
-    const result = await (await response).json();
+    const result = (await (await response).json()).result;
     await page.getByRole('heading', { name: 'Your tailored résumé' }).waitFor();
     const preview = page.locator('iframe[title="Tailored résumé preview"]');
     const html = await preview.getAttribute('srcdoc');
@@ -63,8 +63,10 @@ try {
     const saved = `/tmp/resume-tailor-browser/tailored-${width}.html`;
     await download.saveAs(saved);
     assert.equal(await readFile(saved, 'utf8'), html);
-    assert.equal(download.suggestedFilename(), 'tailored-resume.html');
-    assert.deepEqual(mutations.filter(path => path.startsWith('/api/') && path !== '/api/auth'), ['/api/resume-tailor']);
+    assert.match(download.suggestedFilename(), /^james-terrell-singleton-.*resume-\d{4}\.html$/);
+    assert.equal(mutations.filter(path => path === '/api/job-workspaces').length, 1);
+    assert.equal(mutations.filter(path => path.endsWith('/artifacts/resume/generate')).length, 1);
+    assert.equal(mutations.some(path => /\/(send|application-draft)$/.test(path)), false);
     await page.evaluate(() => { Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('denied'); } } }); });
     await page.getByRole('button', { name: 'Copy plain text', exact: true }).click();
     await page.getByRole('alert').filter({ hasText: /permission/ }).waitFor();
@@ -77,21 +79,19 @@ try {
     let release, started;
     const gate = new Promise(resolve => { release = resolve; });
     const reached = new Promise(resolve => { started = resolve; });
-    await page.route('**/api/resume-tailor', async route => { started(); await gate; await route.continue(); });
-    await page.locator('#jd').fill('[fixture:provider-error] React developer');
-    await page.getByRole('button', { name: 'Run tool', exact: true }).click();
+    await page.route('**/artifacts/resume/generate', async route => { started(); await gate; await route.fulfill({ status: 502, json: { error: 'Controlled provider failure.' } }); });
+    await page.getByRole('button', { name: 'Start over', exact: true }).click();
     await reached;
-    assert.equal(await preview.count(), 0);
-    assert.equal(await page.getByText('HTML download started.').count(), 0);
-    await page.getByRole('button', { name: 'Working...', exact: true }).waitFor();
+    assert.equal(await preview.count(), 1);
+    await page.getByRole('status').filter({ hasText: 'Your saved documents remain available.' }).waitFor();
     release();
     await page.getByRole('alert').filter({ hasText: 'Controlled provider failure.' }).waitFor();
-    assert.equal(await preview.count(), 0);
+    assert.equal(await preview.count(), 1);
     assert.deepEqual(errors, []);
     evidence.push({ width, independentOwnerFlow: true, ownerGenerationThroughFunctions: true, selectedRolesAndProjects: true,
       overflow: false, htmlMatchesPreview: true, plainTextParity: true, reviewNotesOutsideExports: true,
       selfContainedInertHTML: true, noDeliveryMutations: true, clipboardFailure: true, downloadFailure: true,
-      staleResultClearedWhilePending: true, providerErrorHasNoFallback: true, browserErrors: errors });
+      savedResultPreservedWhilePending: true, failedReplacementPreservesSavedCurrent: true, browserErrors: errors });
     await context.close();
   }
   await writeFile(`${directory}/browser-results.json`, JSON.stringify({ controlledModelFixture: true, results: evidence }, null, 2) + '\n');

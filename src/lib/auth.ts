@@ -10,11 +10,30 @@ export function authConfiguration(env: NodeJS.ProcessEnv = process.env): { proje
   return { projectId };
 }
 
-export function adminAuth() {
+export function adminApp() {
   const { projectId } = authConfiguration();
-  const app = getApps().find((app) => app.options.projectId === projectId)
+  return getApps().find((app) => app.options.projectId === projectId)
     ?? initializeApp({ projectId }, `portfolio-${projectId}`);
-  return getAuth(app);
+}
+
+export function adminAuth() { return getAuth(adminApp()); }
+
+export interface SessionPrincipal { uid: string; role: SessionRole }
+
+export async function currentSessionPrincipal(
+  request: Request,
+  verify = (token: string): Promise<Record<string, unknown>> => adminAuth().verifySessionCookie(token, true),
+): Promise<SessionPrincipal | null> {
+  let principal: SessionPrincipal | null = null;
+  await currentSessionRole(request, async (token) => {
+    const claims = await verify(token);
+    const role = roleFromClaims(claims);
+    if (role && typeof claims.uid === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(claims.uid)) {
+      principal = { uid: claims.uid, role };
+    }
+    return claims;
+  });
+  return principal;
 }
 
 export function roleFromClaims(claims: Record<string, unknown>): SessionRole | null {

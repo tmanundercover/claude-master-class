@@ -7,15 +7,18 @@ The app does not use site passwords, session secrets, or a standalone developmen
 
 ## Local development
 
+Install Node.js 22.18+ and Java JDK 21+ before starting the suite. Firestore and
+Storage rules use Java; [Firebase recommends Java 21 for Firestore](https://firebase.google.com/docs/emulator-suite/connect_firestore).
+
 ```text
 npm ci
 npm ci --prefix functions
 npm run dev
 ```
 
-This starts only the Auth, Hosting, and Functions emulators under
+This starts the Auth, Hosting, Functions, Firestore, and Cloud Storage emulators under
 `demo-portfolio-local`. Open `http://127.0.0.1:5500`. Auth uses port 9099 and
-Functions uses 5501; the configured ports are in `firebase.json`.
+Functions uses 5501, Firestore 8080, and Storage 9199; the configured ports are in `firebase.json`.
 After source edits, run `npm run build:firebase` in another terminal and refresh.
 Hosting reads the rebuilt files; Functions reloads the backend bundle.
 
@@ -29,7 +32,7 @@ Startup seeds these Firebase Auth users with `portfolioRole` custom claims:
 
 Generated passwords are in `.firebase/auth-users.local.json`, with private file
 permissions and Git exclusion. They are local emulator credentials. The startup
-script exports Auth data to `.firebase/emulator-data` on shutdown and imports it
+script exports Auth, Firestore, and Storage data to `.firebase/emulator-data` on shutdown and imports it
 on the next run. Reseeding is idempotent and preserves existing account passwords:
 
 ```text
@@ -80,9 +83,9 @@ npm run test:http
 ```
 
 Preflight runs unit tests, lint, types, build/export checks, and HTTP acceptance
-checks through all three emulators. The HTTP suite seeds isolated demo accounts,
-disables provider calls, and restores the original backend environment files after
-completion. It tests guest/owner access, unassigned users, escalation rejection,
+checks through all five emulators, including real server SDK storage adapters and direct-client rules denial. The HTTP suite seeds isolated demo accounts,
+disables provider calls, and builds an isolated temporary Functions package with
+synthetic settings. Existing credential files are neither read nor rewritten. It tests guest/owner access, unassigned users, escalation rejection,
 revoked sessions, cookies, origin checks, and tool validation. It never launches a
 standalone server. Tests choose unused emulator ports to avoid disturbing a running
 project. No live deployment or paid provider request is part of these checks.
@@ -90,14 +93,19 @@ project. No live deployment or paid provider request is part of these checks.
 ## Future live deployment
 
 Use a Firebase project with the Blaze plan enabled for Functions. The repository
-currently selects no live project. When ready:
+currently selects no live project. Classroom completion prepares a review; it does
+not authorize publication. Follow these steps only after target-specific review
+and separate explicit authorization:
 
 1. Enable Firebase Authentication's Email/Password provider in the target project.
 2. Provision approved users and set their `portfolioRole` claims through the Admin
    SDK. Use `terrell` for the owner and `interviewer` or `recruiter` for guests.
    The local seed command intentionally cannot modify the live database.
-3. Copy `functions/.env.example` to `functions/.env.YOUR_PROJECT_ID` and fill in
-   the AI settings and the public `FIREBASE_WEB_API_KEY` from the project's web app.
+3. With separate approval, create a missing `functions/.env.YOUR_PROJECT_ID` using
+   the setting names in `functions/.env.example`. Preserve any existing file and
+   every API key value; never copy a template over it or move keys between files.
+   Privately enter only authorized AI settings and public `FIREBASE_WEB_API_KEY`
+   from the target project's web app.
 4. Set `AI_API_KEY` in that same project-specific backend environment file, then
    authenticate and deploy:
 
@@ -106,7 +114,7 @@ npx firebase login
 npm run firebase:deploy -- --project YOUR_PROJECT_ID
 ```
 
-Functions and Hosting deploy together. The Hosting rewrite pins its Function
+Functions, Hosting, and the checked-in Firestore/Storage rules deploy together. The rules deny direct client access; owner-authorized Functions serve private data using Firebase Admin. No custom IAM role setup is part of this feature. The Hosting rewrite pins its Function
 revision; even a Hosting-only deploy can deploy the pinned Function. Both deploy
 hooks rebuild the package. Static files take precedence over rewrites, so private
 pages and recordings are excluded from `dist/hosting`.
@@ -120,3 +128,14 @@ References: [Firebase session cookies](https://firebase.google.com/docs/auth/adm
 [Auth emulator](https://firebase.google.com/docs/emulator-suite/connect_auth),
 [custom claims](https://firebase.google.com/docs/auth/admin/custom-claims), and
 [Hosting with Functions](https://firebase.google.com/docs/hosting/functions).
+
+## Course release review
+
+Complete [Lesson 10](../exercises/verification-and-deployment.md) and record actual
+checks first. The optional `npm run build:pages` export in `dist/pages` is public-only;
+it cannot serve authenticated APIs, private interview recordings, or contact delivery.
+Keep environment files, server bundles, raw sources and private workspace artifacts
+out of public output. The separately developed standard public résumé PDF uses
+only the approved public profile. Private tailored PDFs and notes remain server-owned.
+No build/export check proves live provider readiness, real mail delivery, or DNS
+cutover; those operations require their separate approvals and evidence.

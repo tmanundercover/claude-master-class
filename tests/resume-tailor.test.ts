@@ -57,6 +57,8 @@ test('assembly whitelists authoritative identity and role metadata; private cata
   const role = result.document.experience[0];
   for (const key of ['title', 'organization', 'period'] as const) assert.equal(role[key], profile.experience[0][key]);
   assert.equal(result.document.projects[0].links[0].url, profile.projects[0].url);
+  assert.equal(result.document.previousExperienceAvailableUponRequest, true);
+  assert.deepEqual(result.document.additionalSkills, profile.skills.strong.filter(skill => !result.document.skills.includes(skill)));
   assert.ok(!JSON.stringify(result).includes(profile.projects[0].evidence!));
   assert.ok(!('sources' in result));
   const rendered = renderResumeDocument(result.document);
@@ -64,6 +66,9 @@ test('assembly whitelists authoritative identity and role metadata; private cata
     assert.ok(rendered.html.includes(value)); assert.ok(rendered.text.includes(value));
   }
   for (const output of [rendered.html, rendered.text]) {
+    assert.match(output, /Previous experience available upon request\./);
+    assert.match(output, /ADDITIONAL SKILLS/);
+    for (const skill of result.document.additionalSkills!) assert.ok(output.includes(skill.replaceAll('&', '&amp;')) || output.includes(skill));
     assert.doesNotMatch(output, /REVIEW-NOTE-SENTINEL|role-1-summary|Hi, I'm sharing|Best,/);
     assert.ok(!output.includes(profile.experience[1].organization));
   }

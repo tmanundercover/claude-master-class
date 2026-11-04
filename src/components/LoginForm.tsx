@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { applicationLoginDestination } from "../lib/job-return";
 import { sitePath } from "@/lib/site-path";
 import type { SessionRole } from "@/lib/session";
 
@@ -31,7 +32,7 @@ export default function LoginForm() {
       const destination = typeof data === "object" && data !== null && "destination" in data && typeof data.destination === "string"
         ? data.destination
         : role === "terrell" ? "/dashboard" : "/interview";
-      window.location.replace(sitePath(destination));
+      window.location.replace(sitePath(applicationLoginDestination(role, destination, window.location.search)));
     } catch (error) {
       const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
       setError(code === "auth/invalid-credential" || code === "auth/user-not-found" || code === "auth/wrong-password"
