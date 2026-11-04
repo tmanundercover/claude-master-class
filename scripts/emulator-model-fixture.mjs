@@ -21,11 +21,24 @@ export async function emulatorModelFixture(request, { ModelError }) {
       factsToVerify: ['CONTROLLED-REVIEW-NOTE: Confirm the target team’s application priorities.'],
     };
   }
-  if (request.schema.properties.score) return {
-    score: 73, summary: 'Relevant React engineering supports the role; confirm its version-specific and organizational expectations.',
-    matches: [{ requirement: 'Required: React development', evidence: 'The profile documents React business applications.' }],
-    gaps: ['Preferred (absent evidence): cloud certification'], nextActions: ['Discuss React work.', 'Clarify actual daily responsibilities.', 'Confirm certification priority.'],
-  };
+  if (request.schema.properties.requirements) {
+    const notStated = { requirement: null, jobQuote: null, status: 'not_stated', rationale: 'The posting does not state a constraint.', references: [] };
+    const result = {
+      summary: 'React application work is documented. Kubernetes evidence is absent; confirm relocation and the hybrid schedule.',
+      requirements: [
+        { requirement: 'React', jobQuote: 'React', category: 'required_technical', status: 'supported', rationale: 'React is listed in the verified profile.', references: [input.verifiedProfile.sources.find(source => source.text === 'React').id] },
+        ...(jd.includes('Build business applications') ? [{ requirement: 'Build business applications', jobQuote: 'Build business applications', category: 'responsibilities_seniority', status: 'partially_supported', rationale: 'Application delivery is documented; confirm the target scope.', references: ['role-1-summary'] }] : []),
+        ...(jd.includes('Kubernetes') ? [{ requirement: 'Kubernetes', jobQuote: 'Kubernetes', category: 'preferred', status: 'unsupported_evidence', rationale: 'The supplied profile has no Kubernetes evidence.', references: [] }] : []),
+      ],
+      location: jd.includes('Boston') ? { requirement: 'Boston', jobQuote: 'Boston', status: 'needs_confirmation', rationale: 'The profile is open to relocation; this move needs confirmation.', references: ['profile-summary', 'profile-location'] } : notStated,
+      workArrangement: jd.includes('three days on site') ? { requirement: 'Hybrid schedule', jobQuote: 'three days on site', status: 'needs_confirmation', rationale: 'The profile does not establish this schedule preference.', references: [] } : notStated,
+      nextActions: ['Discuss React work.', 'Clarify application scope.', 'Confirm relocation and hybrid expectations.'],
+    };
+    if (jd.includes('[fixture:fit-logistics-only]')) result.requirements = [];
+    if (jd.includes('[fixture:fit-unknown-reference]')) result.requirements[0].references = ['invented-source'];
+    if (jd.includes('[fixture:fit-provider-score]')) result.score = 100;
+    return result;
+  }
   if (request.schema.properties.letter) return {
     letter: Array.from({ length: 20 }, () => 'I build dependable business applications and practical workflows for teams.').join(' '),
     evidenceUsed: ['Business allocation workflows at Addition.', 'Property-listing website with contact delivery.'], factsToVerify: [],

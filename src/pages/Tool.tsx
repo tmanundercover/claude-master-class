@@ -11,7 +11,7 @@ export default function ToolPage({ id }: { id: string }) {
       <h1>{tool.title}</h1>
       <p>{tool.description}</p>
       <p className="notice">{tool.id === "fit-analyzer"
-        ? "This protected tool compares the job description with verified profile evidence. Treat the score as an evidence-fit summary, not a hiring probability."
+        ? "Review a weighted breakdown of required qualifications, responsibilities and seniority, and preferred qualifications, with profile references for each assessment. Location and work arrangement are assessed separately."
         : tool.id === "resume-tailor"
           ? "Start directly with a job description. Preview your tailored résumé, download HTML, or copy plain text. Source details and review notes stay outside your exports."
         : tool.id === "cover-letter"

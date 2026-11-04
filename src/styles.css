@@ -150,6 +150,24 @@ button:disabled { opacity: .65; cursor: wait; }
 .fit-score strong { font-size: 2.8rem; line-height: 1; }
 .fit-score span { color: var(--muted); }
 .fit-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.fit-breakdown-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.fit-breakdown-card, .fit-logistics-card, .fit-requirement-list > li { min-width: 0; padding: 1rem; border: 1px solid var(--line); border-radius: .65rem; background: #101a2d; overflow-wrap: anywhere; }
+.fit-breakdown-card h4, .fit-logistics-card h4 { margin: 0 0 .75rem; }
+.fit-breakdown-card dl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem .6rem; font-size: .85rem; }
+.fit-breakdown-card dt { color: var(--muted); }
+.fit-breakdown-card dd { margin: 0; text-align: right; font-weight: 600; }
+.fit-requirement-group { margin-top: 1.5rem; }
+.fit-requirement-list { display: grid; gap: .9rem; padding-left: 1.5rem; }
+.fit-requirement-heading { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: .6rem; }
+.fit-status { display: inline-block; max-width: 100%; padding: .2rem .55rem; border-radius: 1rem; font-size: .75rem; color: #e6eeff; background: #2b3e61; }
+.fit-status--supported, .fit-status--compatible { color: #b7f2d3; background: #173c35; }
+.fit-status--partially_supported, .fit-status--needs_confirmation { color: #ffe1a0; background: #44391f; }
+.fit-status--unsupported_evidence, .fit-status--incompatible { color: #ffc9ca; background: #492c37; }
+.fit-result blockquote { margin: .85rem 0; padding-left: .8rem; border-left: 2px solid var(--line); color: var(--muted); font-size: .85rem; }
+.fit-references { margin: .8rem 0 0; padding-left: 1.1rem; font-size: .8rem; }
+.fit-references summary { cursor: pointer; color: var(--accent); }
+.fit-references p { color: var(--muted); }
+@media (max-width: 900px) { .fit-breakdown-grid { grid-template-columns: minmax(0, 1fr); } }
 .result-list { display: grid; gap: .85rem; list-style: none; padding: 0; }
 .result-list li { display: grid; gap: .25rem; padding-left: 1rem; border-left: 2px solid var(--accent); }
 .result-list span { color: var(--muted); }

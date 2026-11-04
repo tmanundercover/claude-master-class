@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import FitAnalysisResult from './FitAnalysisResult';
 import ResumeTailorResult from './ResumeTailorResult';
 import type { TailorResult } from '@/lib/resume-tailor-result';
 import { isTailorResult } from '@/lib/resume-tailor-client';
@@ -140,39 +141,7 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
       <div aria-live="polite">
         {error && <p className="error" role="alert">{error}</p>}
         {tailorResult && <ResumeTailorResult result={tailorResult} />}
-        {fitResult && <section className="fit-result" aria-labelledby="fit-result-heading">
-          <div className="fit-summary">
-            <div className="fit-score" aria-label={`Evidence fit score: ${fitResult.score} out of 100`}>
-              <strong>{fitResult.score}</strong><span>/100</span>
-            </div>
-            <div>
-              <h2 id="fit-result-heading">Evidence fit analysis</h2>
-              <p>{fitResult.summary}</p>
-              <p className="muted">This score summarizes profile evidence against this job description. It is not a hiring probability or guarantee.</p>
-            </div>
-          </div>
-          <div className="fit-columns">
-            <section>
-              <h3>Evidence-backed matches</h3>
-              {fitResult.matches.length > 0 ? <ul className="result-list">
-                {fitResult.matches.map((match, index) => <li key={`${match.requirement}-${index}`}>
-                  <strong>{match.requirement}</strong>
-                  <span>{match.evidence}</span>
-                </li>)}
-              </ul> : <p className="muted">No supported matches were returned.</p>}
-            </section>
-            <section>
-              <h3>Gaps and absent evidence</h3>
-              {fitResult.gaps.length > 0 ? <ul>
-                {fitResult.gaps.map((gap, index) => <li key={`${gap}-${index}`}>{gap}</li>)}
-              </ul> : <p className="muted">No gaps were returned.</p>}
-            </section>
-          </div>
-          <section>
-            <h3>Three next actions</h3>
-            <ol>{fitResult.nextActions.map((action, index) => <li key={`${action}-${index}`}>{action}</li>)}</ol>
-          </section>
-        </section>}
+        {fitResult && <FitAnalysisResult result={fitResult} />}
         {letterResult && <section className="letter-result" aria-labelledby="letter-result-heading">
           <div className="letter-heading">
             <div>

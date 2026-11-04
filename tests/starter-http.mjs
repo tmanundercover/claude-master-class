@@ -155,6 +155,15 @@ test("controlled model fixtures exercise owner generation and route failures", {
       assert.ok(!("sources" in value));
       assert.ok(!JSON.stringify(value.document).includes("CONTROLLED-REVIEW-NOTE"));
     }
+    if (path.endsWith("fit-analyzer")) {
+      assert.equal(value.version, 2);
+      assert.equal(value.score, 100);
+      assert.deepEqual(value.breakdown.map(group => group.effectiveWeight), [100, 0, 0]);
+      assert.equal(value.requirements[0].status, 'supported');
+      assert.equal(value.requirements[0].references[0].text, 'React');
+      assert.equal(value.location.status, 'not_stated');
+      for (const marker of ['fit-unknown-reference', 'fit-provider-score']) assert.equal((await post(`[fixture:${marker}] React developer`)).status, 502);
+    }
     for (const [marker, status] of [["malformed", 502], ["provider-error", 502], ["rate-limit", 429]]) {
       const failure = await post(`[fixture:${marker}] React developer at Example`);
       assert.equal(failure.status, status, `${path} ${marker}`);

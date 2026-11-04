@@ -18,13 +18,7 @@ export interface ToolInput {
   weeklyHours: number;
 }
 
-export interface FitResult {
-  score: number;
-  summary: string;
-  matches: { requirement: string; evidence: string }[];
-  gaps: string[];
-  nextActions: string[];
-}
+export type { FitResult } from './fit-types';
 
 export interface LetterResult {
   letter: string;
