@@ -8,7 +8,7 @@ export default function Dashboard({ evidence }: { evidence: EvidenceSummary }) {
     <>
       <h1>Your workspace.</h1>
       <p>Manage correspondence, explore your résumé evidence, and prepare for your next conversation.</p>
-      <p className="notice">This workspace is protected by a four-hour server session. All three tools use verified profile evidence, validate model output, and surface provider failures without fabricated fallback results.</p>
+      <p className="notice">This workspace is protected by a four-hour server session. Use any of the four tools independently: assess fit candidly, write a persuasive letter or résumé, or prepare for an interview. Each uses documented profile evidence and validates model output.</p>
       <InboxCard />
       <AppLink className="resume-intelligence" href="/dashboard/resume">
         <span>

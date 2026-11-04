@@ -15,6 +15,7 @@ npm-debug.log*
 # Firebase local state, generated Functions package, and private configuration
 .firebase/
 .firebase-test-*.json
+.firebase-test-functions-*/
 *-debug.log*
 functions/dist/
 functions/public/

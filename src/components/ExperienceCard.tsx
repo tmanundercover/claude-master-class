@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import ExperienceSkills from "./ExperienceSkills";
+import MetadataTags from './MetadataTags';
+import { splitTechnologyMetadata } from '../lib/skill-icons';
 
 export default function ExperienceCard({
   ariaLabel,
@@ -7,6 +9,7 @@ export default function ExperienceCard({
   children,
   className,
   skills = [],
+  tags = [],
   period,
   heading,
   employmentType,
@@ -16,10 +19,12 @@ export default function ExperienceCard({
   children: ReactNode;
   className: string;
   skills?: string[];
+  tags?: string[];
   period?: string;
   heading?: ReactNode;
   employmentType?: string;
 }) {
+  const metadata = splitTechnologyMetadata(skills, tags);
   return (
     <article
       className={`${className} experience-record`}
@@ -29,6 +34,7 @@ export default function ExperienceCard({
       {period && (
         <div className="experience-timeline">
           <p className="muted experience-period">{period}</p>
+          <MetadataTags tags={metadata.tags} />
         </div>
       )}
       <div className="experience-content">
@@ -42,7 +48,7 @@ export default function ExperienceCard({
           {bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
         </ul>
       </div>
-      {skills.length > 0 && <ExperienceSkills skills={skills} />}
+      {metadata.skills.length > 0 && <ExperienceSkills skills={metadata.skills} />}
     </article>
   );
 }

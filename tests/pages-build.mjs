@@ -37,7 +37,7 @@ test("Pages internal links and assets respect the configured base path", async (
 });
 
 test("static private routes show availability and never embed private page data", async () => {
-  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan"]) {
+  for (const route of ["login", "interview", "dashboard", "dashboard/resume", "dashboard/inbox", "dashboard/fit-analyzer", "dashboard/cover-letter", "dashboard/career-plan", "dashboard/resume-tailor"]) {
     const page = await readFile(join(directory, route, "index.html"), "utf8");
     assert.match(page, /The private workspace needs Firebase Functions/);
     assert.match(page, /"page":"static-unavailable"/);

@@ -2,7 +2,7 @@
 
 ## Why
 
-Turn an assessment into action. Candidates with evidence need rehearsal;
+Start directly from a job description; no assessment or score is required. Candidates with evidence need rehearsal;
 candidates new to a title need an achievable sequence of learning and practice.
 
 This is **one private feature with two modes**, not two separate tools.
@@ -18,6 +18,12 @@ Request:
 Hours must be between 1 and 40; enforce that every study week's total fits the budget.
 
 Return the `CareerResult` discriminated union in `src/lib/tools.ts`.
+
+## Current writing stance
+
+Build persuasive STAR talking points from documented contributions and supported qualitative outcomes, even without metrics. Reserve needs-my-input markers for genuinely missing facts, not normal paraphrasing. Keep process stages as assumptions. Study plans should build on transferable skills and prioritize meaningful preparation over keyword-by-keyword remediation.
+
+The model receives substantive roles, bullets, projects, and skills from the consolidated profile on the server, separately from the untrusted job description. Each tool can be opened directly; running Job Fit first is optional.
 
 ## Good Prompt
 
@@ -46,7 +52,7 @@ Run the starter checks and verify both modes.
 - Checks measure doing/explaining rather than merely watching videos.
 - New JD/mode submission clears stale results and displays current errors.
 - Sensitive output is neither committed nor added to `data/profile.json`.
-- No 501 placeholder remains once all three exercises have been completed.
+- All four tools remain independently accessible without a stored fit result.
 
 ## Boundaries, Do's and Don'ts
 

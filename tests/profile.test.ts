@@ -10,6 +10,7 @@ const profile = JSON.parse(
     organization: string;
     bullets: string[];
     skills: string[];
+    tags: string[];
     employmentType: string;
   }>;
   skills: Record<string, string[]>;
@@ -31,7 +32,7 @@ test("position skills use unique labels from the main skills section", () => {
   const labels = new Set(Object.values(profile.skills).flat());
   for (const role of profile.experience) {
     assert.ok(["consulting", "full-time"].includes(role.employmentType));
-    assert.ok(role.skills.length > 0, `${role.organization} needs position skills`);
+    assert.ok(role.skills.length > 0 || role.tags.length > 0, `${role.organization} needs technology or contextual metadata`);
     assert.equal(new Set(role.skills).size, role.skills.length);
     for (const skill of role.skills) assert.ok(labels.has(skill), `Unknown position skill: ${skill}`);
   }

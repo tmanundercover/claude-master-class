@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from "react";
+import ResumeTailorResult from './ResumeTailorResult';
+import type { TailorResult } from '@/lib/resume-tailor-result';
+import { isTailorResult } from '@/lib/resume-tailor-client';
 import { copyText } from "@/lib/clipboard";
 import { isCareerResult } from "@/lib/career-result";
 import { isFitResult } from "@/lib/fit-result";
 import { isLetterResult } from "@/lib/letter-result";
-import { type CareerMode, type CareerResult, type FitResult, type LetterResult, type Tone, type ToolId } from "@/lib/tools";
+import { JOB_DESCRIPTION_MAX_LENGTH, type CareerMode, type CareerResult, type FitResult, type LetterResult, type Tone, type ToolId } from "@/lib/tools";
 
 type CopyFeedback = { kind: "success" | "error"; message: string } | null;
 
@@ -15,6 +18,7 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
   const [error, setError] = useState("");
   const [result, setResult] = useState("");
   const [fitResult, setFitResult] = useState<FitResult | null>(null);
+  const [tailorResult, setTailorResult] = useState<TailorResult | null>(null);
   const [letterResult, setLetterResult] = useState<LetterResult | null>(null);
   const [careerResult, setCareerResult] = useState<CareerResult | null>(null);
   const [careerBudget, setCareerBudget] = useState<number | null>(null);
@@ -27,6 +31,7 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
     setError("");
     setResult("");
     setFitResult(null);
+    setTailorResult(null);
     setLetterResult(null);
     setCareerResult(null);
     setCareerBudget(null);
@@ -45,6 +50,14 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
         const message = typeof data === "object" && data !== null && "error" in data && typeof data.error === "string" ? data.error : `Request failed (${response.status}).`;
         const retryAfter = response.headers.get("retry-after");
         setError(response.status === 429 && retryAfter ? `${message} Try again in ${retryAfter} seconds.` : message);
+        return;
+      }
+      if (id === 'resume-tailor') {
+        if (!isTailorResult(data)) {
+          setError('The server returned an invalid résumé result. No résumé was displayed.');
+          return;
+        }
+        setTailorResult(data);
         return;
       }
       if (id === "fit-analyzer") {
@@ -98,9 +111,9 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
     <div className="panel">
       <form onSubmit={submit}>
         <label htmlFor="jd">Target job description (include the role and company)
-          <textarea id="jd" rows={8} required maxLength={5000} value={jd} onChange={(event) => setJd(event.target.value)} />
+          <textarea id="jd" rows={8} required maxLength={JOB_DESCRIPTION_MAX_LENGTH} aria-describedby="jd-count" value={jd} onChange={(event) => setJd(event.target.value)} />
         </label>
-        <p className="muted">{jd.length} / 5,000 characters. Do not paste confidential information.</p>
+        <p id="jd-count" className="muted jd-count">{jd.length.toLocaleString("en-US")} / {JOB_DESCRIPTION_MAX_LENGTH.toLocaleString("en-US")} characters</p>
         {id === "cover-letter" && <label htmlFor="tone">Tone
           <select id="tone" value={tone} onChange={(event) => {
             const value = event.target.value;
@@ -126,6 +139,7 @@ export default function ToolWorkbench({ id }: { id: ToolId }) {
       </form>
       <div aria-live="polite">
         {error && <p className="error" role="alert">{error}</p>}
+        {tailorResult && <ResumeTailorResult result={tailorResult} />}
         {fitResult && <section className="fit-result" aria-labelledby="fit-result-heading">
           <div className="fit-summary">
             <div className="fit-score" aria-label={`Evidence fit score: ${fitResult.score} out of 100`}>

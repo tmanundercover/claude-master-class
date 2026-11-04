@@ -1,0 +1,135 @@
+[
+  {
+    "width": 375,
+    "folderLoadingIcons": [
+      "inbox",
+      "sent",
+      "drafts",
+      "archive",
+      "spam",
+      "trash"
+    ],
+    "noWrongFolderPaints": true,
+    "sameFolderRefreshRetainsRows": true,
+    "noLoadingNoticeLayoutShift": true,
+    "accountMenuKeyboardAndDismissal": true
+  },
+  {
+    "width": 375,
+    "pristineComposeHasNoWriteOrError": true,
+    "emptyComposerCloses": true,
+    "clearedUnsavedDraftStaysLocal": true,
+    "emptySendValidatesLocally": true,
+    "bodyOnlyDraftAutosaves": true
+  },
+  {
+    "width": 375,
+    "editTemplateWithoutUseButton": true,
+    "oneTimeHtmlEditsRetained": true,
+    "baseTemplateUnchanged": true,
+    "clearedHtmlNotReplaced": true,
+    "customTemplateDraftReopened": true,
+    "customTemplateSentThroughFixture": true
+  },
+  {
+    "width": 375,
+    "dashboardInbox": true,
+    "iconRefresh": true,
+    "contact": true,
+    "reply": true,
+    "compose": true,
+    "drafts": true,
+    "ccBcc": true,
+    "attachments": true,
+    "forward": true,
+    "labels": true,
+    "searchPagination": true,
+    "organization": true,
+    "contacts": true,
+    "settings": true,
+    "htmlSandbox": true,
+    "templatePreview": true,
+    "templateDraftRetained": true,
+    "fullContactLinks": true,
+    "copyEmail": true,
+    "bulkRead": true,
+    "contactFocusSpacing": true,
+    "overflow": false,
+    "hydrationErrors": []
+  },
+  {
+    "width": 375,
+    "guestInboxDenied": true
+  },
+  {
+    "width": 1440,
+    "folderLoadingIcons": [
+      "inbox",
+      "sent",
+      "drafts",
+      "archive",
+      "spam",
+      "trash"
+    ],
+    "noWrongFolderPaints": true,
+    "sameFolderRefreshRetainsRows": true,
+    "noLoadingNoticeLayoutShift": true,
+    "accountMenuKeyboardAndDismissal": true
+  },
+  {
+    "width": 1440,
+    "pristineComposeHasNoWriteOrError": true,
+    "emptyComposerCloses": true,
+    "clearedUnsavedDraftStaysLocal": true,
+    "emptySendValidatesLocally": true,
+    "bodyOnlyDraftAutosaves": true
+  },
+  {
+    "width": 1440,
+    "editTemplateWithoutUseButton": true,
+    "oneTimeHtmlEditsRetained": true,
+    "baseTemplateUnchanged": true,
+    "clearedHtmlNotReplaced": true,
+    "customTemplateDraftReopened": true,
+    "customTemplateSentThroughFixture": true
+  },
+  {
+    "recovery": true,
+    "sessionExpiry": true,
+    "uncertainSendDeduplicated": true,
+    "emptyStaleError": true,
+    "obsoleteResponsesSuppressed": true,
+    "hiddenTabPollingPaused": true,
+    "rateLimitBackoff": true
+  },
+  {
+    "width": 1440,
+    "dashboardInbox": true,
+    "iconRefresh": true,
+    "contact": true,
+    "reply": true,
+    "compose": true,
+    "drafts": true,
+    "ccBcc": true,
+    "attachments": true,
+    "forward": true,
+    "labels": true,
+    "searchPagination": true,
+    "organization": true,
+    "contacts": true,
+    "settings": true,
+    "htmlSandbox": true,
+    "templatePreview": true,
+    "templateDraftRetained": true,
+    "fullContactLinks": true,
+    "copyEmail": true,
+    "bulkRead": true,
+    "contactFocusSpacing": true,
+    "overflow": false,
+    "hydrationErrors": []
+  },
+  {
+    "width": 1440,
+    "guestInboxDenied": true
+  }
+]

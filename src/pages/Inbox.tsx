@@ -70,7 +70,7 @@ export default function Inbox({ profile }: { profile: PublicProfile }) {
         <summary aria-label="Account menu" title="Account menu"><span className="mail-account-avatar">{profile.initials}</span><MailIcon name="next" /></summary>
         <div className="mail-account-dropdown"><p className="mail-account-email">{OWNER_EMAIL}</p>
           <nav className="mail-account-tools" aria-label="Mailbox tools">{(['mail','contacts','settings','labels'] as const).map(view => <button type="button" key={view} aria-pressed={active === view} onClick={() => openTool(view)}><MailIcon name={view} loading={active === view && toolLoading[view]} />{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
-          <div className="mail-account-actions"><MailIconButton name="refresh" label="Refresh inbox" onClick={summary.refresh} disabled={summary.loading} loading={summary.loading} /><AppLink href="/dashboard"><MailIcon name="back" />Workspace</AppLink></div>
+          <div className="mail-account-actions"><AppLink href="/dashboard"><MailIcon name="back" />Workspace</AppLink></div>
           <LogoutButton />
         </div>
       </details></div>

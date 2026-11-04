@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { FILE_TYPES, MAIL_LIMITS, type Composition, type Draft, type MailContact } from '../lib/mail-types';
+import { FILE_TYPES, MAIL_LIMITS, hasDraftContent, type Composition, type Draft, type MailContact } from '../lib/mail-types';
 import type { PublicProfile } from '../app-types';
 import MailHtmlEditor from './MailHtmlEditor';
 import { MailIcon, MailIconButton } from './MailUI';
@@ -11,20 +11,21 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
   const [expanded, setExpanded] = useState(false);
   const [content, setContent] = useState<Composition>(() => ({ ...blank, ...target.initial, ...(original ? { to: original.to ?? [], cc: original.cc, bcc: original.bcc, subject: original.subject ?? '', text: original.text ?? '', html: original.html ?? '', ...(original.thread_id ? { threadId: original.thread_id, replyToEmailId: original.reply_to_email_id! } : {}) } : {}), ...(target.threadId && target.action !== 'forward' ? { threadId: target.threadId, replyToEmailId: target.emailId } : {}) }));
   const [recipients, setRecipients] = useState(() => ({ to: content.to.join(', '), cc: content.cc.join(', '), bcc: content.bcc.join(', ') }));
-  const [status, setStatus] = useState(original ? 'Saved' : 'Unsaved');
+  const [status, setStatus] = useState(original ? 'Saved' : 'Ready to write');
   const [error, setError] = useState('');
+  const [needsSignIn, setNeedsSignIn] = useState(false);
   const [copyNotice, setCopyNotice] = useState('');
   const [sending, setSending] = useState(false);
   const [frozen, setFrozen] = useState(false);
   const [sent, setSent] = useState(false);
   const draftId = useRef<string | null>(original?.id ?? null);
   const latest = useRef(content);
-  const saved = useRef(original ? JSON.stringify(content) : '');
+  const saved = useRef(JSON.stringify(content));
   const queue = useRef<Promise<unknown>>(Promise.resolve());
   const initialCreate = useRef<{ attempt: string; content: Composition } | null>(null);
   const sendAttempt = useRef<string | null>(null);
   const paused = useRef(false);
-  function edit(value: Composition) { latest.current = value; setContent(value); setStatus('Unsaved'); setError(''); }
+  function edit(value: Composition) { latest.current = value; setContent(value); setStatus(!draftId.current && !hasDraftContent(value) ? 'Ready to write' : 'Unsaved'); setError(''); }
   const saveRef = useRef<(value: Composition) => Promise<string>>(null);
   // The writer queue serializes creates and updates; the initial create retains an immutable retry payload.
   useEffect(() => {
@@ -43,14 +44,14 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
         return draftId.current!;
       }).catch(error => {
         if (!draftId.current && error instanceof MailClientError && error.status >= 400 && error.status < 500 && error.status !== 409 && error.status !== 429) initialCreate.current = null;
-        setStatus('Save failed — edits retained'); setError(error.message); throw error;
+        setStatus('Save failed — edits retained'); setNeedsSignIn(error instanceof MailClientError && error.status === 401); setError(error.message); throw error;
       });
       queue.current = operation;
       return operation;
     };
   }, []);
   useEffect(() => {
-    if (frozen || sending || sent || JSON.stringify(content) === saved.current) return;
+    if (frozen || sending || sent || (!draftId.current && !hasDraftContent(content)) || JSON.stringify(content) === saved.current) return;
     const timer = window.setTimeout(() => { if (!paused.current) void saveRef.current?.(content).catch(() => {}); }, 900);
     return () => clearTimeout(timer);
   }, [content, frozen, sending, sent]);
@@ -60,6 +61,9 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
   }, []);
   async function send(event: FormEvent) {
     event.preventDefault(); if (sending || sent) return;
+    if (!latest.current.to.length || !(latest.current.text || latest.current.html) || (!latest.current.threadId && !latest.current.subject)) {
+      setError('Add a recipient, subject, and message before sending.'); return;
+    }
     paused.current = true; setSending(true); setFrozen(true); setError('');
     sendAttempt.current ??= crypto.randomUUID();
     try {
@@ -73,6 +77,7 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
       paused.current = false; setSent(true); setStatus('Accepted for sending'); onSent();
     } catch (error) {
       const e = error as MailClientError;
+      setNeedsSignIn(e.status === 401);
       setError(`${e.message} ${e.status === 401 ? 'Open login in another tab; keep this composer open and copy your work before signing in.' : ''}`);
       setStatus(e.code === 'uncertain' || !e.status ? 'Send uncertain — retry unchanged' : 'Send failed — content retained');
       if (e.status && e.status < 500 && e.code !== 'conflict' && e.status !== 429) { setFrozen(false); paused.current = false; sendAttempt.current = null; }
@@ -89,7 +94,7 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
   }
   const recipient = (field: 'to' | 'cc' | 'bcc') => <label>{field.toUpperCase()}<input list="mail-contact-suggestions" value={recipients[field]} disabled={frozen || sending || (field === 'to' && !!target.action && target.action !== 'forward')} onChange={event => { const value = event.target.value; setRecipients(v => ({ ...v, [field]: value })); edit({ ...latest.current, [field]: value.split(',').map(s => s.trim()).filter(Boolean) }); }} /></label>;
   return <section className={`mail-composer ${expanded ? 'mail-composer-expanded' : ''}`} aria-label="Mail composer">
-    <div className="mail-heading"><h2>{target.action ? target.action.replace('-', ' ') : 'New message'}</h2><div className="mail-heading-tools"><MailIconButton name="expand" label={expanded ? 'Restore composer' : 'Expand composer'} onClick={() => setExpanded(v => !v)} /><MailIconButton name="close" label="Close composer" onClick={onClose} disabled={!sent && (sending || frozen || status !== 'Saved')} /></div></div>
+    <div className="mail-heading"><h2>{target.action ? target.action.replace('-', ' ') : 'New message'}</h2><div className="mail-heading-tools"><MailIconButton name="expand" label={expanded ? 'Restore composer' : 'Expand composer'} onClick={() => setExpanded(v => !v)} /><MailIconButton name="close" label="Close composer" onClick={onClose} disabled={!sent && (sending || frozen || (status !== 'Saved' && status !== 'Ready to write'))} /></div></div>
     <form onSubmit={send}>
       <datalist id="mail-contact-suggestions">{contacts.map(c => <option key={c.id} value={c.email}>{c.first_name} {c.last_name}</option>)}</datalist>
       <fieldset disabled={frozen || sending || sent}>
@@ -106,9 +111,9 @@ export default function MailComposer({ target, contacts, profile, onClose, onSen
       <p className="mail-save-status" role="status">{status}</p>{copyNotice && <p role="status">{copyNotice}</p>}{error && <p role="alert" className="error">{error}</p>}
       <div className="mail-actions">
         <button className="mail-send" type="submit" disabled={sending || sent}><MailIcon name="sent" />{sending ? 'Sending…' : frozen ? 'Retry unchanged send' : 'Send message'}</button>
-        <button type="button" disabled={sending || frozen || sent} onClick={() => void saveRef.current!(latest.current).catch(() => {})}>Save draft</button>
+        <button type="button" disabled={sending || frozen || sent || !hasDraftContent(content)} onClick={() => void saveRef.current!(latest.current).catch(() => {})}>Save draft</button>
         <button type="button" onClick={() => void navigator.clipboard.writeText(JSON.stringify({ ...content, attachments: content.attachments?.map(a => a.filename) }, null, 2)).then(() => setCopyNotice('Copied editable content')).catch(() => setError('Copy failed. Select and copy your message manually.'))}>Copy content</button>
-        {error && <a href="/login" target="_blank" rel="noopener noreferrer">Sign in in another tab</a>}
+        {error && needsSignIn && <a href="/login" target="_blank" rel="noopener noreferrer">Sign in in another tab</a>}
         {!frozen && !sending && <button type="button" onClick={async () => { paused.current = true; await queue.current.catch(() => {}); try { if (draftId.current) await mailApi(`drafts/${draftId.current}`, jsonWrite('DELETE')); onClose(); onSent(); } catch (error) { paused.current = false; setError((error as Error).message); } }}>Discard draft</button>}
       </div>
     </form>

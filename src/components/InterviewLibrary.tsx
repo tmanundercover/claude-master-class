@@ -1,3 +1,4 @@
+import ProjectMetadata from "./ProjectMetadata";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import ExperienceCard from "@/components/ExperienceCard";
 import type { InterviewResponse } from "@/lib/interview-responses";
@@ -144,6 +145,7 @@ function ResponseModal({ response, available, onClose }: { response: InterviewRe
             ariaLabel={`${response.experience.role} experience details`}
             bullets={response.experience.bullets}
             skills={response.experience.skills}
+            tags={response.experience.tags}
             period={response.experience.period}
             employmentType={response.experience.employmentType}
             heading={<>
@@ -154,7 +156,7 @@ function ResponseModal({ response, available, onClose }: { response: InterviewRe
           >
             <p>{response.experience.description}</p>
           </ExperienceCard>
-          <div className="tags">{response.technologies.map((item) => <span className="badge" key={item}>{item}</span>)}</div>
+          <ProjectMetadata skills={response.technologies} tags={[]} />
           {!available && <ListenButton response={response} />}
         </div>
         <div>

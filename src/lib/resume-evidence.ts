@@ -26,6 +26,7 @@ export interface ResumeSearchItem {
 
 const PUBLIC_SKILL_ALIASES: Record<string, string[]> = {
   JavaScript: ["Javascript"],
+  "Apache Solr": ["SOLR", "Apache Solr"],
   React: ["React.js"],
   Angular: ["Angular.js", "Angular"],
   "Node.js": ["Node.js"],
@@ -176,9 +177,9 @@ export function getResumeSearchItems(referenceDate = new Date()): ResumeSearchIt
     title: experience.title,
     subtitle: `${experience.organization} · ${experience.period}`,
     description: experience.summary,
-    metadata: experience.bullets,
+    metadata: [...experience.bullets, ...experience.tags],
     href: "/#experience",
-    searchText: [experience.title, experience.organization, experience.period, experience.summary, ...experience.bullets].join(" "),
+    searchText: [experience.title, experience.organization, experience.period, experience.summary, ...experience.bullets, ...experience.tags].join(" "),
   }));
   const publicSkills = Object.values(profile.skills).flat().map((name): ResumeSearchItem => {
     const evidence = getPublicSkillEvidence(name, referenceDate);

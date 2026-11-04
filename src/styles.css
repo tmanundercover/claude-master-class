@@ -49,6 +49,8 @@ main { padding: 0 1.5rem 3rem; }
 .skill-chip { display: grid; grid-template-columns: 1.9rem minmax(0, 1fr); gap: .7rem; align-items: start; padding: .62rem .75rem; border: 1px solid #3d5278; border-radius: .45rem; color: #e6eeff; background: linear-gradient(135deg, rgba(41, 62, 101, .68), rgba(18, 29, 50, .5)); font-size: .82rem; line-height: 1.25; box-shadow: inset 0 1px rgba(255, 255, 255, .035); transition: transform .18s ease, border-color .18s ease, background .18s ease; }
 .skill-icon { width: 1.9rem; height: 1.9rem; overflow: visible; fill: none; stroke: #b9ceff; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
 .skill-icon--brand { fill: #b9ceff; stroke: none; }
+.skill-chip:has(.skill-icon[data-icon-name="groovy"]) { grid-template-columns: 3.8rem minmax(0, 1fr); }
+.skill-icon[data-icon-name="groovy"] { width: 3.8rem; }
 .skill-chip-copy { display: grid; gap: .35rem; min-width: 0; }
 .skill-chip-name { font-weight: 700; overflow-wrap: anywhere; }
 .skill-chip-evidence { color: var(--muted); font-size: .68rem; line-height: 1.4; }
@@ -65,11 +67,14 @@ main { padding: 0 1.5rem 3rem; }
 .project-card .project-links { justify-content: flex-end; margin-top: auto; padding-top: 1.25rem; }
 .skill-chip--pill { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .6rem; border-radius: 2rem; font-size: .75rem; }
 .skill-chip--pill .skill-icon { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+.skill-chip--pill .skill-icon[data-icon-name="groovy"] { width: 2.2rem; }
 .skill-chip--pill .skill-chip-name { font-weight: 600; }
 .project-skills .skill-chip--pill { background: #182943; transition: transform .18s ease, border-color .2s ease, background-color .2s ease; }
 .project-skills .skill-chip--pill:hover { background: #284266; }
-.project-tags { display: flex; align-items: baseline; gap: .45rem; margin: .85rem 0 0; color: var(--muted); font-size: .8rem; }
-.project-tags svg { width: 1rem; height: 1rem; flex-shrink: 0; align-self: flex-start; margin-top: .18rem; }
+.metadata-tags { margin: .65rem 0 0; color: var(--muted); font-size: .75rem; line-height: 1.65; overflow-wrap: anywhere; }
+.metadata-tags-icon { display: inline-block; width: 1em; height: 1em; margin-right: .4em; vertical-align: -.12em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.metadata-tag { border-radius: .2rem; transition: color .18s ease, background-color .18s ease, box-shadow .18s ease; }
+.metadata-tag:hover { color: #e6eeff; background-color: rgba(152, 184, 255, .18); box-shadow: 0 0 0 3px rgba(152, 184, 255, .18); }
 .project-tag { transition: color .2s ease; }
 .project-tag:hover { color: #d5e2ff; }
 .button, button { border: 1px solid transparent; border-radius: .55rem; background: #98b8ff; color: #0b1630; padding: .7rem 1rem; font-weight: 700; text-decoration: none; display: inline-block; }
@@ -136,6 +141,7 @@ form { display: grid; gap: 1rem; }
 label { display: grid; gap: .4rem; font-weight: 700; }
 input, textarea, select { width: 100%; border: 1px solid #627699; background: #0d1527; border-radius: .5rem; padding: .8rem; color: var(--text); min-width: 0; }
 textarea { resize: vertical; }
+.jd-count { margin: -.5rem 0 0; text-align: right; font-size: .75rem; }
 button:disabled { opacity: .65; cursor: wait; }
 .error { color: #ffd3d3; border: 1px solid #c16c78; padding: 1rem; border-radius: .5rem; overflow-wrap: anywhere; }
 .fit-result { display: grid; gap: 1.5rem; margin-top: 2rem; }
@@ -205,6 +211,7 @@ button:disabled { opacity: .65; cursor: wait; }
 .experience-card { --skills-edge: #101a2d; }
 .skill-chip--tile { display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1; min-width: 0; width: 4.95rem; flex: 0 0 4.95rem; gap: .27rem; padding: .18rem; border-radius: .65rem; }
 .skill-chip--tile .skill-icon { width: 1.8rem; height: 1.8rem; flex-shrink: 0; }
+.skill-chip--tile .skill-icon[data-icon-name="groovy"] { width: 3.6rem; }
 .skill-chip--tile .skill-chip-copy { width: 100%; gap: 0; text-align: center; }
 .skill-chip--tile .skill-chip-name { display: block; color: #e6eeff; font-size: .6rem; line-height: 1.2; font-weight: 600; }
 .experience-bullets { display: grid; gap: .55rem; margin: .75rem 0 0; padding: .75rem 0 0 1.2rem; overflow: hidden; border-top: 1px solid var(--line); color: #dbe6fb; font-size: .84rem; line-height: 1.55; }
@@ -309,7 +316,7 @@ code { overflow-wrap: anywhere; }
   .skill-chip { transition: none; }
   .skill-chip[id]:focus { animation: none; border-color: var(--accent); }
   .project-card { transition: none; }
-  .project-tag { transition: none; }
+  .project-tag, .metadata-tag { transition: none; }
   .project-card--linked:hover, .project-card--linked:focus-within { transform: none; }
   .resume-intelligence { transition: none; }
   .contact-icon-link { transition: none; }
@@ -593,3 +600,7 @@ code { overflow-wrap: anywhere; }
   .mail-app .mail-icon-button { min-width: 28px; }
   .mail-two { gap: 8px; }
 }
+/* Resume Tailor uses the same document styles as the inbox résumé. */
+.tailor-result { margin-top: 2rem; min-width: 0; overflow-wrap: anywhere; }
+.tailor-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0; }
+.tailor-preview { display: block; width: 100%; height: 1000px; border: 1px solid #dde3ec; border-radius: 8px; background: #edf0f5; }

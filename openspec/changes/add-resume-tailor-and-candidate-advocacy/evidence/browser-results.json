@@ -1,0 +1,39 @@
+{
+  "controlledModelFixture": true,
+  "results": [
+    {
+      "width": 375,
+      "independentOwnerFlow": true,
+      "ownerGenerationThroughFunctions": true,
+      "selectedRolesAndProjects": true,
+      "overflow": false,
+      "htmlMatchesPreview": true,
+      "plainTextParity": true,
+      "reviewNotesOutsideExports": true,
+      "selfContainedInertHTML": true,
+      "noDeliveryMutations": true,
+      "clipboardFailure": true,
+      "downloadFailure": true,
+      "staleResultClearedWhilePending": true,
+      "providerErrorHasNoFallback": true,
+      "browserErrors": []
+    },
+    {
+      "width": 1440,
+      "independentOwnerFlow": true,
+      "ownerGenerationThroughFunctions": true,
+      "selectedRolesAndProjects": true,
+      "overflow": false,
+      "htmlMatchesPreview": true,
+      "plainTextParity": true,
+      "reviewNotesOutsideExports": true,
+      "selfContainedInertHTML": true,
+      "noDeliveryMutations": true,
+      "clipboardFailure": true,
+      "downloadFailure": true,
+      "staleResultClearedWhilePending": true,
+      "providerErrorHasNoFallback": true,
+      "browserErrors": []
+    }
+  ]
+}

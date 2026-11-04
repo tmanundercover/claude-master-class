@@ -76,3 +76,11 @@ test("copying is explicit and clipboard failures remain visible to the caller", 
   await assert.rejects(copyText("draft", { writeText: async () => { throw new Error("denied"); } }),
     (error: unknown) => error instanceof ClipboardCopyError && /permission/.test(error.message));
 });
+
+ test("advocacy permits supported rewriting and empty verification notes", () => {
+  const request = letterAnalysisRequest("React 19 engineer at Example", "formal", { skills: ["React 18"] });
+  assert.match(request.system, /candidate advocate/);
+  assert.match(request.system, /paraphrasing, synthesis/);
+  assert.match(request.system, /may be empty/);
+  assert.deepEqual(parseLetterResult({ ...validResult, factsToVerify: [] }).factsToVerify, []);
+});

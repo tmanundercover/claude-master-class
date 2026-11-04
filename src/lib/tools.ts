@@ -1,7 +1,10 @@
+export const JOB_DESCRIPTION_MAX_LENGTH = 15_000;
+
 export const tools = [
-  { id: "fit-analyzer", title: "Job Fit Analyzer", description: "Compare a JD with verified profile evidence; report matches, gaps, and next actions." },
-  { id: "cover-letter", title: "Cover Letter Generator", description: "Draft a company-specific letter without inventing qualifications." },
-  { id: "career-plan", title: "Interview Prep / Study Plan", description: "Prepare for an interview or turn role gaps into a realistic four-week plan." },
+  { id: "fit-analyzer", title: "Job Fit Analyzer", description: "Assess strengths, transferable experience, meaningful gaps, and questions about the role." },
+  { id: "cover-letter", title: "Cover Letter Generator", description: "Make a confident, specific case through supported examples and professional writing." },
+  { id: "career-plan", title: "Interview Prep / Study Plan", description: "Build persuasive interview stories or a practical four-week preparation plan." },
+  { id: "resume-tailor", title: "Resume Tailor", description: "Write a cohesive résumé for your target role, then preview, download HTML, or copy text." },
 ] as const;
 
 export type ToolId = (typeof tools)[number]["id"];
@@ -40,8 +43,8 @@ export function validateToolInput(body: unknown): { ok: true; value: ToolInput }
   if (typeof body.jobDescription !== "string" || !body.jobDescription.trim()) {
     return { ok: false, error: "Paste a job description before running the tool." };
   }
-  if (body.jobDescription.length > 5000) {
-    return { ok: false, error: "Job description must be 5,000 characters or fewer." };
+  if (body.jobDescription.length > JOB_DESCRIPTION_MAX_LENGTH) {
+    return { ok: false, error: `Job description must be ${JOB_DESCRIPTION_MAX_LENGTH.toLocaleString("en-US")} characters or fewer.` };
   }
   const tone = "tone" in body ? body.tone : "formal";
   const mode = "mode" in body ? body.mode : "interview";

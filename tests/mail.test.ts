@@ -129,6 +129,25 @@ test('pinned SDK maps selectors, combined search, contact reply-to, pagination, 
   await box.respond('thread-1', 'email-1', 'forward', content, 'forward-attempt-0001'); assert.deepEqual(requests.at(-1)!.body.to, content.to);
   await box.contact(contact); const sent = requests.findLast(r => r.url.pathname === '/emails' && r.method === 'POST')!; assert.deepEqual(sent.body.to, [OWNER_EMAIL]); assert.equal(sent.body.reply_to, contact.email); assert.equal(sent.headers.get('Idempotency-Key'), `contact-${contact.attempt}`);
 });
+test('blank drafts stay local and partial draft fields match the pinned provider contract', async t => {
+  const blank: Composition = { to: [], cc: [], bcc: [], subject: '', text: '', html: '' };
+  const writes: Record<string, unknown>[] = [];
+  t.mock.method(globalThis, 'fetch', async (_input: unknown, init?: RequestInit) => {
+    if (init?.method === 'GET') return Response.json({ id: 'draft-partial', email_id: null });
+    const body = JSON.parse(String(init?.body)); writes.push(body);
+    assert.notEqual(body.subject, '', 'Provider subjects must be nonempty or null/omitted');
+    return Response.json({ id: 'draft-partial' });
+  });
+  const live = new LiveMailbox({ ...config, mode: 'live' });
+  for (const box of [new FixtureMailbox(), live]) await assert.rejects(box.saveDraft(null, blank, 'blank-draft-attempt01'), /before saving a draft/);
+  assert.equal(writes.length, 0);
+  for (const [index, partial] of [{ subject: 'Subject only' }, { text: 'Message only' }, { to: content.to }, { html: '<p>HTML only</p>' }].entries()) {
+    await live.saveDraft(null, { ...blank, ...partial }, `partial-draft-attempt-${index}`);
+    assert.deepEqual(writes.at(-1), { to: [], cc: [], bcc: [], ...partial });
+  }
+  await live.saveDraft('draft-partial', { ...blank, text: 'Keep message, clear subject' }, 'update-partial-attempt01');
+  assert.deepEqual(writes.at(-1), { to: [], cc: [], bcc: [], subject: null, text: 'Keep message, clear subject', html: null });
+});
 test('live reads retry bounded failures; writes expose uncertainty and reuse immutable provider keys', async t => {
   let count = 0; const keys: (string | null)[] = []; let mode = 'network';
   t.mock.method(globalThis, 'fetch', async (_input: unknown, init?: RequestInit) => {

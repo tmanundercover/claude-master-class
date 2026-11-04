@@ -1,7 +1,7 @@
 {
   "name": "James Terrell Singleton",
   "headline": "Fullstack engineer and AI-driven product builder",
-  "pitch": "I build fullstack products and AI-enabled workflows across fintech, defense, small-business, and creative technology, with an emphasis on resilient systems, thoughtful interfaces, and practical integration. Recent consulting spans durable AI execution systems, Firebase-backed business applications, CMS and commerce platforms, and automation for mission-driven organizations.",
+  "pitch": "Open to relocation. I build fullstack products and AI-enabled workflows across fintech, defense, small-business, and creative technology, with an emphasis on resilient systems, thoughtful interfaces, and practical integration. Recent consulting spans durable AI execution systems, Firebase-backed business applications, CMS and commerce platforms, and automation for mission-driven organizations. Earlier work includes frontend subject matter expertise and React and Flutter banking applications at Assembled Financial, lending platforms and a Paycheck Protection Program prototype at Assembled Brands, and frontend and distributed systems engineering at Northrop Grumman, Cybercore Technologies, Raytheon, and L-3 Communications.",
   "location": "Baltimore, MD / Washington, DC / Virginia",
   "initials": "JTS",
   "experience": [
@@ -12,6 +12,7 @@
       "employmentType": "consulting",
       "summary": "Architects business applications and advises on automation, reporting, operational integrations, and staff enablement for Addition and organizations it serves.",
       "skills": ["React", "TypeScript", "Firebase", "Firebase Authentication", "OpenAI Codex", "Zapier", "DocuSign"],
+      "tags": ["Business automation", "Staff training", "Financial reporting", "Role-based workflows"],
       "bullets": [
         "Architected and developed Time Allocation by Percentage, a React, TypeScript, and Firebase application supporting staff cost allocation and financial reporting across C3 and C4 entities.",
         "Engineered employee, manager, and finance-administrator workflows for biweekly allocation, 100% percentage validation, project and jurisdiction coding, approvals, corrections, and CSV reporting.",
@@ -27,10 +28,11 @@
       "employmentType": "consulting",
       "summary": "Builds and maintains public-interest publishing tools that connect WordPress presentation with React interfaces and staff-managed Google Sheets data.",
       "skills": ["React", "WordPress", "Google Forms Integrations", "Google Sheets integrations", "OpenAI Codex"],
+      "tags": ["Questionnaire publishing", "Spreadsheet approvals", "CMS integration"],
       "bullets": [
         "Engineered a React application embedded in a WordPress child theme to publish political candidates' questionnaire responses from Google Forms and Google Sheets data.",
         "Implemented spreadsheet-driven approval controls and candidate-image references so nontechnical staff can curate the responses visible to the public.",
-        "Integrated and extensively restyled a WordPress events-calendar plugin through child-theme CSS while continuing content revisions and site enhancements.",
+        "Integrated and extensively restyled a WordPress events-calendar plugin through child-theme CSS3 while continuing content revisions and site enhancements.",
         "Used OpenAI Codex while developing and validating the React, WordPress, spreadsheet, and styling integrations."
       ]
     },
@@ -41,6 +43,7 @@
       "employmentType": "consulting",
       "summary": "Designed, developed, and deployed a campaign and community website with a path toward organizer-managed content.",
       "skills": ["React", "TypeScript", "Vite", "Firebase", "OpenAI Codex"],
+      "tags": ["Responsive design", "Campaign communications", "Content management"],
       "bullets": [
         "Designed, developed, and deployed a React, TypeScript, and Vite website on Firebase Hosting for campaign information, worker stories, meetings, surveys, and leadership opportunities.",
         "Managed stakeholder-driven revisions and releases with preview deployments, responsive design, structured SEO data, and social-sharing metadata.",
@@ -55,6 +58,7 @@
       "employmentType": "consulting",
       "summary": "Designed, styled, and developed the complete Chef Jamie G Shopify site, then extended it with a custom testimonial application hosted through MAAiN and served inside the storefront.",
       "skills": ["Shopify", "React", "OpenAI Codex"],
+      "tags": ["Site ownership", "Custom testimonials", "Storefront integration"],
       "bullets": [
         "Designed, styled, and developed the complete Shopify site for the culinary-services business.",
         "Delivers seasonal menu changes, service-content updates, and ongoing client-requested enhancements.",
@@ -69,7 +73,8 @@
       "period": "May 2025 - Present",
       "employmentType": "consulting",
       "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing, while advising on ongoing process and website improvements.",
-      "skills": ["Wix", "OpenAI Codex"],
+      "skills": ["Wix", "OpenAI Codex", "Office 365"],
+      "tags": ["Booking automation", "Payment-gated scheduling", "Calendar integration"],
       "bullets": [
         "Implemented the Wix booking experience used for student art interviews.",
         "Connected payment gating to scheduling so payment happens before an interview can be booked.",
@@ -85,6 +90,7 @@
       "employmentType": "consulting",
       "summary": "Built workflow orchestration that generates and deploys websites and web applications, evolving an initial n8n workflow into a React and TypeScript system on GCP and Firebase with multimodal automation.",
       "skills": ["React", "TypeScript", "n8n", "GCP", "Firebase", "OpenAI Codex"],
+      "tags": ["Workflow orchestration", "White-label applications", "Multimodal generation", "Automated deployment"],
       "bullets": [
         "Started with an n8n workflow that proved the end-to-end application-generation concept.",
         "Evolved the workflow into white-label React and TypeScript product experiences.",
@@ -96,11 +102,12 @@
     },
     {
       "title": "AI Model Evaluation Specialist",
-      "organization": "Outlier.ai & DataAnnotations (Contract)",
+      "organization": "Outlier.ai, DataAnnotations & Handshake",
       "period": "Dec 2022 - Present",
       "employmentType": "consulting",
       "summary": "Designs evaluation protocols, prompts, and test scenarios for language models; authors technical reports and contributes detailed response evaluations to dataset creation.",
-      "skills": ["Prompt engineering", "LLM evaluation"],
+      "skills": ["React", "Docker", "Python", "CodeSandbox"],
+      "tags": ["Prompt engineering", "LLM evaluation", "Generative AI"],
       "bullets": [
         "Developed structured test cases to assess language-model capabilities and limitations.",
         "Engineered prompts and natural-language scenarios to analyze model behavior in realistic use cases.",
@@ -114,7 +121,8 @@
       "period": "Sep 2022 - Present",
       "employmentType": "consulting",
       "summary": "Builds and deploys React and Node.js applications for small businesses using Sanity CMS and GCP, including human-AI interfaces and multimodal generation workflows.",
-      "skills": ["React", "TypeScript", "Node.js", "Sanity.io", "Custom CMS architecture", "GCP", "Firebase", "Firebase Hosting", "Firebase Functions", "Resend API", "PostgreSQL", "Agent runtimes", "Firebase Authentication", "Jest", "Storybook", "Material UI", "TDD", "Shopify SDK", "GIMP", "OpenSpec", "OpenAI Codex"],
+      "skills": ["React", "TypeScript", "Node.js", "Sanity.io", "GCP", "Firebase", "Firebase Hosting", "Firebase Functions", "Resend API", "PostgreSQL", "Firebase Authentication", "Jest", "Storybook", "Material UI", "Shopify SDK", "GIMP", "OpenAI Codex"],
+      "tags": ["Custom CMS architecture", "Agent runtimes", "TDD", "OpenSpec", "Fullstack development", "CMS-backed applications"],
       "bullets": [
         "Develops and deploys React websites and applications for small-business clients.",
         "Builds Node.js backends and structured-content workflows with Sanity CMS and GCP.",
@@ -133,12 +141,20 @@
       "organization": "Assembled Financial",
       "period": "Jun 2021 - Sep 2022",
       "employmentType": "full-time",
-      "summary": "Built cryptocurrency banking web and mobile applications with React, Kotlin, Node.js, Flutter, Dart, and AWS; integrated Auth0, Prove, Plaid, and Marqeta services.",
-      "skills": ["React", "Kotlin", "Node.js", "Flutter", "Dart", "AWS", "Docker", "PostgreSQL", "Auth0"],
+      "summary": "Served as frontend subject matter expert for cryptocurrency banking web and mobile applications using React, Flutter, and Dart, with shared Kotlin and Node.js services on AWS, Auth0 authentication, and consistent accessibility across platforms.",
+      "skills": ["React", "Kotlin", "Node.js", "Flutter", "Dart", "AWS", "Docker", "PostgreSQL", "Auth0", "GitLab", "Figma"],
+      "tags": ["OAuth 2.0", "Single sign-on (SSO)", "CORS", "Accessibility", "Performance optimization", "UI testing", "Pair programming", "Mentoring", "CI/CD", "Extreme Agile", "React state management (Context + useReducer)", "Frontend SME", "Product/Design collaboration", "Shared mobile/web backend"],
       "bullets": [
-        "Built React web experiences and Flutter and Dart mobile applications backed by Kotlin and Node.js endpoints on AWS.",
-        "Integrated Auth0 authentication, Prove identity verification, Plaid account data, and Marqeta banking operations.",
-        "Worked across PostgreSQL-backed services, a Solana-based token, Segment analytics, and GitLab version control."
+        "Built React web and Flutter and Dart mobile cryptocurrency banking experiences backed by shared Kotlin and Node.js services on AWS.",
+        "Served as frontend subject matter expert, collaborating with Product and Design in a cross-functional team to translate wireframes into pixel-perfect interfaces.",
+        "Optimized React state management using Context and the useReducer hook to organize shared state and application updates.",
+        "Directly coached and mentored frontend engineers in performance optimization and UI testing.",
+        "Worked on an extreme Agile team using pair programming and participating in retrospectives, sprint planning, and daily standups/Scrums.",
+        "Used pair programming for a two-way skills exchange with a mobile developer, sharing React, database integration, and API expertise while learning Flutter and Dart.",
+        "Integrated Auth0 authentication across mobile and web applications with single sign-on and OAuth 2.0 token-based access, alongside Prove identity verification, Plaid account data, and Marqeta banking operations.",
+        "Implemented CORS policies for Node.js backend APIs supporting application integrations.",
+        "Helped implement consistent accessibility across mobile and web banking experiences as the frontend subject matter expert.",
+        "Worked across PostgreSQL-backed services, a Solana-based token, and Segment analytics, using GitLab for source control and CI/CD."
       ]
     },
     {
@@ -146,13 +162,24 @@
       "organization": "Assembled Brands",
       "period": "Dec 2019 - Jun 2021",
       "employmentType": "full-time",
-      "summary": "Built React applications and Kotlin services on AWS, administering DynamoDB and PostgreSQL and integrating QuickBooks, Shopify, and Google Workspace APIs for lending workflows.",
-      "skills": ["React", "Kotlin", "AWS", "Docker", "DynamoDB", "PostgreSQL", "Custom authentication", "API integrations", "Storybook", "WordPress", "Sanity.io"],
+      "summary": "Served as frontend subject matter expert for React lending applications used by hundreds of users, partnering with Product and Design on interface delivery, web performance, and accessibility, with Kotlin and Node.js services on AWS.",
+      "skills": ["React", "Kotlin", "Node.js", "AWS", "Docker", "DynamoDB", "PostgreSQL", "Chrome DevTools", "Storybook", "WordPress", "Sanity.io", "webpack", "Parcel", "CircleCI", "SQS", "GitHub Actions", "Figma"],
+      "tags": ["Custom authentication", "API integrations", "CORS", "Accessibility", "Performance optimization", "CI/CD", "Extreme Agile", "Pair programming", "React state management (Context + useReducer)", "Frontend SME", "Product/Design collaboration", "Event-driven architecture", "Dashboard ownership", "PPP prototyping"],
       "bullets": [
         "Built and maintained React applications and Kotlin services on AWS for lending workflows.",
+        "Worked on an extreme Agile team using pair programming and participating in retrospectives, sprint planning, and daily standups/Scrums.",
+        "Served as frontend subject matter expert, collaborating with Product and Design in a cross-functional team to translate wireframes into pixel-perfect React interfaces.",
+        "Optimized React state management using Context and the useReducer hook to organize shared state and application updates.",
+        "Owned web-performance optimization for applications serving hundreds of users, profiling React interfaces with Chrome DevTools to identify and address performance issues.",
+        "Helped implement accessibility improvements in React applications as the frontend subject matter expert.",
+        "Implemented CORS policies for Node.js backend APIs supporting web application integrations.",
         "Administered application data across DynamoDB and PostgreSQL stores.",
         "Integrated QuickBooks, Shopify, and Google Workspace APIs into financial-data and operational workflows.",
-        "Contributed to the public company website, editorial blog, lending application, and administrative dashboard."
+        "Used webpack and Parcel across React applications, with CircleCI for application CI/CD.",
+        "Built the administrative dashboard from the ground up with React, Context, useReducer, and Parcel, owning its implementation and using GitHub Actions for CI/CD.",
+        "Worked within an event-driven AWS architecture using Amazon SQS for asynchronous messaging between services.",
+        "Contributed to the public company website, editorial blog, lending application, and administrative dashboard.",
+        "Helped create a Paycheck Protection Program (PPP) prototype that was handed off to another development team and became Assembled Financial's first product, preceding my later work on its cryptocurrency banking applications."
       ]
     },
     {
@@ -161,7 +188,8 @@
       "period": "Jan 2018 - Dec 2019",
       "employmentType": "full-time",
       "summary": "Upgraded an Angular application, developed ngRx features and data-heavy interfaces, and contributed to the distributed Java and Spring API it consumed.",
-      "skills": ["Angular", "TypeScript", "Java", "Distributed systems"],
+      "skills": ["Angular", "TypeScript", "Java"],
+      "tags": ["Distributed systems", "State management (ngRx)", "Data-heavy interfaces", "Framework migration"],
       "bullets": [
         "Helped upgrade the application from Angular 4 to Angular 6 while continuing feature delivery.",
         "Developed ngRx features from JIRA tasking and UI and UX mockups supplied by an external design team.",
@@ -170,31 +198,39 @@
       ]
     },
     {
-      "title": "Principal / Frontend Software Engineer",
+      "title": "Principal Engineer",
       "organization": "Cybercore Technologies",
       "period": "Dec 2015 - Dec 2017",
       "employmentType": "full-time",
-      "summary": "Architected a React form and alerting application backed by Spring, Java, and MySQL, and reengineered an Ext JS interface with Angular and Bootstrap.",
-      "skills": ["React", "Angular", "Java", "JavaScript", "MySQL", "MongoDB", "CI/CD"],
+      "summary": "Owned application architecture and technology selection as a principal engineer, building a React form and alerting application with existing Spring and Java APIs, modernizing an Ext JS interface with Angular and Bootstrap, and implementing accessibility. A dedicated team maintained the database platforms.",
+      "skills": ["React", "Angular", "Java", "JavaScript", "MySQL", "MongoDB", "Ext JS", "Jenkins", "jQuery Mobile", "Apache Solr"],
+      "tags": ["CI/CD", "Accessibility", "Legacy modernization", "Faceted search", "Application ownership", "Technology selection", "Database-team collaboration"],
       "bullets": [
+        "Owned application architecture and development, selecting application technologies while a dedicated database team managed database platforms and maintenance.",
         "Architected a React form that changed future fields from prior input, stored submissions in MySQL, and generated administrator alerts.",
         "Integrated the React application with an existing Spring and Java API in an Agile principal-engineering team.",
         "Reengineered an Ext JS interface with Angular and Bootstrap across Scala, Java, Hibernate, and MongoDB services.",
-        "Built faceted-search prototypes with jQuery Mobile and SOLR and supported Tomcat deployment through Jenkins."
+        "Built faceted-search prototypes with jQuery Mobile backed by Apache Solr search APIs, and supported Tomcat deployment through Jenkins.",
+        "Implemented accessibility across React, Angular, and search-interface work as part of frontend engineering responsibilities."
       ]
     },
     {
-      "title": "Software Engineer",
+      "title": "Principal Engineer",
       "organization": "Cybercore Technologies",
       "period": "Jan 2014 - Jan 2015",
       "employmentType": "full-time",
-      "summary": "Supported production and prototype server-status interfaces built with AngularJS, Ext JS, Highcharts, and ng-grid against Java and Spring services.",
-      "skills": ["Angular", "Java", "JavaScript", "Node.js", "MongoDB"],
+      "summary": "Owned production and prototype server-status applications and technology selection as a principal engineer, including an Angular UI that visualized results from hundreds of Ruby application tests. Integrated with Java and Spring services and database platforms maintained by a dedicated database team.",
+      "skills": ["Angular", "Java", "JavaScript", "Node.js", "MongoDB", "Ruby", "Ext JS"],
+      "tags": ["Accessibility", "Agile", "Automated testing", "Application-test visualization", "Application ownership", "Technology selection", "Database-team collaboration"],
       "bullets": [
+        "Owned application architecture and development, selecting application technologies while a dedicated database team managed database platforms and maintenance.",
         "Supported two production interfaces, two prototype interfaces, and one legacy interface.",
         "Built prototypes with AngularJS while maintaining Ext JS and early Angular applications.",
-        "Created Highcharts visualizations and ng-grid tables for server details and automated test results.",
-        "Integrated the interfaces with J2EE and Spring endpoints deployed to Tomcat."
+        "Exposed results from hundreds of Ruby application tests in an Angular UI, giving developers a visual way to identify failing tests during development.",
+        "Created Highcharts visualizations and ng-grid tables for server details and test results.",
+        "Integrated the interfaces with J2EE and Spring endpoints deployed to Tomcat.",
+        "Participated in sprint planning and daily standups/Scrums as part of the Agile application-test visualization and server-status UI team.",
+        "Implemented accessibility across production, prototype, and legacy server-status interfaces."
       ]
     },
     {
@@ -202,12 +238,15 @@
       "organization": "SoftTech Solutions",
       "period": "Aug 2012 - Dec 2013",
       "employmentType": "full-time",
-      "summary": "Built a data-aggregation interface with Java, JSP, jQuery, HTML, LESS, Highcharts, MongoDB, Jasmine, Maven, and Tomcat.",
-      "skills": ["Java", "JavaScript", "MongoDB", "Automated testing"],
+      "summary": "Built and modernized frontend interfaces for Java/JSP applications, implementing interactive jQuery experiences, Highcharts visualizations, custom graphics, and Jasmine testing. Championed JavaScript frontend practices through brown-bag demonstrations and applied automated testing, build automation, and dependency management to newer frontend work.",
+      "skills": ["Java", "JavaScript", "MongoDB", "Spring Boot", "jQuery", "HTML5", "CSS3", "Groovy", "Jasmine", "Grunt", "npm"],
+      "tags": ["Automated testing", "Data aggregation", "Data visualization", "Knowledge transfer", "Frontend transition", "Custom graphics", "Technical advocacy", "Frontend modernization", "Build automation", "Dependency management"],
       "bullets": [
-        "Consumed J2EE and Groovy APIs with jQuery, HTML, CSS, and LESS to unify data from different sources.",
-        "Built JSP views and Highcharts visualizations backed by MongoDB and a Java and Hibernate data layer.",
-        "Added Jasmine tests and worked with Maven and Tomcat in the application delivery workflow.",
+        "Consumed Spring Boot, J2EE, and Groovy APIs with jQuery, HTML5, CSS3, and LESS to unify data from different sources.",
+        "Built JSP views and Highcharts visualizations backed by MongoDB and a Java data layer using Hibernate.",
+        "Implemented jQuery interfaces and Jasmine tests for application JavaScript, working with Maven and Tomcat in the delivery workflow.",
+        "Championed JavaScript frontend practices through practical brown-bag presentations and working demonstrations of jQuery, Jasmine, Grunt, and npm, covering interactive interfaces, automated testing, build automation, and dependency management.",
+        "Applied Grunt-based task automation and npm dependency management to newer frontend work alongside continued development of existing JSP interfaces.",
         "Created custom vector graphics in Inkscape and refined them in Adobe Illustrator."
       ]
     },
@@ -216,13 +255,16 @@
       "organization": "Raytheon Company",
       "period": "Oct 2007 - Jul 2012",
       "employmentType": "full-time",
-      "summary": "Developed and maintained an internal social network with PHP, Elgg, MySQL, and jQuery and a distributed system using C++, Python, and MySQL.",
-      "skills": ["PHP", "JavaScript", "MySQL", "C/C++", "Python", "Distributed systems"],
+      "summary": "Developed data-retrieval protocols for a distributed C++, Python, and MySQL system, alongside a separate GWT maintenance and sustainment initiative. Later maintained an internal social networking platform built on Elgg using PHP, JavaScript, MySQL, and jQuery, including accessibility work.",
+      "skills": ["C/C++", "Python", "MySQL", "PHP", "JavaScript", "jQuery", "GWT"],
+      "tags": ["Data-retrieval protocols", "Distributed systems", "Accessibility", "Agile", "Social-network development", "Production support", "Log aggregation", "GWT frontend ownership"],
       "bullets": [
-        "Maintained an internal social network and developed custom Elgg plugins with PHP, JavaScript, and MySQL.",
+        "Developed data-retrieval protocols and maintained a distributed C++, Python, and MySQL system in an Agile team with sprint planning and daily standups/Scrums.",
+        "Implemented log aggregation with Apache Pig.",
+        "Spearheaded a separate Google Web Toolkit (GWT) maintenance and sustainment application alongside the primary distributed-system work, owning the frontend and bringing in a backend developer who provided middleware for server-side process execution and data delivery to the GWT interface.",
+        "Maintained an internal social networking platform built on Elgg and developed custom plugins with PHP, JavaScript, and MySQL.",
         "Provided direct production support to users of the social-networking platform.",
-        "Developed and maintained a distributed system with C++, Python, and MySQL in an Agile environment.",
-        "Wrote PIG scripts for log aggregation and prototyped a GWT maintenance and sustainment dashboard."
+        "Applied accessibility practices to the internal social networking platform and custom Elgg plugins."
       ]
     },
     {
@@ -231,7 +273,8 @@
       "period": "Nov 2004 - Oct 2007",
       "employmentType": "full-time",
       "summary": "Developed production PHP, Java, and JavaScript applications, created a Java SOAP API for CSV and XML data, and supported documentation, installations, training, and system demonstrations.",
-      "skills": ["PHP", "Java", "JavaScript", "MySQL", "API design"],
+      "skills": ["PHP", "Java", "JavaScript", "MySQL"],
+      "tags": ["API design", "Operator training", "System documentation"],
       "bullets": [
         "Developed a production application with PHP, HTML, JavaScript, MySQL, and Tomcat across spiral and waterfall delivery cycles.",
         "Created a Java SOAP API that served ingested data in CSV and XML formats.",
@@ -241,7 +284,7 @@
     }
   ],
   "skills": {
-    "strong": ["JavaScript", "TypeScript", "React", "Angular", "Vite", "Storybook", "Material UI", "Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "Dart", "Flutter", "API design", "Distributed systems", "API integrations", "Resend API", "Auth0", "Firebase Authentication", "Custom authentication", "Multi-tenant architecture", "AWS", "AWS Lambda", "SQS", "RDS", "GCP", "Firebase", "Firebase Hosting", "Firebase Functions", "Firestore", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Sanity.io", "Custom CMS architecture", "Shopify", "Shopify SDK", "WordPress", "Wix", "Google Forms Integrations", "Google Sheets integrations", "Wix Automations", "n8n", "Prompt engineering", "LLM evaluation", "Agent runtimes", "OpenAI Codex", "Google Gemini", "OpenSpec", "Runtime observability", "TDD", "Jest", "Automated testing", "Docker", "CI/CD", "Zapier", "DocuSign", "GIMP"],
+    "strong": ["JavaScript", "TypeScript", "React", "Angular", "Vite", "Storybook", "Material UI", "Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "Dart", "Flutter", "Resend API", "Auth0", "Firebase Authentication", "AWS", "AWS Lambda", "SQS", "RDS", "GCP", "Firebase", "Firebase Hosting", "Firebase Functions", "Firestore", "PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Sanity.io", "Shopify", "Shopify SDK", "WordPress", "Wix", "Google Forms Integrations", "Google Sheets integrations", "Wix Automations", "n8n", "OpenAI Codex", "Google Gemini", "Jest", "Docker", "Zapier", "DocuSign", "GIMP", "Chrome DevTools", "webpack", "Parcel", "CircleCI", "GitLab", "GitHub Actions", "Ruby", "Jenkins", "Ext JS", "Spring Boot", "jQuery", "HTML5", "CSS3", "Office 365", "Groovy", "Jasmine", "Grunt", "GWT", "npm", "jQuery Mobile", "Apache Solr", "CodeSandbox", "Figma"],
     "developing": [],
     "learning": []
   },
@@ -252,8 +295,8 @@
       "url": "https://kameron-whitfield.web.app/",
       "summary": "A React and TypeScript website for a Houston-based realtor, featuring property listings and custom CMS architecture built for this client. Firebase Hosting serves the site, while Firebase Functions connects the contact form to the Resend API for email.",
       "evidence": "Terrell confirmed the Houston Realtor Website project began in June 2026 and continues to the present. The site is for a Houston-based realtor and features featured property listings, a custom client-specific CMS, and contact-form email through the Resend API. The implementation uses React, TypeScript, Firebase Functions, and Firebase Hosting.",
-      "skills": ["React", "TypeScript", "Firebase Hosting", "Firebase Functions", "Resend API", "Custom CMS architecture"],
-      "tags": ["Featured property listings", "Contact form"]
+      "skills": ["React", "TypeScript", "Firebase Hosting", "Firebase Functions", "Resend API"],
+      "tags": ["Featured property listings", "Contact form", "Custom CMS architecture"]
     },
     {
       "title": "Time Allocation by Percentage",
@@ -268,9 +311,9 @@
       "title": "Dorothea Project questionnaire publishing",
       "context": "Dorothea Project consulting / 2026 - Present",
       "url": "https://dorotheaproject.com/candidate-questionnaire-results/",
-      "summary": "A React publishing interface styled with CSS and embedded in a WordPress child theme, bringing Google Forms submissions and Google Sheets approval workflows into public political-candidate questionnaire results. OpenAI Codex supported development and validation of the publishing integrations.",
+      "summary": "A React publishing interface styled with CSS3 and embedded in a WordPress child theme, bringing Google Forms submissions and Google Sheets approval workflows into public political-candidate questionnaire results. OpenAI Codex supported development and validation of the publishing integrations.",
       "evidence": "The recent consulting resume documents Google Forms and Sheets integration, spreadsheet-driven approval controls, candidate images, and WordPress presentation work.",
-      "skills": ["React", "WordPress", "Google Forms", "Google Sheets", "CSS", "OpenAI Codex"],
+      "skills": ["React", "WordPress", "Google Forms", "Google Sheets", "CSS3", "OpenAI Codex"],
       "tags": []
     },
     {
@@ -279,8 +322,8 @@
       "url": "https://blackworkerstogether.org/",
       "summary": "A responsive React and TypeScript campaign website built with Vite and deployed through Firebase Hosting, connecting visitors to worker stories, meetings, surveys, and leadership opportunities. The work includes SEO and social metadata, with OpenAI Codex used for implementation, validation, and release iterations.",
       "evidence": "The recent consulting resume documents its React, TypeScript, Vite, and Firebase Hosting delivery plus preview deployments, SEO data, and social metadata.",
-      "skills": ["React", "TypeScript", "Vite", "Firebase Hosting", "SEO", "OpenAI Codex"],
-      "tags": []
+      "skills": ["React", "TypeScript", "Vite", "Firebase Hosting", "OpenAI Codex"],
+      "tags": ["SEO"]
     },
     {
       "title": "MTC interview booking automation",
@@ -297,7 +340,7 @@
       "summary": "An n8n workflow evolved into a React and TypeScript application on GCP and Firebase that turns user input into deployed websites and applications, with video, image, and text generation. OpenAI Codex supported architecture, implementation, testing, and iteration.",
       "evidence": "The resume documents the initial n8n workflow, its transition into an end-to-end system, white-label React and TypeScript versions, and event-based execution on GCP and Firebase.",
       "skills": ["React", "TypeScript", "n8n", "GCP", "Firebase", "OpenAI Codex"],
-      "tags": []
+      "tags": ["Multi-tenant architecture"]
     },
     {
       "title": "Transformative Healing and Wellness website",
@@ -313,8 +356,8 @@
       "context": "AI product development / April 2024 - Present",
       "summary": "MAAiN brings LLMs, prompt engineering, and UX design together for AI code generation, backed by a TypeScript platform for agent runtimes. PostgreSQL-backed operation records and authentication support observable, resumable execution. Development uses OpenSpec and OpenAI Codex, with automated testing covering contracts, security, and regression behavior.",
       "evidence": "MAAiN is listed in the resume as a selected project and described in the founder experience as part of deployed human-AI collaboration work. The recent resume documents PostgreSQL-backed operation records, idempotency, cancellation, signed grants, approvals, isolated runs, retained results, and contract, security, and regression coverage. Terrell confirmed that MAAiN and the versioned agent execution runtime are one AI Code Generation project, started in April 2024 and continuing to the present.",
-      "skills": ["TypeScript", "PostgreSQL", "LLMs", "Prompt engineering", "UX design", "Agent runtimes", "Authentication", "OpenSpec", "Automated testing", "OpenAI Codex"],
-      "tags": []
+      "skills": ["TypeScript", "PostgreSQL", "OpenAI Codex"],
+      "tags": ["LLMs", "Prompt engineering", "UX design", "Agent runtimes", "Authentication", "OpenSpec", "Automated testing", "Runtime observability"]
     },
     {
       "title": "Chef Jamie G Shopify site & testimonials application",

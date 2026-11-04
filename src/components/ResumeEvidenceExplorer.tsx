@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import ProjectMetadata from "./ProjectMetadata";
+import MetadataTags from './MetadataTags';
+import { splitTechnologyMetadata } from '../lib/skill-icons';
 import type { SkillEvidence } from "@/lib/resume-evidence";
 
 interface ArchivedExperience {
@@ -29,6 +31,7 @@ interface CurrentExperience {
   period: string;
   summary: string;
   bullets: string[];
+  tags: string[];
 }
 
 interface CurrentProject {
@@ -76,7 +79,7 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
     project.title, project.description, project.inceptionDate, ...project.skills,
   ], query)), [projects, query]);
   const filteredCurrentExperiences = useMemo(() => currentExperiences.filter((experience) => includesQuery([
-    experience.title, experience.organization, experience.period, experience.summary, ...experience.bullets,
+    experience.title, experience.organization, experience.period, experience.summary, ...experience.bullets, ...experience.tags,
   ], query)), [currentExperiences, query]);
   const filteredCurrentProjects = useMemo(() => currentProjects.filter((project) => includesQuery([
     project.title, project.context, project.summary, project.evidence, ...project.skills, ...project.tags,
@@ -110,7 +113,7 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
               <article className="panel evidence-record" key={`current-${experience.organization}-${experience.period}-${index}`}>
                 <div className="evidence-record-heading">
                   <div><h3>{experience.title}</h3><p className="accent">{experience.organization}</p></div>
-                  <p className="muted">{experience.period}</p>
+                  <div><p className="muted">{experience.period}</p><MetadataTags tags={experience.tags} /></div>
                 </div>
                 <p>{experience.summary}</p>
                 <ul>{experience.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
@@ -153,11 +156,11 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
               <article className="panel evidence-record" key={`${experience.organization}-${experience.startDate}-${index}`}>
                 <div className="evidence-record-heading">
                   <div><h3>{experience.title}</h3><p className="accent">{experience.organization}{experience.organizationContext ? ` · ${experience.organizationContext}` : ""}</p></div>
-                  <p className="muted">{formatDate(experience.startDate)} – {formatDate(experience.endDate, experience.current)}{experience.location ? ` · ${experience.location}` : ""}</p>
+                  <div><p className="muted">{formatDate(experience.startDate)} – {formatDate(experience.endDate, experience.current)}{experience.location ? ` · ${experience.location}` : ""}</p><MetadataTags tags={splitTechnologyMetadata(experience.skills).tags} /></div>
                 </div>
                 <p>{experience.summary}</p>
                 <ul>{experience.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
-                <div className="tags">{experience.skills.map((skill) => <span className="badge" key={skill}>{skill}</span>)}</div>
+                <ProjectMetadata skills={splitTechnologyMetadata(experience.skills).skills} tags={[]} />
               </article>
             ))}
           </div>
@@ -171,9 +174,10 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
             {filteredProjects.map((project) => (
               <article className="panel evidence-record" key={`${project.title}-${project.inceptionDate}`}>
                 <p className="muted">Started {formatDate(project.inceptionDate)}</p>
+                <MetadataTags tags={splitTechnologyMetadata(project.skills).tags} />
                 <h3>{project.title}</h3>
                 <p>{project.description ?? "Historical portfolio project preserved from the archived site."}</p>
-                <div className="tags">{project.skills.map((skill) => <span className="badge" key={skill}>{skill}</span>)}</div>
+                <ProjectMetadata skills={splitTechnologyMetadata(project.skills).skills} tags={[]} />
                 {project.url && <p><a href={project.url} target="_blank" rel="noreferrer">Open archived project destination ↗</a></p>}
               </article>
             ))}

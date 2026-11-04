@@ -3,10 +3,16 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import type { PublicProfile } from '../src/app-types';
 import { resumeMailTemplate, resumeContactLink, previewEmailDocument } from '../src/lib/mail-templates.ts';
+import { RESUME_ICON_NAMES } from '../src/lib/resume-icon-names.ts';
 
 const profile = JSON.parse(readFileSync(new URL('../data/profile.json', import.meta.url), 'utf8')) as PublicProfile;
 test('résumé email keeps full active contact links, emphasizes usernames, and packages every referenced PNG icon', () => {
   const template = resumeMailTemplate(profile);
+  for (const skill of profile.skills.strong) {
+    const slug = skill.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    assert.ok(RESUME_ICON_NAMES.includes(slug), `${skill} missing from the generated icon manifest`);
+    assert.ok(existsSync(new URL(`../src/assets/mail-icons/${slug}.png`, import.meta.url)), `${skill} missing raster artwork`);
+  }
   for (const url of [profile.contact.linkedin, profile.contact.github]) {
     const username = new URL(url).pathname.split('/').at(-1)!;
     const link = resumeContactLink(url, url === profile.contact.github ? 'github' : 'linkedin');

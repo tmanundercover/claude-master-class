@@ -2,15 +2,17 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { tools, validateToolInput } from "../src/lib/tools.ts";
 
-test("exactly three private exercises are supplied", () => {
-  assert.deepEqual(tools.map((tool) => tool.id), ["fit-analyzer", "cover-letter", "career-plan"]);
+test("four independently accessible private tools are supplied", () => {
+  assert.deepEqual(tools.map((tool) => tool.id), ["fit-analyzer", "cover-letter", "career-plan", "resume-tailor"]);
 });
 
 test("JD boundaries and invalid input types are checked", () => {
-  for (const bad of [null, [], {}, { jobDescription: 4 }, { jobDescription: " " }, { jobDescription: "a".repeat(5001) }]) {
+  for (const bad of [null, [], {}, { jobDescription: 4 }, { jobDescription: " " }, { jobDescription: "a".repeat(15001) }]) {
     assert.equal(validateToolInput(bad).ok, false);
   }
-  assert.equal(validateToolInput({ jobDescription: "a".repeat(5000) }).ok, true);
+  assert.equal(validateToolInput({ jobDescription: "a".repeat(5001) }).ok, true);
+  assert.equal(validateToolInput({ jobDescription: "a".repeat(15000) }).ok, true);
+  assert.deepEqual(validateToolInput({ jobDescription: "a".repeat(15001) }), { ok: false, error: "Job description must be 15,000 characters or fewer." });
 });
 
 test("tool defaults and selected modes are explicit", () => {

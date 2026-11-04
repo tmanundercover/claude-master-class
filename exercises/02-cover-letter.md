@@ -21,6 +21,12 @@ evidenceUsed: string[]
 factsToVerify: string[]
 ```
 
+## Current writing stance
+
+Act as a confident candidate advocate. Permit supported paraphrasing, synthesis, and accurate employer terminology. Connect documented contributions to the role without unnecessary apologies about wishlist gaps. Keep specific uncertainties separate; factsToVerify may be empty. Adjacent technology versions can support relevant engineering claims without claiming unsupported exact usage.
+
+The model receives substantive roles, bullets, projects, and skills from the consolidated profile on the server, separately from the untrusted job description. Each tool can be opened directly; running Job Fit first is optional.
+
 ## Good Prompt
 
 ```text
@@ -52,7 +58,7 @@ Preserve other routes and auth. Add focused tests and run checks.
 |----------|----|-------|
 | Scope | Reuse authenticated provider code; implement this route and result UI | Rewrite authentication or change the other result contracts |
 | Facts | Use two true examples and separate unknowns into notes | Invent experience, metrics, company news, or recipient details |
-| Output | Enforce 200-300 words and selected tone at runtime | Accept valid JSON as proof that content constraints pass |
+| Output | Enforce 200-300 words at runtime and retain selected-tone instructions | Accept valid JSON as proof that content constraints pass |
 | User control | Copy only on request; report clipboard errors | Auto-send, auto-apply, or publish drafts |
 
 ## Bad Prompt

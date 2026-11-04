@@ -9,10 +9,11 @@ import { tools } from "./lib/tools";
 import { interviewResponses } from "./lib/interview-responses";
 import { careerYears, getPublicSkillEvidence, getResumeSearchItems, getResumeEvidenceSummary, getArchivedSkillEvidence, sanityResumeArchive } from "./lib/resume-evidence";
 import profile from "../data/profile.json";
-import { publicProfile } from "./lib/public-profile";
+import { publicProfile, rankPublicSkills } from "./lib/public-profile";
 import * as auth from "./server/routes/auth";
 import * as fit from "./server/routes/fit-analyzer";
 import * as letter from "./server/routes/cover-letter";
+import * as tailor from "./server/routes/resume-tailor";
 import * as career from "./server/routes/career-plan";
 
 import { inboxRoute } from "./server/routes/inbox";
@@ -26,6 +27,7 @@ const apiRoutes: Record<string, Partial<Record<string, (request: Request) => Pro
   "/api/auth": { POST: auth.POST, DELETE: auth.DELETE },
   "/api/fit-analyzer": { POST: fit.POST },
   "/api/cover-letter": { POST: letter.POST },
+  "/api/resume-tailor": { POST: tailor.POST },
   "/api/career-plan": { POST: career.POST },
 };
 
@@ -87,7 +89,8 @@ export async function resolveRequest(request: Request, publicRoot = join(process
         const role = profile.experience.find((role) => role.title === response.experience.role && role.period === response.experience.period);
         return {
           ...response,
-          experience: { ...response.experience, skills: role?.skills ?? [], employmentType: role?.employmentType },
+          technologies: rankPublicSkills(response.technologies),
+          experience: { ...response.experience, skills: rankPublicSkills(role?.skills ?? []), tags: role?.tags ?? [], employmentType: role?.employmentType },
         };
       }),
       availableVideoIds: interviewResponses.filter((item) => hasPublicFile(item.videoSrc.slice(1), publicRoot)).map((item) => item.id),

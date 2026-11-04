@@ -169,7 +169,7 @@ You don't need the key to finish steps 1 to 5; it's only used once the AI tools 
 - [ ] VS Code open with the student app and your coding assistant signed in.
 - [ ] Your AI API key with credit, kept private.
 - [ ] Your **redacted resume PDF** (no phone number or home address), plus plain text as a fallback.
-- [ ] One target job description, at most 5,000 characters.
+- [ ] One target job description, at most 15,000 characters.
 - [ ] Optional: a square photo of yourself for your portfolio.
 
 **At the start of class:** attach the PDF in your coding assistant's chat,

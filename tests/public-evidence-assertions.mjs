@@ -12,6 +12,9 @@ export async function assertPublicProjectsProtectEvidence(directory) {
   for (const project of payload.profile.projects) assert.equal("evidence" in project, false);
   const files = await readdir(join(directory, "assets"));
   const scripts = await Promise.all(files.filter((file) => file.endsWith(".js")).map((file) => readFile(join(directory, "assets", file), "utf8")));
+  for (const source of [html, ...scripts]) {
+    assert.doesNotMatch(source, /verifiedCandidateEvidence|professional résumé consultant representing the candidate/);
+  }
   for (const [index, project] of profile.projects.entries()) {
     assert.equal(html.includes(project.evidence), false, `Project ${index} notes leaked in public HTML or search data`);
     for (const source of scripts) assert.equal(source.includes(project.evidence), false, `Project ${index} notes leaked in a public script`);

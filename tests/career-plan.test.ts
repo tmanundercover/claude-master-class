@@ -101,3 +101,11 @@ test("invalid budgets and malformed study fields fail without a fallback plan", 
   assert.throws(() => parseCareerResult({ ...studyResult(5), readinessCheck: "Guaranteed job readiness." }, "study", 5), CareerResultValidationError);
   assert.throws(() => parseCareerResult({ ...studyResult(5), weeks: studyResult(5).weeks.map((week) => ({ ...week, tasks: [] })) }, "study", 5), CareerResultValidationError);
 });
+
+ test("preparation encourages qualitative outcomes and reserves markers for missing facts", () => {
+  const request = careerAnalysisRequest("React engineering", "interview", 5, { outcomes: ["Delivered allocation workflows"] });
+  assert.match(request.system, /supported qualitative outcomes confidently/);
+  assert.match(request.system, /Ordinary professional paraphrasing does not need a missing-detail marker/);
+  assert.match(request.system, /Do not append generic requests for metrics, user feedback, or extra details/);
+  assert.match(request.system, /prioritize consequential preparation/);
+});

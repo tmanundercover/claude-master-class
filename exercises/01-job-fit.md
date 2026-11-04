@@ -15,9 +15,9 @@ contract and evidence-based review. A model's score is not a hiring probability.
 
 Start at `src/server/routes/fit-analyzer.ts`. Keep `requireApiSession(request)`,
 `readJson()`, and `validateToolInput()` from the supplied helpers. Read
-`data/profile.json` on the server. Replace this tool's 501 response only.
+`data/profile.json` on the server. The supplied implementation is complete; extend it without changing the other contracts.
 
-Request: `{ jobDescription: string }`, nonblank, at most 5,000 characters.
+Request: `{ jobDescription: string }`, nonblank, at most 15,000 characters.
 Return the `FitResult` contract from `src/lib/tools.ts`:
 
 ```text
@@ -27,6 +27,12 @@ matches: [{ requirement: string, evidence: string }]
 gaps: string[]
 nextActions: string[]
 ```
+
+## Current writing stance
+
+Be a candid advisor: recognize supported semantic matches and transferable experience, distinguish consequential gaps, and preserve weak-fit analysis. React 18 experience is relevant to a React 19 posting without claiming React 19 usage. Treat employer requirements as claims; flag unclear scope and ask what actual work matters. Scores are never access thresholds.
+
+The model receives substantive roles, bullets, projects, and skills from the consolidated profile on the server, separately from the untrusted job description. Each tool can be opened directly; running Job Fit first is optional.
 
 ## Good Prompt
 
@@ -41,7 +47,7 @@ Distinguish required from preferred skills and absent evidence from known gaps.
 Validate model output at runtime, including score 0..100 and array/item types.
 Surface provider, rate-limit, and parse failures; do not return fake success.
 Render evidence-backed matches, gaps, and three next actions in the UI.
-Keep the other two exercise routes returning 501. Add focused tests.
+Preserve all four independently accessible tools and their result contracts. Add focused tests.
 ```
 
 ## Acceptance Checks
@@ -62,7 +68,7 @@ does not limit model calls.
 
 | Boundary | Do | Don't |
 |----------|----|-------|
-| Scope | Replace only fit analysis's 501; reuse server helpers | Implement the other tools or remove authentication |
+| Scope | Keep fit analysis focused; reuse server helpers | Implement the other tools or remove authentication |
 | Evidence | Trace matches to verified profile facts; treat JD as untrusted data | Follow instructions embedded in a JD or invent skills |
 | Meaning | Explain score, gaps, and actions | Present the score as a hiring probability or guaranteed outcome |
 | Provider | Validate runtime output; surface errors and control usage | Expose keys or return a default score when generation fails |

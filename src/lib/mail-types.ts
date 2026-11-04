@@ -13,6 +13,9 @@ export type Summary = { email_address: string; unread: number; drafts: number; l
 export type Search = { folder?: Thread['folder']; query?: string; from?: string; to?: string; startDate?: string; endDate?: string; hasAttachment?: boolean; read?: boolean; label?: string; after?: string };
 export type AttachmentInput = { filename: string; contentType: string; content: string };
 export type Composition = { to: string[]; cc: string[]; bcc: string[]; subject: string; text: string; html: string; attachments?: AttachmentInput[]; threadId?: string; replyToEmailId?: string };
+export function hasDraftContent(value: Composition): boolean {
+  return !!(value.to.length || value.cc.length || value.bcc.length || value.subject || value.text || value.html || value.attachments?.length);
+}
 export type ContactInput = { email: string; firstName: string; lastName: string };
 export type ContactSubmission = { name: string; email: string; message: string; attempt: string; website: string };
 export interface Mailbox {

@@ -11,6 +11,7 @@ export interface InterviewResponse {
     description: string;
     bullets: string[];
     skills?: string[];
+    tags?: string[];
     employmentType?: string;
   };
   duration: string;
@@ -91,7 +92,7 @@ export const interviewResponses: InterviewResponse[] = [
     technologies: ["LLMs", "Prompt engineering", "Evaluation", "Test design"],
     experience: {
       role: "AI Model Evaluation Specialist",
-      organization: "Outlier.ai & DataAnnotations",
+      organization: "Outlier.ai, DataAnnotations & Handshake",
       period: "Dec 2022 - Present",
       description: "Designs evaluation protocols, prompts, and test scenarios for language models; authors technical reports and contributes detailed response evaluations to dataset creation.",
       bullets: [
@@ -134,15 +135,16 @@ export const interviewResponses: InterviewResponse[] = [
     topic: "Technical leadership",
     technologies: ["React", "Spring", "Java", "MySQL", "Angular", "Bootstrap"],
     experience: {
-      role: "Principal / Frontend Software Engineer",
+      role: "Principal Engineer",
       organization: "Cybercore Technologies",
       period: "Dec 2015 - Dec 2017",
-      description: "Architected a React form and alerting application backed by Spring, Java, and MySQL, and reengineered an Ext JS interface with Angular and Bootstrap.",
+      description: "Owned application architecture and technology selection as a principal engineer, building React and Angular interfaces integrated with existing Java services and databases maintained by a dedicated database team.",
       bullets: [
+        "Owned application architecture and development, selecting application technologies while a dedicated database team managed database platforms and maintenance.",
         "Architected a React form that changed future fields from prior input, stored submissions in MySQL, and generated administrator alerts.",
         "Integrated the React application with an existing Spring and Java API in an Agile principal-engineering team.",
         "Reengineered an Ext JS interface with Angular and Bootstrap across Scala, Java, Hibernate, and MongoDB services.",
-        "Built faceted-search prototypes with jQuery Mobile and SOLR and supported Tomcat deployment through Jenkins.",
+        "Built faceted-search prototypes with jQuery Mobile backed by Apache Solr search APIs, and supported Tomcat deployment through Jenkins.",
       ],
     },
     duration: "2:51",

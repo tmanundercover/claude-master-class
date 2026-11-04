@@ -8,59 +8,13 @@ import PreviousExperience from "@/components/PreviousExperience";
 import ResumeSearchFab from "@/components/ResumeSearchFab";
 import SkillChip from "@/components/SkillChip";
 import ProjectMetadata from "@/components/ProjectMetadata";
+import { technologyGroups } from "@/lib/technology-groups";
+import { sortSkillsByExperience } from '@/lib/skill-ranking';
 import { sitePath } from "@/lib/site-path";
 import type { HomeData, PublicProfile } from "@/app-types";
 import { formatDocumentedYears } from "@/lib/evidence-format";
 import { skillTargetId } from "@/lib/skill-target";
 import { scrollToSkill } from "@/lib/scroll-to-skill";
-
-const skillGroupBlueprints = [
-  {
-    title: "Interfaces & product",
-    description: "Web and mobile experiences built for real workflows.",
-    skills: ["JavaScript", "TypeScript", "React", "Angular", "Dart", "Flutter", "Vite", "Storybook", "Material UI"],
-  },
-  {
-    title: "Services & systems",
-    description: "APIs, distributed services, and mature codebases.",
-    skills: ["Node.js", "Kotlin", "Java", "C/C++", "Python", "PHP", "API design", "Distributed systems", "API integrations", "Resend API", "Auth0", "Firebase Authentication", "Custom authentication", "Multi-tenant architecture"],
-  },
-  {
-    title: "Cloud platforms",
-    description: "Compute, functions, queues, and managed application platforms.",
-    skills: ["AWS", "GCP", "AWS Lambda", "Firebase", "Firebase Hosting", "SQS", "Firebase Functions"],
-  },
-  {
-    title: "Databases",
-    description: "Relational, document, and managed data stores.",
-    skills: ["RDS", "Firestore", "DynamoDB", "MongoDB", "PostgreSQL", "MySQL"],
-  },
-  {
-    title: "AI execution",
-    description: "Model evaluation, agent operations, and AI-assisted engineering.",
-    skills: ["OpenAI Codex", "Google Gemini", "Prompt engineering", "LLM evaluation", "Agent runtimes"],
-  },
-  {
-    title: "Testing & quality",
-    description: "Repeatable checks that make product behavior trustworthy.",
-    skills: ["TDD", "Jest", "Automated testing"],
-  },
-  {
-    title: "Delivery & operations",
-    description: "Observable, contract-driven systems built to ship and recover safely.",
-    skills: ["OpenSpec", "Runtime observability", "Docker", "CI/CD"],
-  },
-  {
-    title: "CMS & commerce",
-    description: "Content systems, storefronts, and their supporting creative tooling.",
-    skills: ["Sanity.io", "Custom CMS architecture", "Shopify", "Shopify SDK", "WordPress", "Wix", "GIMP"],
-  },
-  {
-    title: "Automations",
-    description: "Connected workflows that reduce repetitive business operations.",
-    skills: ["Google Forms Integrations", "Google Sheets integrations", "Wix Automations", "n8n", "Zapier", "DocuSign"],
-  },
-] as const;
 
 const [linkedInWidth, linkedInHeight, , , linkedInPathData] = faLinkedinIn.icon;
 const linkedInPath = Array.isArray(linkedInPathData) ? linkedInPathData.join(" ") : linkedInPathData;
@@ -106,11 +60,9 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
     };
   }, []);
   const listedSkills = new Set(Object.values(profile.skills).flat());
-  const groupedSkills = new Set<string>(skillGroupBlueprints.flatMap((group) => group.skills));
-  const skillGroups = skillGroupBlueprints
-    .map((group) => ({ ...group, skills: group.skills.filter((skill) => listedSkills.has(skill)) }))
+  const skillGroups = technologyGroups
+    .map((group) => ({ ...group, skills: sortSkillsByExperience(group.skills.filter((skill) => listedSkills.has(skill)), skillEvidence) }))
     .filter((group) => group.skills.length > 0);
-  const additionalSkills = [...listedSkills].filter((skill) => !groupedSkills.has(skill));
   const experienceStartYear = (period: string) => Number(period.match(/\b\d{4}\b/)?.[0] ?? Number.POSITIVE_INFINITY);
   const recentExperience = profile.experience.filter((role) => experienceStartYear(role.period) > 2017);
   const previousExperience = profile.experience.filter((role) => experienceStartYear(role.period) <= 2017);
@@ -120,7 +72,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
         <div>
           <p className="eyebrow">Portfolio{profile.location ? ` / ${profile.location}` : ""}</p>
           <h1>{profile.headline}</h1>
-          <p className="intro">{profile.pitch}</p>
+          <p className="intro">{profile.pitch} Explore <a href="#previous-experience">Previous Experience</a> below my most recent roles for earlier projects and contributions.</p>
           <div className="actions">
             <a className="button" href="#projects">Explore my work</a>
             <a className="button secondary" href="#contact">Get in touch</a>
@@ -151,10 +103,11 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
         {recentExperience.map((role) => (
           <ExperienceCard
             className="panel experience homepage-experience"
-            key={`${role.title}-${role.organization}`}
-            ariaLabel={`${role.title} at ${role.organization} experience details`}
+            key={`${role.title}-${role.organization}-${role.period}`}
+            ariaLabel={`${role.title} at ${role.organization} (${role.period}) experience details`}
             bullets={role.bullets}
             skills={role.skills}
+            tags={role.tags}
             period={role.period}
             employmentType={role.employmentType}
           >
@@ -171,7 +124,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
           <p>Tools I&apos;ve used across product interfaces, services, cloud infrastructure, data, and applied AI work. Historical projects and dated roles show how far back that work goes.</p>
         </div>
         <div className="capability-map">
-          {[...skillGroups, ...(additionalSkills.length > 0 ? [{ title: "Additional focus", description: "More tools represented in the verified profile.", skills: additionalSkills }] : [])].map((group, index) => (
+          {skillGroups.map((group, index) => (
             <article className="capability-row" key={group.title}>
               <div className="capability-label">
                 <span className="capability-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -202,7 +155,7 @@ export default function Home({ hasProfilePhoto, yearsInSoftware, skillEvidence, 
             </article>
           ))}
         </div>
-        <p className="skill-evidence-note">“Since” is the earliest dated role or project in the archived résumé. Role totals add dated employment periods and do not imply continuous daily use. Percentages are preserved historical self-ratings, not certifications.</p>
+        <p className="skill-evidence-note">Skills are ordered by years in dated roles, highest first, with alphabetical ties and skills without a recorded total last. “Since” is the earliest dated role or project in the archived résumé. Role totals add dated employment periods and do not imply continuous daily use. Percentages are preserved historical self-ratings, not certifications.</p>
       </section>
 
       <section className="section" id="projects">

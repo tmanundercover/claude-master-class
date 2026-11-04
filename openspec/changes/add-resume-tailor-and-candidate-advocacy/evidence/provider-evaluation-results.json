@@ -1,0 +1,255 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-sol",
+  "cases": [
+    {
+      "id": "frontend",
+      "jobDescription": "Frontend Engineer at Example Product. Required: React, TypeScript, accessible UI, business workflows, and testing. Preferred: Firebase and CMS integration.",
+      "syntheticReact18Fixture": false,
+      "outcomes": {
+        "tailor": {
+          "status": "valid-output"
+        },
+        "fit": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "failed",
+              "error": "Could not reach the AI provider. Check your connection, and AI_BASE_URL if you set one."
+            }
+          ]
+        },
+        "letter": {
+          "status": "valid-output"
+        },
+        "interview": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "valid-output"
+            }
+          ]
+        },
+        "study": {
+          "status": "valid-output"
+        }
+      },
+      "manualReview": {
+        "passed": true,
+        "fitScore": 89,
+        "observations": [
+          "R\u00e9sum\u00e9 emphasizes React/TypeScript UI, workflow engineering, testing, Firebase, and CMS integration.",
+          "Selected experience and project prose was compared with source summaries and bullets; metadata remained source-owned.",
+          "Fit identifies absent accessibility evidence while recognizing documented frontend strengths.",
+          "Technical cover letter has 238 words, exactly two supported examples, and empty verification notes.",
+          "Final interview output has three usable STAR stories with supported qualitative outcomes; possible stages remain assumptions.",
+          "Study output has three priorities and four five-hour weeks, tangible deliverables, and measurable checks."
+        ]
+      }
+    },
+    {
+      "id": "automation",
+      "jobDescription": "Automation Engineer at Example Operations. Required: Zapier, DocuSign, operational integrations, staff training, and reliable reporting workflows. Preferred: custom application development.",
+      "syntheticReact18Fixture": false,
+      "outcomes": {
+        "tailor": {
+          "status": "valid-output"
+        },
+        "fit": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "valid-output"
+            }
+          ]
+        }
+      },
+      "manualReview": {
+        "passed": true,
+        "fitScore": 96,
+        "observations": [
+          "R\u00e9sum\u00e9 prioritizes Zapier/DocuSign consulting, staff enablement, operational reporting, and payment-gated booking, with different skill/project selection from frontend.",
+          "No invented impact metrics or changed employer/title/date facts were found in reviewed prose.",
+          "Final fit matches stated required and preferred criteria, returns empty gaps, and asks about unstated reliability expectations instead of inventing credentials."
+        ]
+      }
+    },
+    {
+      "id": "adjacent-version",
+      "jobDescription": "Frontend Engineer at Example Interfaces. Required: React 19 and TypeScript, accessible user workflows, testing. Preferred: experience upgrading React applications.",
+      "syntheticReact18Fixture": true,
+      "outcomes": {
+        "tailor": {
+          "status": "valid-output"
+        },
+        "fit": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "valid-output"
+            }
+          ]
+        }
+      },
+      "manualReview": {
+        "passed": true,
+        "fitScore": 52,
+        "observations": [
+          "Isolated synthetic fixture supplies only React 18/TypeScript role evidence and no projects. The consolidated profile file is not changed.",
+          "R\u00e9sum\u00e9 retains React 18 work, uses a React/TypeScript headline, does not claim React 19 usage, and contains no version-gap disclaimer.",
+          "Fit recognizes directly transferable React experience and emphasizes absent accessibility/testing and preferred upgrade evidence; it asks whether React 19 production use is mandatory."
+        ]
+      }
+    },
+    {
+      "id": "ambiguous-posting",
+      "jobDescription": "Junior Frontend Developer at Example Systems. Required: set enterprise architecture, manage 20 engineers, and build React UI. Also expert in every AWS service, Java, Python, Swift, Kubernetes. Priorities and reporting line unspecified.",
+      "syntheticReact18Fixture": false,
+      "outcomes": {
+        "tailor": {
+          "status": "valid-output"
+        },
+        "fit": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "valid-output"
+            }
+          ]
+        }
+      },
+      "manualReview": {
+        "passed": true,
+        "fitScore": 52,
+        "observations": [
+          "R\u00e9sum\u00e9 stays within documented frontend and architecture scope without inventing management of 20 engineers, Swift, or Kubernetes.",
+          "Fit identifies conflict between the junior title and architecture/management expectations, distinguishes transferable architecture from organization-wide authority, and proposes questions about actual scope.",
+          "Remaining gaps concern stated requirements; no Known gap: none placeholder or invented certification criteria remains."
+        ]
+      }
+    },
+    {
+      "id": "weak-fit",
+      "jobDescription": "Clinical Director at Example Hospital. Required: active physician license, board certification in cardiology, ten years of direct clinical practice and surgical supervision. Preferred: patient records software familiarity.",
+      "syntheticReact18Fixture": false,
+      "outcomes": {
+        "tailor": {
+          "status": "valid-output"
+        },
+        "fit": {
+          "status": "valid-output",
+          "previousAttempts": [
+            {
+              "status": "valid-output"
+            }
+          ]
+        }
+      },
+      "manualReview": {
+        "passed": true,
+        "fitScore": 0,
+        "observations": [
+          "R\u00e9sum\u00e9 remains a software-engineering document and does not invent physician licensure, cardiology credentials, clinical practice, or surgical supervision.",
+          "Five credential-related review notes stay outside HTML and text exports.",
+          "Fit returns no matches, candidly identifies required and preferred absent evidence, and suggests technical roles rather than inflating fit."
+        ]
+      }
+    }
+  ],
+  "status": "passed-reviewed-real-provider-output",
+  "configurationSource": "functions/.env.local",
+  "authorization": "User explicitly approved the five-case provider evaluation, including approved consolidated profile and private project evidence; user then rotated the expired key and requested continuation.",
+  "writingQualityReviewed": true,
+  "calls": {
+    "initial": 13,
+    "focusedRechecks": 6,
+    "total": 19,
+    "transientConnectionFailures": 1,
+    "finalValidatedAndReviewedResults": 13
+  },
+  "environmentFilesRewritten": false,
+  "profileChanged": false,
+  "reviewLimit": "Observed output was manually compared with supplied evidence and both specs. Source references and these finite cases do not guarantee semantic correctness of future model output.",
+  "refinements": [
+    {
+      "tool": "interview",
+      "initialObservation": "Supported qualitative outcomes were followed by unnecessary requests for metrics or feedback.",
+      "change": "Explicitly prohibit generic missing-detail addenda when a supported qualitative outcome completes STAR.",
+      "finalObservation": "Three complete supported stories, no unnecessary metric disclaimers; process stages still labeled as assumptions."
+    },
+    {
+      "tool": "fit",
+      "initialObservation": "Automation output invented absent certifications and scale criteria, and added a Known gap: none placeholder.",
+      "change": "Only classify stated posting criteria; put unstated expectations in questions; allow empty gaps and prohibit none placeholders.",
+      "finalObservation": "Automation has empty gaps and useful reliability questions; ambiguous posting and weak-fit cases retain consequential stated evidence gaps."
+    }
+  ],
+  "reviewChecks": [
+    {
+      "id": "frontend",
+      "fitScore": 89,
+      "headline": "Frontend Engineer | React, TypeScript, Firebase, CMS Integrations & Tested Business Applications",
+      "roles": 7,
+      "projects": 5,
+      "skills": 22,
+      "reviewNotes": 0,
+      "exportCharacters": 7387,
+      "authoritativeMetadataPreserved": true,
+      "reviewNotesOutsideExports": true
+    },
+    {
+      "id": "automation",
+      "fitScore": 96,
+      "headline": "Automation Engineer | Zapier, DocuSign, Operational Integrations & Custom Applications",
+      "roles": 5,
+      "projects": 3,
+      "skills": 13,
+      "reviewNotes": 0,
+      "exportCharacters": 4830,
+      "authoritativeMetadataPreserved": true,
+      "reviewNotesOutsideExports": true
+    },
+    {
+      "id": "adjacent-version",
+      "fitScore": 52,
+      "headline": "Frontend Engineer | React & TypeScript",
+      "roles": 1,
+      "projects": 0,
+      "skills": 2,
+      "reviewNotes": 0,
+      "exportCharacters": 829,
+      "authoritativeMetadataPreserved": true,
+      "reviewNotesOutsideExports": true
+    },
+    {
+      "id": "ambiguous-posting",
+      "fitScore": 52,
+      "headline": "Frontend Software Engineer | React, TypeScript, JavaScript, UI Architecture",
+      "roles": 6,
+      "projects": 4,
+      "skills": 26,
+      "reviewNotes": 0,
+      "exportCharacters": 5871,
+      "authoritativeMetadataPreserved": true,
+      "reviewNotesOutsideExports": true
+    },
+    {
+      "id": "weak-fit",
+      "fitScore": 0,
+      "headline": "Software Architect | Distributed Systems, Application Engineering & Technical Training",
+      "roles": 6,
+      "projects": 1,
+      "skills": 19,
+      "reviewNotes": 5,
+      "exportCharacters": 4773,
+      "authoritativeMetadataPreserved": true,
+      "reviewNotesOutsideExports": true
+    },
+    {
+      "tool": "cover-letter",
+      "words": 238,
+      "examples": 2,
+      "reviewNotes": 0
+    }
+  ]
+}

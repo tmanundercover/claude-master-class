@@ -172,12 +172,38 @@ try {
     await page.getByLabel('First name', { exact: true }).fill('Visitor'); await page.getByLabel('Last name', { exact: true }).fill(String(width)); await page.getByLabel('Email', { exact: true }).fill(`saved-${width}@example.test`); await page.getByRole('button', { name: 'Add contact', exact: true }).click();
     await page.getByRole('button', { name: `Edit saved-${width}@example.test`, exact: true }).waitFor();
     await page.getByRole('button', { name: `Edit saved-${width}@example.test`, exact: true }).click(); await page.getByLabel('First name', { exact: true }).fill('Updated'); await page.getByRole('button', { name: 'Save contact', exact: true }).click();
+    const draftWrites = [];
+    const recordDraft = request => { if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/inbox/drafts') draftWrites.push(request.postDataJSON()); };
+    page.on('request', recordDraft);
+    await page.getByRole('button', { name: 'Compose', exact: true }).click();
+    composer = page.getByRole('region', { name: 'Mail composer' });
+    await page.waitForTimeout(1200);
+    assert.equal(draftWrites.length, 0, 'Opening Compose must not create an empty draft');
+    assert.equal(await composer.getByRole('alert').count(), 0);
+    assert.equal(await composer.getByRole('button', { name: 'Save draft', exact: true }).isDisabled(), true);
+    assert.equal(await composer.getByRole('button', { name: 'Close composer', exact: true }).isEnabled(), true);
+    await composer.getByLabel('Subject', { exact: true }).fill('Temporary subject'); await composer.getByLabel('Subject', { exact: true }).fill('');
+    await page.waitForTimeout(1200); assert.equal(draftWrites.length, 0, 'Clearing an unsaved draft must not create an empty draft');
+    await composer.getByRole('button', { name: 'Send message', exact: true }).click();
+    await composer.getByRole('alert').filter({ hasText: 'Add a recipient, subject, and message' }).waitFor();
+    assert.equal(draftWrites.length, 0);
+    assert.equal(await composer.getByRole('link', { name: 'Sign in in another tab' }).count(), 0);
+    await composer.getByRole('button', { name: 'Close composer', exact: true }).click();
+    await page.getByRole('button', { name: 'Compose', exact: true }).click();
+    composer = page.getByRole('region', { name: 'Mail composer' });
+    await composer.getByLabel('Message', { exact: true }).fill('Start with the message, before recipients or subject.');
+    await composer.getByRole('status').filter({ hasText: /^Saved$/ }).waitFor();
+    assert.equal(draftWrites.length, 1);
+    assert.equal(draftWrites[0].content.subject, ''); assert.deepEqual(draftWrites[0].content.to, []);
+    await composer.getByRole('button', { name: 'Discard draft', exact: true }).click();
+    page.off('request', recordDraft);
+    evidence.push({ width, pristineComposeHasNoWriteOrError: true, emptyComposerCloses: true, clearedUnsavedDraftStaysLocal: true, emptySendValidatesLocally: true, bodyOnlyDraftAutosaves: true });
     await page.getByRole('button', { name: 'Compose', exact: true }).click();
     composer = page.getByRole('region', { name: 'Mail composer' });
     await composer.getByLabel('TO', { exact: true }).fill(`saved-${width}@example.test`); await composer.getByLabel('CC', { exact: true }).fill('cc@example.test'); await composer.getByLabel('BCC', { exact: true }).fill('bcc@example.test');
     await composer.getByLabel('Subject', { exact: true }).fill(`Saved draft ${width}`); await composer.getByLabel('Message', { exact: true }).fill(`Draft content ${width}`);
     await composer.locator('input[type=file]').setInputFiles({ name: 'browser-note.txt', mimeType: 'text/plain', buffer: Buffer.from('Browser attachment') });
-    // Template browsing is read-only until Use template, and applying preserves recipients/files.
+    // Browsing is read-only; Edit HTML makes an editable copy in this draft.
     await composer.locator('.mail-html-section > summary').click();
     await composer.getByLabel('Email template', { exact: true }).selectOption('resume');
     await composer.getByRole('button', { name: 'Preview template', exact: true }).click();
@@ -194,13 +220,30 @@ try {
       await documentPage.setContent(await composer.locator('iframe[title="HTML email preview"]').getAttribute('srcdoc'));
       await documentPage.screenshot({ path: `${screenshots}/resume-document.png`, fullPage: true }); await documentPage.close();
     }
-    await composer.getByRole('button', { name: 'Use template', exact: true }).click();
+    await composer.getByRole('button', { name: 'Edit HTML', exact: true }).click();
     assert.equal(await composer.getByLabel('Subject', { exact: true }).inputValue(), 'James Terrell Singleton — Résumé');
     assert.equal(await composer.getByLabel('TO', { exact: true }).inputValue(), `saved-${width}@example.test`);
     assert.equal(await composer.getByLabel('CC', { exact: true }).inputValue(), 'cc@example.test');
     await composer.getByText('browser-note.txt', { exact: true }).waitFor();
+    const templateHtml = await composer.getByLabel('HTML message', { exact: true }).inputValue();
+    assert.ok(templateHtml.includes('/email-icons/react.png'));
+    const oneTimeNote = `Additional information for this recruiter ${width}`;
+    const customizedHtml = templateHtml.replace('</body>', `<p>${oneTimeNote}</p></body>`);
+    await composer.getByLabel('HTML message', { exact: true }).fill(customizedHtml);
+    await composer.getByRole('button', { name: 'Preview', exact: true }).click();
+    await preview.getByText(oneTimeNote, { exact: true }).waitFor();
+    await composer.getByLabel('Preview content', { exact: true }).selectOption('template');
+    await preview.getByRole('heading', { name: 'James Terrell Singleton', exact: true }).waitFor();
+    await preview.getByText(oneTimeNote, { exact: true }).waitFor({ state: 'hidden' });
+    assert.equal(await preview.getByText(oneTimeNote, { exact: true }).count(), 0, 'One-time edits must not change the template');
     await composer.getByRole('button', { name: 'Edit HTML', exact: true }).click();
-    assert.ok((await composer.getByLabel('HTML message', { exact: true }).inputValue()).includes('/email-icons/react.png'));
+    assert.equal(await composer.getByLabel('HTML message', { exact: true }).inputValue(), customizedHtml, 'Editing again must retain the draft copy');
+    await composer.getByLabel('HTML message', { exact: true }).fill('');
+    await composer.getByRole('button', { name: 'Preview', exact: true }).click();
+    await preview.getByText('No HTML in this message yet. Choose a template or edit the HTML.', { exact: true }).waitFor();
+    await composer.getByRole('button', { name: 'Edit HTML', exact: true }).click();
+    assert.equal(await composer.getByLabel('HTML message', { exact: true }).inputValue(), '', 'Intentionally cleared HTML must stay cleared');
+    await composer.getByLabel('HTML message', { exact: true }).fill(customizedHtml);
     if (width === 1440) {
       const originalHtml = await composer.getByLabel('HTML message', { exact: true }).inputValue();
       let previewRequests = 0;
@@ -226,8 +269,12 @@ try {
     await composer.getByText('browser-note.txt', { exact: true }).waitFor();
     await composer.locator('.mail-html-section > summary').click();
     await composer.frameLocator('iframe[title="HTML email preview"]').getByRole('heading', { name: 'James Terrell Singleton', exact: true }).waitFor();
+    await composer.frameLocator('iframe[title="HTML email preview"]').getByText(oneTimeNote, { exact: true }).waitFor();
     await composer.getByRole('button', { name: 'Send message', exact: true }).click(); await composer.getByRole('status').filter({ hasText: 'Accepted for sending' }).waitFor(); await composer.getByRole('button', { name: 'Close composer' }).click();
     await page.getByRole('navigation', { name: 'Mail folders' }).getByRole('button', { name: 'Sent', exact: true }).click(); await page.locator('.mail-thread').filter({ hasText: `Saved draft ${width}` }).click();
+    await page.getByRole('button', { name: 'Read sanitized HTML', exact: true }).click();
+    await page.frameLocator('iframe').getByText(oneTimeNote, { exact: true }).waitFor();
+    evidence.push({ width, editTemplateWithoutUseButton: true, oneTimeHtmlEditsRetained: true, baseTemplateUnchanged: true, clearedHtmlNotReplaced: true, customTemplateDraftReopened: true, customTemplateSentThroughFixture: true });
     const download = page.waitForEvent('download'); await page.getByRole('link', { name: /browser-note.txt/ }).click(); assert.equal((await download).suggestedFilename(), 'browser-note.txt');
     await page.getByRole('button', { name: 'Forward', exact: true }).first().click();
     composer = page.getByRole('region', { name: 'Mail composer' }); await composer.getByLabel('TO', { exact: true }).fill('forward@example.test'); await composer.getByRole('button', { name: 'Send message', exact: true }).click(); await composer.getByRole('status').filter({ hasText: 'Accepted for sending' }).waitFor(); await composer.getByRole('button', { name: 'Close composer' }).click();
@@ -258,10 +305,10 @@ try {
       await page.route('**/api/inbox/summary', route => summaryMode === 'empty'
         ? route.fulfill({ json: { email_address: 'local@example.test', unread: 0, drafts: 0, last_received: null, recent: [], mode: 'fixture' } })
         : route.fulfill({ status: 503, json: { error: 'Test provider unavailable', code: 'unavailable' } }));
-      await page.getByLabel('Account menu', { exact: true }).click(); await page.getByRole('button', { name: 'Refresh inbox', exact: true }).click(); await page.getByLabel('Account menu', { exact: true }).click();
+      await page.getByRole('button', { name: 'Refresh mail', exact: true }).click();
       await page.getByText('Your inbox is empty.', { exact: true }).waitFor();
       summaryMode = 'error';
-      await page.getByLabel('Account menu', { exact: true }).click(); await page.getByRole('button', { name: 'Refresh inbox', exact: true }).click(); await page.getByLabel('Account menu', { exact: true }).click();
+      await page.getByRole('button', { name: 'Refresh mail', exact: true }).click();
       await page.getByRole('alert').filter({ hasText: 'Last known values; refresh failed.' }).waitFor();
       await page.unroute('**/api/inbox/summary');
       // Failed autosave and session expiry preserve editable text in the active composer.

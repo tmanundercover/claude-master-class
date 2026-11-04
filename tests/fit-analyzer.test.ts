@@ -59,3 +59,14 @@ test("malformed provider output is a failure rather than a default result", asyn
     (error: unknown) => error instanceof FitResultValidationError && /did not match/.test(error.message),
   );
 });
+
+ test("candid fit recognizes adjacent versions and keeps weak fits and employer claims distinct", () => {
+  const request = fitAnalysisRequest("Required React 19, certification preferred; junior role with executive scope", { skills: ["React 18"] });
+  assert.match(request.system, /React 18 experience remains relevant to React 19/);
+  assert.match(request.system, /employer statements as claims/);
+  assert.match(request.system, /No score gates access/);
+  assert.match(request.system, /Only classify criteria actually stated in the posting/);
+  assert.match(request.system, /gaps may be empty/);
+  const weak = parseFitResult({ ...validResult, score: 8, matches: [], gaps: ["Required (absent evidence): clinical license", "Known gap: developing cloud skills"] });
+  assert.equal(weak.score, 8);
+});

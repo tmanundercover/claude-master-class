@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8")) as {
-  experience: Array<{ title: string; organization: string; bullets: string[] }>;
+  experience: Array<{ title: string; organization: string; bullets: string[]; tags: string[] }>;
   projects: Array<{ title: string; summary: string; evidence: string; skills: string[]; tags: string[]; url?: string; links?: Array<{ label: string; url: string }> }>;
   skills: Record<string, string[]>;
 };
@@ -46,7 +46,7 @@ test("the current résumé remains intact alongside the archive", () => {
   assert.ok(profile.experience.some((experience) => experience.title === "Automation Engineer" && experience.organization === "MTC Art Studios"));
   assert.ok(profile.projects.some((project) => project.title === "White-label application generator"));
   assert.ok(currentSkills.includes("React"));
-  assert.ok(currentSkills.includes("Prompt engineering"));
+  assert.ok(profile.experience.some(role => role.tags.includes("Prompt engineering")));
   assert.ok(currentSkills.includes("OpenAI Codex"));
   assert.ok(currentSkills.includes("Google Gemini"));
   assert.ok(currentSkills.includes("Google Forms Integrations"));

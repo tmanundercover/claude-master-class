@@ -1,4 +1,4 @@
-import { OWNER_EMAIL, type Mailbox, type Thread, type Message, type Draft, type Label, type Agent, type MailContact, type Composition, type ContactInput, type ContactSubmission, type Search, type Page } from '../../lib/mail-types.ts';
+import { OWNER_EMAIL, hasDraftContent, type Mailbox, type Thread, type Message, type Draft, type Label, type Agent, type MailContact, type Composition, type ContactInput, type ContactSubmission, type Search, type Page } from '../../lib/mail-types.ts';
 import { Attempts } from './attempts.ts';
 import { MailError } from './validation.ts';
 import { isContactNotification, receivedContactCopy } from './contact-delivery.ts';
@@ -55,6 +55,7 @@ export class FixtureMailbox implements Mailbox {
   async drafts(after?: string) { return this.page([...this.savedDrafts.values()].filter(d => !d.email_id).map(d => ({ ...d, snippet: d.text?.slice(0, 100) ?? null })), after); }
   async draft(id: string) { const d = this.savedDrafts.get(id); if (!d) throw new MailError('Draft not found.', 404); return clone(d); }
   async saveDraft(id: string | null, value: Composition, attempt: string) {
+    if (!id && !hasDraftContent(value)) throw new MailError('Add a recipient, subject, message, or attachment before saving a draft.');
     const execute = async () => {
       const previous = id ? await this.draft(id) : null;
       if (previous?.email_id) throw new MailError('This draft was already sent.', 409);

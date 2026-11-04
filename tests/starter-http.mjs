@@ -55,7 +55,7 @@ test("public configuration exposes only Firebase browser settings", async () => 
 test("the portfolio is public and invalid sessions disclose no private pages", async () => {
   assert.equal((await request("/")).status, 200);
   for (const cookie of [undefined, "__session=forged-token"]) {
-    for (const path of ["/dashboard", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/dashboard/resume", "/dashboard/inbox", "/interview"]) {
+    for (const path of ["/dashboard", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/dashboard/resume-tailor", "/dashboard/resume", "/dashboard/inbox", "/interview"]) {
       const response = await request(path, { headers: cookie ? { Cookie: cookie } : {} });
       assert.equal(response.status, 307, path);
       assert.equal(new URL(response.headers.get("location"), base).pathname, "/login");
@@ -66,7 +66,7 @@ test("the portfolio is public and invalid sessions disclose no private pages", a
 });
 
 test("each private API denies unauthenticated requests before model calls", async () => {
-  for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan"]) {
+  for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan", "/api/resume-tailor"]) {
     const response = await request(path, { method: "POST", body: "not-json" });
     assert.equal(response.status, 401);
     assert.match((await response.json()).error, /Sign in/);
@@ -97,7 +97,7 @@ test("session exchange rejects wrong origins, invalid identities, and client-sel
 test("owner Firebase sessions use four-hour secure cookies and open private pages", async () => {
   const { cookie, pair } = await login("terrell");
   for (const pattern of [/^__session=/, /HttpOnly/i, /SameSite=Strict/i, /Max-Age=14400/i, /Secure/i]) assert.match(cookie, pattern);
-  for (const [path, text] of [["/dashboard", /Your workspace/], ["/dashboard/fit-analyzer", /id="jd"/], ["/dashboard/resume", /The evidence behind the timeline/], ["/interview", /Terrell Singleton/]]) {
+  for (const [path, text] of [["/dashboard", /Your workspace/], ["/dashboard/fit-analyzer", /id="jd"/], ["/dashboard/resume-tailor", /id="jd"/], ["/dashboard/resume", /The evidence behind the timeline/], ["/interview", /Terrell Singleton/]]) {
     const response = await request(path, { headers: { Cookie: pair } });
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), text);
@@ -112,24 +112,56 @@ test("interviewer and recruiter have the same guest access and no owner access",
     const guestHtml = await interview.text();
     assert.match(guestHtml, /Interview questions/);
     assert.doesNotMatch(guestHtml, /\bSTAR\b|\b(?:Situation|Task|Action|Result):/i);
-    for (const path of ["/dashboard", "/dashboard/resume", "/dashboard/inbox", "/dashboard/fit-analyzer"]) {
+    for (const path of ["/dashboard", "/dashboard/resume", "/dashboard/inbox", "/dashboard/fit-analyzer", "/dashboard/resume-tailor"]) {
       const response = await request(path, { headers: { Cookie: pair } });
       assert.equal(response.status, 307);
       assert.equal(response.headers.get("location"), "/interview");
     }
-    for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan"]) assert.equal((await request(path, { method: "POST", headers: jsonHeaders(pair) })).status, 403);
+    for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan", "/api/resume-tailor"]) assert.equal((await request(path, { method: "POST", headers: jsonHeaders(pair) })).status, 403);
   }
 });
 
 test("authenticated tools retain validation and explicit missing-provider failures", async () => {
   const { pair } = await login("terrell", "owner-tools");
-  for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan"]) {
-    for (const jobDescription of [" ", "a".repeat(5001)]) {
+  for (const path of ["/api/fit-analyzer", "/api/cover-letter", "/api/career-plan", "/api/resume-tailor"]) {
+    for (const jobDescription of [" ", "a".repeat(15001)]) {
       assert.equal((await request(path, { method: "POST", headers: jsonHeaders(pair), body: JSON.stringify({ jobDescription }) })).status, 400);
+    }
+    // Accept the decoded 15,000-character boundary even when JSON escaping exceeds 20,000 characters.
+    for (const jobDescription of ["a".repeat(15000), '"\\\n'.repeat(5000)]) {
+      assert.equal(jobDescription.length, 15000);
+      const accepted = await request(path, { method: "POST", headers: jsonHeaders(pair), body: JSON.stringify({ jobDescription }) });
+      assert.equal(accepted.status, 503, `${path} accepts 15,000 characters and reaches the unconfigured provider`);
+      assert.match((await accepted.json()).error, /AI_PROVIDER/);
     }
     const result = await request(path, { method: "POST", headers: jsonHeaders(pair), body: JSON.stringify({ jobDescription: "Software Engineer at Example Co", tone: "technical", mode: "study", weeklyHours: 5 }) });
     assert.equal(result.status, 503);
     assert.match((await result.json()).error, /AI_PROVIDER/);
+  }
+});
+
+test("controlled model fixtures exercise owner generation and route failures", { skip: process.env.TEST_MODEL_FIXTURES !== "true" }, async () => {
+  const { pair } = await login("terrell", "owner-controlled-models");
+  for (const path of ["/api/resume-tailor", "/api/fit-analyzer", "/api/cover-letter", "/api/career-plan"]) {
+    const post = (jobDescription, extra = {}, origin = base) => request(path, { method: "POST", headers: jsonHeaders(pair, "controlled-models", origin), body: JSON.stringify({ jobDescription, ...extra }) });
+    assert.equal((await post("[fixture:success] React developer at Example", {}, "https://evil.example")).status, 403);
+    const success = await post("[fixture:success] React developer at Example");
+    assert.equal(success.status, 200, path);
+    const value = await success.json();
+    if (path.endsWith("resume-tailor")) {
+      assert.equal(value.document.experience.length, 1);
+      assert.equal(value.document.projects.length, 1);
+      assert.equal(value.document.name, JSON.parse(await readFile("data/profile.json", "utf8")).name);
+      assert.ok(!("sources" in value));
+      assert.ok(!JSON.stringify(value.document).includes("CONTROLLED-REVIEW-NOTE"));
+    }
+    for (const [marker, status] of [["malformed", 502], ["provider-error", 502], ["rate-limit", 429]]) {
+      const failure = await post(`[fixture:${marker}] React developer at Example`);
+      assert.equal(failure.status, status, `${path} ${marker}`);
+      if (status === 429) assert.equal(failure.headers.get("retry-after"), "17");
+      const body = await failure.json(); assert.equal(typeof body.error, "string"); assert.equal(body.document, undefined);
+    }
+    if (path.endsWith("career-plan")) assert.equal((await post("[fixture:success] React developer at Example", { mode: "study", weeklyHours: 7 })).status, 200);
   }
 });
 
@@ -173,7 +205,7 @@ test("owner inbox runs through Hosting/Functions with public ingress, private au
   assert.equal(page.status, 200); assert.match(await page.text(), /Your inbox/);
   const dashboard = await (await request("/dashboard", { headers: { Cookie: pair } })).text();
   assert.doesNotMatch(dashboard, /Exercise [1-4]|Open exercise/);
-  for (const link of ["/dashboard/inbox", "/dashboard/resume", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/interview"]) assert.ok(dashboard.includes(link));
+  for (const link of ["/dashboard/inbox", "/dashboard/resume", "/dashboard/fit-analyzer", "/dashboard/cover-letter", "/dashboard/career-plan", "/dashboard/resume-tailor", "/interview"]) assert.ok(dashboard.includes(link));
   for (const path of paths) {
     const response = await request(`/api/inbox/${path}`, { method: "POST", body: "x".repeat(50000) });
     assert.equal(response.status, 401, path); assert.match(response.headers.get("cache-control"), /private.*no-store/);

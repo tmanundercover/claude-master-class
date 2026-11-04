@@ -1,5 +1,5 @@
 import { Resend, type Response as ProviderResponse, type UpdateInboxThreadOptions, type ReplyInboxThreadEmailOptions, type ForwardInboxThreadEmailOptions } from 'resend';
-import { MAIL_LIMITS, OWNER_EMAIL, type Mailbox, type Composition, type ContactSubmission, type ContactInput, type Search, type Message } from '../../lib/mail-types.ts';
+import { MAIL_LIMITS, OWNER_EMAIL, hasDraftContent, type Mailbox, type Composition, type ContactSubmission, type ContactInput, type Search, type Message } from '../../lib/mail-types.ts';
 import { MailError } from './validation.ts';
 import { Attempts, digest } from './attempts.ts';
 import { isContactNotification, receivedContactCopy } from './contact-delivery.ts';
@@ -56,12 +56,13 @@ export class LiveMailbox implements Mailbox {
     if (id) {
       const existing = await this.draft(id);
       if (existing.email_id) throw new MailError('This draft has already been sent.', 409);
-      return this.call(false, o => this.sdk.inboxes.drafts.update({ ...this.selector, draftId: id, to: value.to, cc: value.cc, bcc: value.bcc, subject: value.subject, text: value.text, html: value.html, ...(value.attachments === undefined ? {} : { attachments: value.attachments }) }, o));
+      return this.call(false, o => this.sdk.inboxes.drafts.update({ ...this.selector, draftId: id, to: value.to, cc: value.cc, bcc: value.bcc, subject: value.subject || null, text: value.text || null, html: value.html || null, ...(value.attachments === undefined ? {} : { attachments: value.attachments }) }, o));
     }
+    if (!hasDraftContent(value)) throw new MailError('Add a recipient, subject, message, or attachment before saving a draft.');
     return this.attempts.run(`draft-${attempt}`, value, async () => {
       const replySource = value.threadId && value.replyToEmailId
         ? await this.replySource(value.threadId, value.replyToEmailId) : undefined;
-      return this.call(false, o => this.sdk.inboxes.drafts.create({ ...this.selector, ...value, ...(replySource ? { replyToEmailId: replySource.id } : {}) } as Parameters<Resend['inboxes']['drafts']['create']>[0], o), `draft-${attempt}`);
+      return this.call(false, o => this.sdk.inboxes.drafts.create({ ...this.selector, ...value, subject: value.subject || undefined, text: value.text || undefined, html: value.html || undefined, ...(replySource ? { replyToEmailId: replySource.id } : {}) } as Parameters<Resend['inboxes']['drafts']['create']>[0], o), `draft-${attempt}`);
     });
   }
   async discardDraft(id: string) { return this.call(false, o => this.sdk.inboxes.drafts.remove({ ...this.selector, draftId: id }, o)); }

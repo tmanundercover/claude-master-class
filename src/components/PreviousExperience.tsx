@@ -9,6 +9,7 @@ interface ExperienceRole {
   summary: string;
   bullets: string[];
   skills: string[];
+  tags: string[];
   employmentType: string;
 }
 
@@ -19,7 +20,7 @@ export default function PreviousExperience({ roles }: { roles: ExperienceRole[] 
   if (roles.length === 0) return null;
 
   return (
-    <div className="previous-experience">
+    <div id="previous-experience" className="previous-experience">
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div
@@ -33,10 +34,11 @@ export default function PreviousExperience({ roles }: { roles: ExperienceRole[] 
             {roles.map((role) => (
               <ExperienceCard
                 className="panel experience homepage-experience"
-                key={`${role.title}-${role.organization}`}
-                ariaLabel={`${role.title} at ${role.organization} experience details`}
+                key={`${role.title}-${role.organization}-${role.period}`}
+                ariaLabel={`${role.title} at ${role.organization} (${role.period}) experience details`}
                 bullets={role.bullets}
                 skills={role.skills}
+                tags={role.tags}
                 period={role.period}
                 employmentType={role.employmentType}
               >

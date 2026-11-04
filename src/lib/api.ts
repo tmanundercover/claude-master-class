@@ -1,5 +1,6 @@
 import { authConfiguration, currentSessionRole } from "./auth.ts";
 import { isSameOrigin } from "./origin.ts";
+import { JOB_DESCRIPTION_MAX_LENGTH } from './tools.ts';
 
 export async function requireApiSession(request: Request): Promise<Response | null> {
   let role;
@@ -19,7 +20,7 @@ export async function requireApiSession(request: Request): Promise<Response | nu
   return null;
 }
 
-export async function readJson(request: Request): Promise<
+export async function readJson(request: Request, maxLength = 20000): Promise<
   { ok: true; value: unknown } | { ok: false; response: Response }
 > {
   if (!request.headers.get("content-type")?.includes("application/json")) {
@@ -29,7 +30,7 @@ export async function readJson(request: Request): Promise<
     return { ok: false, response: Response.json({ error: "Cross-origin requests are not allowed." }, { status: 403 }) };
   }
   const text = await request.text();
-  if (text.length > 20000) {
+  if (text.length > maxLength) {
     return { ok: false, response: Response.json({ error: "Request is too large." }, { status: 413 }) };
   }
   try {
@@ -38,4 +39,9 @@ export async function readJson(request: Request): Promise<
     if (!(error instanceof SyntaxError)) throw error;
     return { ok: false, response: Response.json({ error: "Request body is not valid JSON." }, { status: 400 }) };
   }
+}
+
+// JSON may encode each description character as a six-character Unicode escape.
+export function readToolJson(request: Request) {
+  return readJson(request, JOB_DESCRIPTION_MAX_LENGTH * 6 + 1024);
 }
