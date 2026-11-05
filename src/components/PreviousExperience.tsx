@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ExperienceCard from "@/components/ExperienceCard";
+import { relatedProjects, type RelatedProject } from '../lib/project-navigation';
 
 interface ExperienceRole {
   title: string;
@@ -11,9 +12,10 @@ interface ExperienceRole {
   skills: string[];
   tags: string[];
   employmentType: string;
+  projectIds?: string[];
 }
 
-export default function PreviousExperience({ roles }: { roles: ExperienceRole[] }) {
+export default function PreviousExperience({ roles, projects }: { roles: ExperienceRole[]; projects: RelatedProject[] }) {
   const [expanded, setExpanded] = useState(false);
   const reduceMotion = useReducedMotion();
 
@@ -41,6 +43,7 @@ export default function PreviousExperience({ roles }: { roles: ExperienceRole[] 
                 tags={role.tags}
                 period={role.period}
                 employmentType={role.employmentType}
+                projects={relatedProjects(role.projectIds, projects)}
               >
                 <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>
               </ExperienceCard>

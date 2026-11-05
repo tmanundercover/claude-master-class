@@ -3,6 +3,8 @@ import ProjectMetadata from "./ProjectMetadata";
 import MetadataTags from './MetadataTags';
 import { splitTechnologyMetadata } from '../lib/skill-icons';
 import type { SkillEvidence } from "@/lib/resume-evidence";
+import ExperienceProjects from './ExperienceProjects';
+import { relatedProjects } from '../lib/project-navigation';
 
 interface ArchivedExperience {
   title: string;
@@ -26,6 +28,7 @@ interface ArchivedProject {
 }
 
 interface CurrentExperience {
+  projectIds?: string[];
   title: string;
   organization: string;
   period: string;
@@ -35,6 +38,7 @@ interface CurrentExperience {
 }
 
 interface CurrentProject {
+  id: string;
   title: string;
   context: string;
   summary: string;
@@ -117,6 +121,7 @@ export default function ResumeEvidenceExplorer({ skills, experiences, projects, 
                 </div>
                 <p>{experience.summary}</p>
                 <ul>{experience.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
+                <ExperienceProjects projects={relatedProjects(experience.projectIds, currentProjects)} />
               </article>
             ))}
           </div>

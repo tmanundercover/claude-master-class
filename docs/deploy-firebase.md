@@ -45,15 +45,18 @@ created, and no email is sent. Interviewer and Recruiter have equivalent access.
 ## Backend environment
 
 All backend settings, including `AI_API_KEY`, use ordinary environment variables
-from `functions/.env.local`. The application has no Secret Manager bindings or
+from `functions/.env.local` for emulators and `functions/.env.my-automated-resume`
+for production. The application has no Secret Manager bindings or
 runtime secret lookups. The previous local secrets file was consolidated into
 this environment file and removed after verifying every copied value.
 
 Legacy site passwords and the session secret remain in the backend environment
 for verification, but Firebase Auth replaces them and the app does not read them.
 The root `.env.local` remains unchanged until you verify the backend copies.
-Environment files are Git-ignored. Frontend builds need no credentials. Do not
-use `VITE_` variables for API keys or passwords.
+Environment files are Git-ignored. Frontend builds need no credentials. Firebase
+reserves `FIREBASE_` environment prefixes, so the public web settings use
+`PORTFOLIO_FIREBASE_` names. Analytics is not enabled by supplying a measurement
+ID alone. Do not use `VITE_` variables for API keys or passwords.
 
 The demo Auth configuration is provided automatically by Functions at
 `/api/auth/config`. The endpoint returns only public Firebase web settings. The
@@ -90,10 +93,11 @@ revoked sessions, cookies, origin checks, and tool validation. It never launches
 standalone server. Tests choose unused emulator ports to avoid disturbing a running
 project. No live deployment or paid provider request is part of these checks.
 
-## Future live deployment
+## Production deployment
 
-Use a Firebase project with the Blaze plan enabled for Functions. The repository
-currently selects no live project. Classroom completion prepares a review; it does
+Use a Firebase project with the Blaze plan enabled for Functions. The `production`
+alias selects `my-automated-resume`; local development continues to use the isolated
+demo project. Classroom completion prepares a review; it does
 not authorize publication. Follow these steps only after target-specific review
 and separate explicit authorization:
 
@@ -104,17 +108,25 @@ and separate explicit authorization:
 3. With separate approval, create a missing `functions/.env.YOUR_PROJECT_ID` using
    the setting names in `functions/.env.example`. Preserve any existing file and
    every API key value; never copy a template over it or move keys between files.
-   Privately enter only authorized AI settings and public `FIREBASE_WEB_API_KEY`
+   Privately enter only authorized AI settings and public `PORTFOLIO_FIREBASE_WEB_API_KEY`
    from the target project's web app.
 4. Set `AI_API_KEY` in that same project-specific backend environment file, then
    authenticate and deploy:
 
 ```text
 npx firebase login
-npm run firebase:deploy -- --project YOUR_PROJECT_ID
+npm run firebase:deploy -- --project production
 ```
 
-Functions, Hosting, and the checked-in Firestore/Storage rules deploy together. The rules deny direct client access; owner-authorized Functions serve private data using Firebase Admin. No custom IAM role setup is part of this feature. The Hosting rewrite pins its Function
+On a new project, first deploy the Functions codebase by itself so Firebase CLI
+can resolve the pinned Hosting rewrite to the correct codebase:
+
+```text
+npx firebase deploy --only functions:portfolio --project production
+```
+
+Then run the full deployment command above. Functions, Hosting, and the checked-in
+Firestore/Storage rules deploy together. The rules deny direct client access; owner-authorized Functions serve private data using Firebase Admin. No custom IAM role setup is part of this feature. The Hosting rewrite pins its Function
 revision; even a Hosting-only deploy can deploy the pinned Function. Both deploy
 hooks rebuild the package. Static files take precedence over rewrites, so private
 pages and recordings are excluded from `dist/hosting`.

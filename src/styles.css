@@ -2,7 +2,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 /* react-scroll owns animation while its destination has focus. */
-html:has(.skill-chip[id]:focus) { scroll-behavior: auto; }
+html:has(.skill-chip[id]:focus, .project-card[id]:focus) { scroll-behavior: auto; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; line-height: 1.65; }
 a { color: var(--accent); text-underline-offset: .2em; overflow-wrap: anywhere; }
 a:hover { color: #d5e2ff; }
@@ -65,6 +65,16 @@ main { padding: 0 1.5rem 3rem; }
 .project-card--linked { cursor: pointer; }
 .project-card--linked:hover, .project-card--linked:focus-within { transform: translateY(-4px); border-color: #7895c7; box-shadow: 0 12px 28px rgba(0, 0, 0, .2); }
 .project-card .project-links { justify-content: flex-end; margin-top: auto; padding-top: 1.25rem; }
+.experience-projects { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; margin-top: 1.25rem; font-size: .85rem; }
+.experience-projects > span { flex-basis: 100%; font-size: .75rem; }
+.experience-projects a { overflow-wrap: anywhere; text-underline-offset: .2em; }
+.project-card[id] { scroll-margin-block-start: 2rem; }
+.project-card:target { border-color: #98b8ff; }
+.project-card:focus-visible { outline: 2px solid #98b8ff; outline-offset: 4px; }
+.project-card.project-arrival { border-color: #98b8ff; box-shadow: 0 0 0 3px rgba(152, 184, 255, .3); animation: project-bounce .85s ease-out; }
+.project-card.project-arrival::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(110deg, transparent 30%, rgba(184, 209, 255, .23) 48%, transparent 66%) 160% 0 / 300% 100%; animation: project-shimmer 1.5s ease-out both; }
+@keyframes project-bounce { 0%, 45%, 75%, 100% { transform: translateY(0); } 25% { transform: translateY(-10px); } 60% { transform: translateY(-4px); } }
+@keyframes project-shimmer { 0% { background-position: 160% 0; opacity: 0; } 15%, 75% { opacity: 1; } 100% { background-position: -60% 0; opacity: 0; } }
 .skill-chip--pill { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .6rem; border-radius: 2rem; font-size: .75rem; }
 .skill-chip--pill .skill-icon { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
 .skill-chip--pill .skill-icon[data-icon-name="groovy"] { width: 2.2rem; }
@@ -334,6 +344,8 @@ code { overflow-wrap: anywhere; }
   .skill-chip { transition: none; }
   .skill-chip[id]:focus { animation: none; border-color: var(--accent); }
   .project-card { transition: none; }
+  .project-card.project-arrival { animation: none; }
+  .project-card.project-arrival::after { animation: none; background: none; }
   .project-tag, .metadata-tag { transition: none; }
   .project-card--linked:hover, .project-card--linked:focus-within { transform: none; }
   .resume-intelligence { transition: none; }

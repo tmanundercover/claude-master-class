@@ -42,7 +42,7 @@ test("the current résumé remains intact alongside the archive", () => {
   const currentSkills = Object.values(profile.skills).flat();
 
   assert.equal(profile.experience.length, 16);
-  assert.equal(profile.projects.length, 13);
+  assert.equal(profile.projects.length, 14);
   assert.ok(profile.experience.some((experience) => experience.title === "Automation Engineer" && experience.organization === "MTC Art Studios"));
   assert.ok(profile.projects.some((project) => project.title === "White-label application generator"));
   assert.ok(currentSkills.includes("React"));

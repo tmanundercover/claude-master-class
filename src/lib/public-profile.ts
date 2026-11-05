@@ -13,8 +13,8 @@ export function publicProfile(): PublicProfile {
   return {
     ...profile,
     experience: profile.experience.map(role => ({ ...role, skills: rankPublicSkills(role.skills) })),
-    projects: profile.projects.map(({ title, context, summary, skills, tags, ...project }) => ({
-      title, context, summary, skills: rankPublicSkills(skills), tags,
+    projects: profile.projects.map(({ id, title, context, summary, skills, tags, ...project }) => ({
+      id, title, context, summary, skills: rankPublicSkills(skills), tags,
       ...(project.url ? { url: project.url } : {}),
       ...(project.links ? { links: project.links } : {}),
     })),

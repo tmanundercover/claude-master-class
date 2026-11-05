@@ -1,6 +1,6 @@
 # Tasks
 
-Local acceptance is recorded in [evidence/local-acceptance.md](evidence/local-acceptance.md). Planning completion is not implementation or deployment completion. Groups 1–8 target local acceptance; group 9 requires live-operation authorization and separate provider/deployed/DNS evidence.
+Local acceptance is recorded in [evidence/local-acceptance.md](evidence/local-acceptance.md), and production activation in [evidence/production-activation.md](evidence/production-activation.md). Planning completion is not implementation or deployment completion. Groups 1–8 target local acceptance; group 9 requires live-operation authorization and separate provider/deployed/DNS evidence.
 
 ## 1. Mail provider and backend configuration
 
@@ -63,8 +63,8 @@ Local acceptance is recorded in [evidence/local-acceptance.md](evidence/local-ac
 ## 9. Live activation and receiving cutover
 
 - [ ] 9.1 With authorization for live setup, select the real Firebase project, inspect the intended Resend account/permissions and domain verification, inventory other active recipients, and capture current MX/TTLs; verify an operational record includes exact provider DNS requirements, recipient disposition, and rollback data without credentials.
-- [ ] 9.2 Provision the owner inbox and verify the selected sender/display identity and disabled autonomous-action defaults; verify recorded provider resource identifiers and sending prerequisites for `terrell.singleton@thehandsomestnerd.com` before any MX change.
-- [ ] 9.3 Deploy the reviewed application and configure backend environment values and signed webhooks with explicit deployment authorization; verify deployed owner access, guest/unauthenticated denial, summary reads, and valid signed callbacks.
+- [x] 9.2 Provision the owner inbox and verify the selected sender/display identity and disabled autonomous-action defaults; verify recorded provider resource identifiers and sending prerequisites for `terrell.singleton@thehandsomestnerd.com` before any MX change.
+- [x] 9.3 Deploy the reviewed application and configure backend environment values and signed webhooks with explicit deployment authorization; verify deployed owner access, guest/unauthenticated denial, summary reads, and valid signed callbacks.
 - [ ] 9.4 Perform the prepared direct Resend receiving-MX cutover after explicit authorization and recipient readiness; verify authoritative/public DNS propagation and controlled incoming mail to the selected address using the exact account/region records.
 - [ ] 9.5 Run a controlled live contact submission -> owner reply -> visitor follow-up round trip plus compose, drafts, search, labels, contacts, and attachments; verify correct recipients, one conversation, provider-backed statistics, and actual external delivery rather than acceptance alone.
 - [ ] 9.6 Record post-cutover health and the verified rollback procedure, restoring the captured MX set if receiving fails; verify separate deployment/provider/DNS evidence and retain every unproven operational task as unchecked.

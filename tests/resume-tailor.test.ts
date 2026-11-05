@@ -10,6 +10,11 @@ import { isTailorResult } from '../src/lib/resume-tailor-client.ts';
 
 const profile: CandidateProfile = JSON.parse(readFileSync(new URL('../data/profile.json', import.meta.url), 'utf8'));
 const evidence = resumeTailorEvidence(profile);
+test('adding the business website preserves existing tailored résumé evidence identities', () => {
+  assert.equal(evidence.projects.find(project => project.id === 'project-1')?.title, 'Houston Realtor Website');
+  assert.equal(evidence.projects.find(project => project.id === 'project-13')?.title, 'Assembled Brands website and blog');
+  assert.equal(evidence.projects.find(project => project.title === 'The Handsomest Nerd')?.id, 'project-14');
+});
 const prose = (text: string, ref = 'role-1-summary') => ({ text, references: [ref] });
 const valid: TailorModelResult = {
   headline: prose('Software Engineer for business automation'), summary: prose('Builds applications and workflows that help teams manage operations.'),

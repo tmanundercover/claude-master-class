@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import ExperienceSkills from "./ExperienceSkills";
 import MetadataTags from './MetadataTags';
 import { splitTechnologyMetadata } from '../lib/skill-icons';
+import ExperienceProjects from './ExperienceProjects';
+import type { RelatedProject } from '../lib/project-navigation';
 
 export default function ExperienceCard({
   ariaLabel,
@@ -13,6 +15,7 @@ export default function ExperienceCard({
   period,
   heading,
   employmentType,
+  projects = [],
 }: {
   ariaLabel: string;
   bullets: string[];
@@ -23,6 +26,7 @@ export default function ExperienceCard({
   period?: string;
   heading?: ReactNode;
   employmentType?: string;
+  projects?: RelatedProject[];
 }) {
   const metadata = splitTechnologyMetadata(skills, tags);
   return (
@@ -47,6 +51,7 @@ export default function ExperienceCard({
         <ul className="experience-bullets">
           {bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
         </ul>
+        <ExperienceProjects projects={projects} />
       </div>
       {metadata.skills.length > 0 && <ExperienceSkills skills={metadata.skills} />}
     </article>

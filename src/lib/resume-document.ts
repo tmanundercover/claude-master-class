@@ -16,14 +16,14 @@ export function publicResumeDocument(profile: PublicProfile, { full = false }: {
     projects: full ? profile.projects.map(project => ({ title: project.title, context: project.context, description: project.summary.split(/(?<=[.!?])\s+/)[0], links: [...(project.url ? [{ label: 'View project', url: project.url }] : []), ...(project.links ?? [])].map(link => ({ label: link.label, url: link.url })) })) : [] };
 }
 export const RESUME_DESIGN = { ink: '#15243d', accent: '#47668f', muted: '#536075', rule: '#789bd1' } as const;
-export const PORTFOLIO_URL = 'https://thehandsomestnerd.com';
+export const PORTFOLIO_URL = 'https://resume.terrellsingleton.com/';
 export function escapeEmail(value: string): string {
   return value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!);
 }
 function icon(name: string): string {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   if (!RESUME_ICON_NAMES.includes(slug)) return "";
-  return `<img src="${PORTFOLIO_URL}/email-icons/${slug}.png" width="16" height="16" alt="" style="vertical-align:middle;display:inline-block;margin-right:7px;border:0">`;
+  return `<img src="${PORTFOLIO_URL}email-icons/${slug}.png" width="16" height="16" alt="" style="vertical-align:middle;display:inline-block;margin-right:7px;border:0">`;
 }
 export function resumeContactLink(value: string, kind: 'linkedin' | 'github' | 'portfolio' | 'email'): string {
   const e = escapeEmail;

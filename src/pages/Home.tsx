@@ -17,6 +17,7 @@ import { skillTargetId } from "@/lib/skill-target";
 import { scrollToSkill } from "@/lib/scroll-to-skill";
 import { documentFilename } from '@/lib/document-filename';
 import ProfileAvatar from '../components/ProfileAvatar';
+import { projectTargetId, relatedProjects, scrollToProject } from '../lib/project-navigation';
 
 const [linkedInWidth, linkedInHeight, , , linkedInPathData] = faLinkedinIn.icon;
 const linkedInPath = Array.isArray(linkedInPathData) ? linkedInPathData.join(" ") : linkedInPathData;
@@ -48,17 +49,19 @@ function ContactIcon({ kind }: { kind: "email" | "linkedin" | "github" }) {
 
 export default function Home({ yearsInSoftware, skillEvidence, searchItems, profile }: HomeData & { profile: PublicProfile }) {
   useEffect(() => {
-    const id = window.location.hash.slice(1);
-    if (!id.startsWith("skill-")) return;
-    function followSkillFragment() {
-      if (window.location.hash === `#${id}`) void scrollToSkill(id);
+    function followFragment() {
+      const id = window.location.hash.slice(1);
+      if (id.startsWith('project-')) void scrollToProject(id);
+      else if (id.startsWith('skill-')) void scrollToSkill(id);
     }
     // Wait for the responsive experience rows to settle before following a deep link.
     let layoutFrame = 0;
-    const frame = requestAnimationFrame(() => { layoutFrame = requestAnimationFrame(followSkillFragment); });
+    const frame = requestAnimationFrame(() => { layoutFrame = requestAnimationFrame(followFragment); });
+    window.addEventListener('hashchange', followFragment);
     return () => {
       cancelAnimationFrame(frame);
       cancelAnimationFrame(layoutFrame);
+      window.removeEventListener('hashchange', followFragment);
     };
   }, []);
   const listedSkills = new Set(Object.values(profile.skills).flat());
@@ -101,11 +104,12 @@ export default function Home({ yearsInSoftware, skillEvidence, searchItems, prof
             tags={role.tags}
             period={role.period}
             employmentType={role.employmentType}
+            projects={relatedProjects(role.projectIds, profile.projects)}
           >
             <div><h3>{role.title}</h3><p className="accent">{role.organization}</p><p>{role.summary}</p></div>
           </ExperienceCard>
         ))}
-        <PreviousExperience roles={previousExperience} />
+        <PreviousExperience roles={previousExperience} projects={profile.projects} />
       </section>
 
       <section className="section" id="skills">
@@ -159,7 +163,7 @@ export default function Home({ yearsInSoftware, skillEvidence, searchItems, prof
               ...("links" in project && project.links ? project.links : []),
             ];
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- The native project links provide keyboard access; the card delegates pointer clicks without covering hoverable tags.
-            return <article className={`panel project-card${links.length > 0 ? " project-card--linked" : ""}`} key={project.title} onClick={links.length > 0 ? (event) => {
+            return <article id={projectTargetId(project.id)} tabIndex={-1} aria-label={`${project.title} project`} className={`panel project-card${links.length > 0 ? " project-card--linked" : ""}`} key={project.id} onClick={links.length > 0 ? (event) => {
               if ((event.target as Element).closest("a, button") || window.getSelection()?.isCollapsed === false) return;
               event.currentTarget.querySelector<HTMLAnchorElement>(".project-primary-link")?.click();
             } : undefined}>

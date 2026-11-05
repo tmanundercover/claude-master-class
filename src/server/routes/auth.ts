@@ -33,9 +33,14 @@ export async function configuration() {
   try {
     const { projectId } = authConfiguration();
     const emulatorHost = process.env.FUNCTIONS_EMULATOR === "true" ? process.env.FIREBASE_AUTH_EMULATOR_HOST : undefined;
-    const apiKey = emulatorHost ? "emulator-only-key" : process.env.FIREBASE_WEB_API_KEY;
+    const apiKey = emulatorHost ? "emulator-only-key" : process.env.PORTFOLIO_FIREBASE_WEB_API_KEY || process.env.FIREBASE_WEB_API_KEY;
     if (!apiKey) return Response.json({ error: "Firebase web configuration is missing." }, { status: 503 });
-    return Response.json({ projectId, apiKey, authDomain: `${projectId}.firebaseapp.com`, ...(emulatorHost ? { emulatorUrl: `http://${emulatorHost}` } : {}) });
+    return Response.json({ projectId, apiKey, authDomain: `${projectId}.firebaseapp.com`, ...(emulatorHost ? { emulatorUrl: `http://${emulatorHost}` } : {
+      storageBucket: process.env.PORTFOLIO_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.PORTFOLIO_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.PORTFOLIO_FIREBASE_APP_ID,
+      measurementId: process.env.PORTFOLIO_FIREBASE_MEASUREMENT_ID,
+    }) });
   } catch { return Response.json({ error: "Firebase Authentication is not configured." }, { status: 503 }); }
 }
 

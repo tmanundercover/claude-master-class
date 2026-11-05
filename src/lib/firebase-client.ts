@@ -7,8 +7,8 @@ async function clientAuth() {
   if (authentication) return authentication;
   const response = await fetch("/api/auth/config");
   if (!response.ok) throw new Error("Firebase Authentication is not configured.");
-  const { projectId, apiKey, authDomain, emulatorUrl } = await response.json();
-  const app = getApps()[0] ?? initializeApp({ projectId, apiKey, authDomain });
+  const { emulatorUrl, ...config } = await response.json();
+  const app = getApps()[0] ?? initializeApp(config);
   authentication = getAuth(app);
   if (emulatorUrl) connectAuthEmulator(authentication, emulatorUrl, { disableWarnings: true });
   await setPersistence(authentication, inMemoryPersistence);

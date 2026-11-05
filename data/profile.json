@@ -8,6 +8,7 @@
     {
       "title": "Software Engineer & Automation Advisor",
       "organization": "Addition, Inc.",
+      "projectIds": ["time-allocation"],
       "period": "2026 - Present",
       "employmentType": "consulting",
       "summary": "Architects business applications and advises on automation, reporting, operational integrations, and staff enablement for Addition and organizations it serves.",
@@ -24,6 +25,7 @@
     {
       "title": "React & WordPress Engineer",
       "organization": "Dorothea Project",
+      "projectIds": ["dorothea-questionnaire"],
       "period": "2026 - Present",
       "employmentType": "consulting",
       "summary": "Builds and maintains public-interest publishing tools that connect WordPress presentation with React interfaces and staff-managed Google Sheets data.",
@@ -39,6 +41,7 @@
     {
       "title": "Frontend Engineer",
       "organization": "Black Workers Together",
+      "projectIds": ["black-workers-together"],
       "period": "2026 - Present",
       "employmentType": "consulting",
       "summary": "Designed, developed, and deployed a campaign and community website with a path toward organizer-managed content.",
@@ -54,6 +57,7 @@
     {
       "title": "Shopify & React Engineer",
       "organization": "Chef Jamie G",
+      "projectIds": ["chef-jamie-g"],
       "period": "Feb 2024 - Present",
       "employmentType": "consulting",
       "summary": "Designed, styled, and developed the complete Chef Jamie G Shopify site, then extended it with a custom testimonial application hosted through MAAiN and served inside the storefront.",
@@ -70,6 +74,7 @@
     {
       "title": "Automation Engineer",
       "organization": "MTC Art Studios",
+      "projectIds": ["mtc-booking"],
       "period": "May 2025 - Present",
       "employmentType": "consulting",
       "summary": "Implemented and maintains a Wix booking flow for student art interviews, including payment gating and Office 365 calendar sharing, while advising on ongoing process and website improvements.",
@@ -86,6 +91,7 @@
     {
       "title": "AI Product Builder",
       "organization": "White-label custom application generator",
+      "projectIds": ["application-generator"],
       "period": "Dec 2024 - Present",
       "employmentType": "consulting",
       "summary": "Built workflow orchestration that generates and deploys websites and web applications, evolving an initial n8n workflow into a React and TypeScript system on GCP and Firebase with multimodal automation.",
@@ -118,13 +124,14 @@
     {
       "title": "Software Architect / Founder",
       "organization": "The Handsomest Nerd, LLC",
+      "projectIds": ["the-handsomest-nerd", "houston-realtor", "transformative-healing", "ai-code-generation", "jamworks247"],
       "period": "Sep 2022 - Present",
       "employmentType": "consulting",
-      "summary": "Builds and deploys React and Node.js applications for small businesses using Sanity CMS and GCP, including human-AI interfaces and multimodal generation workflows.",
+      "summary": "Provides web development, software development, workflow automation, and AI automation services through The Handsomest Nerd. Builds and deploys React and Node.js applications for small businesses using Sanity CMS and GCP, including human-AI interfaces and multimodal generation workflows.",
       "skills": ["React", "TypeScript", "Node.js", "Sanity.io", "GCP", "Firebase", "Firebase Hosting", "Firebase Functions", "Resend API", "PostgreSQL", "Firebase Authentication", "Jest", "Storybook", "Material UI", "Shopify SDK", "GIMP", "OpenAI Codex"],
       "tags": ["Custom CMS architecture", "Agent runtimes", "TDD", "OpenSpec", "Fullstack development", "CMS-backed applications"],
       "bullets": [
-        "Develops and deploys React websites and applications for small-business clients.",
+        "Develops and deploys React websites and applications for small-business clients, with services showcased at thehandsomestnerd.com.",
         "Builds Node.js backends and structured-content workflows with Sanity CMS and GCP.",
         "Develops the Transformative Healing and Wellness and Houston realtor websites with React, TypeScript, Firebase Hosting, Firebase Functions, and the Resend API for contact-form email, using Sanity.io CMS for wellness content and custom CMS architecture for the realtor's featured property listings.",
         "Applies TypeScript, Firebase, Jest, Storybook, Material UI, and test-driven development across client work.",
@@ -160,6 +167,7 @@
     {
       "title": "Fullstack Software Engineer",
       "organization": "Assembled Brands",
+      "projectIds": ["assembled-brands"],
       "period": "Dec 2019 - Jun 2021",
       "employmentType": "full-time",
       "summary": "Served as frontend subject matter expert for React lending applications used by hundreds of users, partnering with Product and Design on interface delivery, web performance, and accessibility, with Kotlin and Node.js services on AWS.",
@@ -290,6 +298,7 @@
   },
   "projects": [
     {
+      "id": "houston-realtor",
       "title": "Houston Realtor Website",
       "context": "Real estate website / June 2026 - Present",
       "url": "https://kameron-whitfield.web.app/",
@@ -299,6 +308,7 @@
       "tags": ["Featured property listings", "Contact form", "Custom CMS architecture"]
     },
     {
+      "id": "time-allocation",
       "title": "Time Allocation by Percentage",
       "context": "Addition, Inc. consulting / 2026 - Present",
       "url": "https://time-allocation-by-percentage.web.app/",
@@ -308,6 +318,7 @@
       "tags": ["Business automation"]
     },
     {
+      "id": "dorothea-questionnaire",
       "title": "Dorothea Project questionnaire publishing",
       "context": "Dorothea Project consulting / 2026 - Present",
       "url": "https://dorotheaproject.com/candidate-questionnaire-results/",
@@ -317,6 +328,7 @@
       "tags": []
     },
     {
+      "id": "black-workers-together",
       "title": "Black Workers Together website",
       "context": "Frontend consulting / 2026 - Present",
       "url": "https://blackworkerstogether.org/",
@@ -326,6 +338,7 @@
       "tags": ["SEO"]
     },
     {
+      "id": "mtc-booking",
       "title": "MTC interview booking automation",
       "context": "MTC Art Studios / May 2025 - Present",
       "url": "https://www.mtcartstudios.org/book-online",
@@ -335,6 +348,7 @@
       "tags": ["Calendar automation"]
     },
     {
+      "id": "application-generator",
       "title": "White-label application generator",
       "context": "AI product development / Dec 2024 - Present",
       "summary": "An n8n workflow evolved into a React and TypeScript application on GCP and Firebase that turns user input into deployed websites and applications, with video, image, and text generation. OpenAI Codex supported architecture, implementation, testing, and iteration.",
@@ -343,6 +357,7 @@
       "tags": ["Multi-tenant architecture"]
     },
     {
+      "id": "transformative-healing",
       "title": "Transformative Healing and Wellness website",
       "context": "Website development / June 2024 - Present",
       "url": "https://transformhw.org/",
@@ -352,6 +367,7 @@
       "tags": ["Service booking", "Author website"]
     },
     {
+      "id": "ai-code-generation",
       "title": "AI Code Generation",
       "context": "AI product development / April 2024 - Present",
       "summary": "MAAiN brings LLMs, prompt engineering, and UX design together for AI code generation, backed by a TypeScript platform for agent runtimes. PostgreSQL-backed operation records and authentication support observable, resumable execution. Development uses OpenSpec and OpenAI Codex, with automated testing covering contracts, security, and regression behavior.",
@@ -360,6 +376,7 @@
       "tags": ["LLMs", "Prompt engineering", "UX design", "Agent runtimes", "Authentication", "OpenSpec", "Automated testing", "Runtime observability"]
     },
     {
+      "id": "chef-jamie-g",
       "title": "Chef Jamie G Shopify site & testimonials application",
       "context": "Shopify consulting / Feb 2024 - Present",
       "url": "https://www.chefjamieg.com/",
@@ -369,6 +386,7 @@
       "tags": ["iframe integration", "Custom styling"]
     },
     {
+      "id": "jamworks247",
       "title": "JamWorks247 Shopify site & merchandise-color customization",
       "context": "Commerce product development / The Handsomest Nerd, LLC / November 2023 - Present",
       "url": "https://jamworks247.com/",
@@ -378,6 +396,7 @@
       "tags": ["Product customization", "Site development"]
     },
     {
+      "id": "bartender-portfolio",
       "title": "Bartender portfolio and drink menu",
       "context": "Software portfolio project / 2023",
       "summary": "A React and TypeScript web portfolio using Sanity.io for content, combining a professional profile with an interactive, browsable 42-item drink menu.",
@@ -386,6 +405,7 @@
       "tags": ["Web application", "Interactive catalog"]
     },
     {
+      "id": "bartender-flash-cards",
       "title": "Bartender Flash Cards",
       "context": "Published web project",
       "url": "https://bartender-concierge.web.app/bartender-concierge/home",
@@ -395,6 +415,7 @@
       "tags": ["Web application", "Study tool"]
     },
     {
+      "id": "assembled-brands",
       "title": "Assembled Brands website and blog",
       "context": "Fintech product work / 2019 - 2021",
       "links": [
@@ -405,6 +426,21 @@
       "evidence": "The master resume lists the company website and blog in the portfolio and identifies both among the applications built and maintained at Assembled Brands.",
       "skills": ["React", "AWS", "WordPress", "Sanity.io"],
       "tags": []
+    },
+    {
+      "id": "the-handsomest-nerd",
+      "title": "The Handsomest Nerd",
+      "context": "Web development, software development & automation",
+      "url": "https://thehandsomestnerd.com/",
+      "summary": "The business website for The Handsomest Nerd, showcasing web development, software development, workflow automation, and AI automation services. It gives prospective clients a place to explore services and start a project.",
+      "evidence": "Terrell identified thehandsomestnerd.com as his web development, automation, AI automation, and software development business website and supplied a screenshot of its services and project inquiry interface.",
+      "skills": [],
+      "tags": [
+        "Web development",
+        "Software development",
+        "Workflow automation",
+        "AI automation"
+      ]
     }
   ],
   "education": ["B.S. in Computer Engineering, University of Maryland, Baltimore County"],

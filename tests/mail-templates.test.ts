@@ -4,8 +4,22 @@ import { readFileSync, existsSync } from 'node:fs';
 import type { PublicProfile } from '../src/app-types';
 import { resumeMailTemplate, resumeContactLink, previewEmailDocument } from '../src/lib/mail-templates.ts';
 import { RESUME_ICON_NAMES } from '../src/lib/resume-icon-names.ts';
+import { PORTFOLIO_URL, publicResumeDocument, renderResumeDocument } from '../src/lib/resume-document.ts';
 
 const profile = JSON.parse(readFileSync(new URL('../data/profile.json', import.meta.url), 'utf8')) as PublicProfile;
+test('all résumé formats use the résumé site while the business website remains a project', () => {
+  assert.equal(PORTFOLIO_URL, 'https://resume.terrellsingleton.com/');
+  const template = resumeMailTemplate(profile);
+  const full = renderResumeDocument(publicResumeDocument(profile, { full: true }));
+  for (const document of [template, full]) {
+    assert.ok(document.text.includes(`Portfolio: ${PORTFOLIO_URL}`));
+    assert.ok(document.html.includes(`href="${PORTFOLIO_URL}"`));
+    assert.ok(!document.text.includes('Portfolio: https://thehandsomestnerd.com'));
+    assert.ok(!document.html.includes('resume.terrellsingleton.com//'));
+  }
+  assert.ok(full.html.includes('href="https://thehandsomestnerd.com/"'));
+  assert.ok(full.text.includes('AI automation'));
+});
 test('résumé email keeps full active contact links, emphasizes usernames, and packages every referenced PNG icon', () => {
   const template = resumeMailTemplate(profile);
   for (const skill of profile.skills.strong) {
