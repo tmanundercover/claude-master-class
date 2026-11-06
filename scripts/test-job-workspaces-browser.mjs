@@ -1,3 +1,4 @@
+import { emulatorOwnerBrowserSignIn } from './emulator-auth.mjs';
 import { chromium } from 'playwright';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -18,8 +19,7 @@ try {
     assert.equal(await publicLink.evaluate(element => getComputedStyle(element).outlineStyle !== 'none'), true);
     const download = page.waitForEvent('download'); await publicLink.click(); assert.match((await download).suggestedFilename(), /^james-terrell-singleton-resume-\d{4}\.pdf$/); await noOverflow('Public page');
     await page.goto(base + '/dashboard/jobs'); await page.waitForURL('**/login');
-    await page.locator('#role').selectOption('terrell'); const owner = users.find(user => user.role === 'terrell');
-    await page.getByLabel('Email', { exact: true }).fill(owner.email); await page.getByLabel('Password', { exact: true }).fill(owner.password); await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click(); await page.waitForURL('**/dashboard');
+    const owner = users.find(user => user.role === 'terrell'); await emulatorOwnerBrowserSignIn(page, owner.email); await page.waitForURL('**/dashboard');
     const generationAttempts = [];
     if (width === 1440) await page.route('**/artifacts/cover-letter/generate', async route => { generationAttempts.push(route.request().postDataJSON().attemptId); const response = await route.fetch(); if (generationAttempts.length === 1) await route.abort('connectionreset'); else await route.fulfill({ response }); });
     const jd = `Engineer at Acme. React. Build business applications. Browser ${width} [fixture:success]`;
@@ -81,7 +81,7 @@ try {
     const retainedDraft = await api(`/api/inbox/drafts/${preparedApplication.link.draftId}`); assert.equal(retainedDraft.attachments.length, 3);
     await composer.getByLabel('Message', { exact: true }).fill('KEEP THESE MANUAL EDITS'); await appTools.getByRole('button', { name: 'Refresh documents', exact: true }).click(); await composer.getByText('Saved', { exact: true }).waitFor(); assert.equal(await composer.getByLabel('Message', { exact: true }).inputValue(), 'KEEP THESE MANUAL EDITS'); assert.ok((await composer.textContent()).includes('manual.txt'));
     await appTools.getByRole('button', { name: 'Edit tailored résumé', exact: true }).click(); await page.waitForURL('**/dashboard/jobs/**'); await page.getByRole('link', { name: 'Return to application email', exact: true }).waitFor(); await context.clearCookies(); await page.getByRole('link', { name: 'Return to application email', exact: true }).click(); await page.waitForURL('**/login?applicationReturn=*');
-    await page.locator('#role').selectOption('terrell'); await page.getByLabel('Email', { exact: true }).fill(owner.email); await page.getByLabel('Password', { exact: true }).fill(owner.password); await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click(); await page.waitForURL('**/dashboard/inbox?applicationReturn=*');
+     await emulatorOwnerBrowserSignIn(page, owner.email); await page.waitForURL('**/dashboard/inbox?applicationReturn=*');
     await composer.getByLabel('Message', { exact: true }).waitFor(); assert.equal(await composer.getByLabel('Message', { exact: true }).inputValue(), 'KEEP THESE MANUAL EDITS'); assert.ok((await composer.textContent()).includes('manual.txt')); await noOverflow('Returned composer'); await page.screenshot({ path: `${directory}/application-${width}.png`, fullPage: true });
     // Exercise both missing-résumé choices, an initially blank composer and save-before-navigation failure.
     await composer.getByRole('button', { name: 'Close composer', exact: true }).click(); await page.getByRole('button', { name: 'Compose', exact: true }).click();

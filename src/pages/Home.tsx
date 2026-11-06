@@ -16,7 +16,7 @@ import { formatDocumentedYears } from "@/lib/evidence-format";
 import { skillTargetId } from "@/lib/skill-target";
 import { scrollToSkill } from "@/lib/scroll-to-skill";
 import { documentFilename } from '@/lib/document-filename';
-import ProfileAvatar from '../components/ProfileAvatar';
+import ProfileCard from '../components/ProfileCard';
 import { projectTargetId, relatedProjects, scrollToProject } from '../lib/project-navigation';
 
 const [linkedInWidth, linkedInHeight, , , linkedInPathData] = faLinkedinIn.icon;
@@ -83,12 +83,7 @@ export default function Home({ yearsInSoftware, skillEvidence, searchItems, prof
             <a className="button secondary" href="#contact">Get in touch</a>
           </div>
         </div>
-        <div className="identity-column"><div className="identity-card">
-          <ProfileAvatar name={profile.name} initials={profile.initials} className="avatar" />
-          <h2>{profile.name}</h2>
-          <p>Fullstack engineering. AI systems. Product delivery.</p>
-          <span className="badge">{yearsInSoftware}+ years in software · Since 2004</span>
-        </div><a className="resume-download" href={sitePath('/resume.pdf')} download={documentFilename(profile.name, null, 'resume', 'pdf')}><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg> Download résumé (PDF)</a></div>
+        <div className="identity-column"><ProfileCard name={profile.name} initials={profile.initials} yearsInSoftware={yearsInSoftware} /><a className="resume-download" href={sitePath('/resume.pdf')} download={documentFilename(profile.name, null, 'resume', 'pdf')}><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg> Download résumé (PDF)</a></div>
       </section>
 
       <section className="section" id="experience">

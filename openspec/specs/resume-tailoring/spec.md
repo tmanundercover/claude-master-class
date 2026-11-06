@@ -91,7 +91,7 @@ The system SHALL offer HTML download and plain-text copy for the tailored résum
 
 ### Requirement: Input and model failures remain explicit
 
-The endpoint MUST reject blank job descriptions and descriptions longer than 15,000 characters before generation. It MUST validate structured model output and surface configuration, provider, rate-limit, and malformed-output failures without fabricated fallback documents. A new submission SHALL clear stale results and feedback.
+The endpoint MUST reject blank or over-15,000-character job descriptions before generation, validate structured output, and expose configuration, provider, rate-limit, and malformed-output failures without fabricated fallbacks. Pending or failed replacements SHALL retain and identify saved Current/Previous content and personal notes. Replacement or selection SHALL reset document export feedback. Initial failure SHALL retain workspace access without claiming a saved résumé.
 
 #### Scenario: Invalid input
 - **WHEN** the owner submits a blank or oversized job description
@@ -101,6 +101,17 @@ The endpoint MUST reject blank job descriptions and descriptions longer than 15,
 - **WHEN** configuration is missing, the provider fails, or model output violates the result contract
 - **THEN** the workspace shows a non-success error and no replacement résumé
 - **AND** rate-limit retry information is retained when available
+- **AND** any already saved Current/Previous pair remains available
+
+#### Scenario: Replacement is pending
+- **WHEN** the owner requests Revise or Start over for a saved résumé
+- **THEN** its saved Current document and available Previous remain readable while generation is pending
+- **AND** a failed request preserves them without fabricating a fallback or losing personal notes
+
+#### Scenario: Saved document selection changes
+- **WHEN** durable replacement or Undo/Switch back changes the selected saved résumé
+- **THEN** the preview and exports represent that version
+- **AND** previous copy/download feedback is cleared for the newly selected document
 
 ### Requirement: Private and inert document handling
 

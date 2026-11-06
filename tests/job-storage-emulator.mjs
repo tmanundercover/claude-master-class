@@ -88,11 +88,11 @@ test('Cloud Storage SDK bounded reads detect altered content and missing objects
   await assert.rejects(stores.objects.read(original, 100), error => error.code === 404);
 });
 
-test('checked-in rules deny direct Firestore and Storage clients including signed-in owner', async () => {
+test('checked-in rules deny direct Firestore and Storage clients including Google-signed-in owner', async () => {
   const users = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, 'utf8'));
   const owner = users.find(user => user.role === 'terrell');
-  const signedIn = await fetch(`http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=emulator-only`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: owner.email, password: owner.password, returnSecureToken: true }) });
-  const { idToken } = await signedIn.json(); assert.ok(idToken);
+  const { emulatorUserToken } = await import('../scripts/emulator-auth.mjs');
+  const idToken = await emulatorUserToken(owner); assert.ok(idToken);
   const ownerRepo = new JobRepository({ uid: owner.uid, role: 'terrell' }, stores.db, stores.objects);
   const { workspace } = await ownerRepo.create(`Rules ${randomUUID()}`, randomUUID());
   const manifest = (await ownerRepo.description(workspace.id)).content;

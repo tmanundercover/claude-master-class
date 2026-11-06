@@ -1,6 +1,7 @@
 import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { isSessionRole, SESSION_COOKIE_NAME, SESSION_ROLES, type SessionRole } from "./session.ts";
+import { isApprovedOwnerIdentity } from './owner-identity.ts';
 
 export class AuthenticationConfigurationError extends Error {}
 
@@ -37,6 +38,7 @@ export async function currentSessionPrincipal(
 }
 
 export function roleFromClaims(claims: Record<string, unknown>): SessionRole | null {
+  if (claims.portfolioRole === 'terrell' && !isApprovedOwnerIdentity(claims)) return null;
   return isSessionRole(claims.portfolioRole) ? claims.portfolioRole : null;
 }
 

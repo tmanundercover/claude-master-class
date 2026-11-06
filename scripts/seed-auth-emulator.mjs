@@ -30,6 +30,9 @@ export async function seedAuthEmulator({ projectId, host, credentialsPath, passw
       user = await auth.createUser({ email: account.email, password: accountPassword, emailVerified: true, displayName: account.role === "terrell" ? "Terrell Singleton" : account.role });
     }
     await auth.setCustomUserClaims(user.uid, { ...user.customClaims, portfolioRole: account.role });
+    if (account.role === 'terrell' && !user.providerData.some(provider => provider.providerId === 'google.com')) {
+      await auth.updateUser(user.uid, { providerToLink: { providerId: 'google.com', uid: `emulator-google-${user.uid}`, email: account.email, displayName: 'Terrell Singleton' } });
+    }
     users.push({ ...account, uid: user.uid, password: accountPassword });
   }
   await mkdir(dirname(credentialsPath), { recursive: true });

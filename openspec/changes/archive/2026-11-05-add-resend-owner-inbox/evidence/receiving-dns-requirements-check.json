@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-11-06T00:12:23.345Z",
+  "checks": [
+    {
+      "record": "DKIM",
+      "name": "resend._domainkey.thehandsomestnerd.com",
+      "type": "TXT",
+      "matches_provider": true
+    },
+    {
+      "record": "SPF",
+      "name": "correspondance.thehandsomestnerd.com",
+      "type": "MX",
+      "matches_provider": true
+    },
+    {
+      "record": "SPF",
+      "name": "correspondance.thehandsomestnerd.com",
+      "type": "TXT",
+      "matches_provider": true
+    },
+    {
+      "record": "Receiving",
+      "name": "thehandsomestnerd.com",
+      "type": "MX",
+      "matches_provider": true
+    }
+  ]
+}

@@ -4,19 +4,24 @@ import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { getAuth } from 'firebase-admin/auth';
 import { initializeApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import { emulatorUserToken, emulatorGoogleToken } from '../scripts/emulator-auth.mjs';
 const base = process.env.TEST_BASE_URL;
+let foreignWorkspaceId, foreignUid;
 const users = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, 'utf8'));
 const cookies = new Map();
 async function request(path, method = 'GET', body, cookie = cookies.get('terrell'), origin = base) { return fetch(base + path, { method, redirect: 'manual', headers: { ...(cookie ? { Cookie: cookie } : {}), ...(body === undefined ? {} : { 'Content-Type': 'application/json', Origin: origin }) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal: AbortSignal.timeout(30000) }); }
 before(async () => { for (const user of users) {
-  const signed = await fetch(`http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=emulator-only`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, password: user.password, returnSecureToken: true }) });
-  const { idToken } = await signed.json(); const session = await request('/api/auth', 'POST', { role: user.role, idToken }, '', base); assert.equal(session.status, 200); cookies.set(user.role, session.headers.get('set-cookie').split(';')[0]);
+  const idToken = await emulatorUserToken(user); const session = await request('/api/auth', 'POST', { role: user.role, idToken }, '', base); assert.equal(session.status, 200); cookies.set(user.role, session.headers.get('set-cookie').split(';')[0]);
 }
-  const admin = getAuth(initializeApp({ projectId: process.env.GCLOUD_PROJECT }, 'job-http-second-owner'));
-  const foreign = await admin.createUser({ email: 'another-workspace-owner@example.test', password: 'Emulator-Only-84!' });
+  const app = initializeApp({ projectId: process.env.GCLOUD_PROJECT }, 'job-http-second-owner');
+  const admin = getAuth(app);
+  const foreign = await admin.createUser({ email: 'another-workspace-owner@example.test', emailVerified: true });
   await admin.setCustomUserClaims(foreign.uid, { portfolioRole: 'terrell' });
-  const response = await fetch(`http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=emulator-only`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'another-workspace-owner@example.test', password: 'Emulator-Only-84!', returnSecureToken: true }) });
-  const { idToken } = await response.json(); const session = await request('/api/auth', 'POST', { role: 'terrell', idToken }, '', base); assert.equal(session.status, 200); cookies.set('foreign-owner', session.headers.get('set-cookie').split(';')[0]);
+  const idToken = await emulatorGoogleToken({ uid: foreign.uid, email: foreign.email, role: 'terrell' });
+  const session = await request('/api/auth', 'POST', { role: 'terrell', idToken }, '', base); assert.equal(session.status, 403); assert.equal(session.headers.get('set-cookie'), null);
+  foreignUid = foreign.uid; foreignWorkspaceId = randomUUID();
+  await getFirestore(app).doc(`careerOwners/${foreign.uid}/workspaces/${foreignWorkspaceId}`).set({ id: foreignWorkspaceId, description: 'Foreign private record' });
 });
 const create = async jd => { const response = await request('/api/job-workspaces', 'POST', { jobDescription: jd, attemptId: randomUUID() }); assert.ok([200, 201].includes(response.status), await response.clone().text()); return response.json(); };
 
@@ -29,8 +34,8 @@ test('workspace HTTP authorization, strict inputs, owner retrieval and same-orig
   const first = await (await request('/api/job-workspaces', 'POST', payload)).json(); const second = await (await request('/api/job-workspaces', 'POST', payload)).json(); assert.equal(first.workspace.id, second.workspace.id);
   const read = await request(`/api/job-workspaces/${first.workspace.id}`); assert.equal(read.status, 200); assert.match(read.headers.get('cache-control'), /private.*no-store/); assert.match(read.headers.get('vary'), /\bCookie\b/);
   const dashboard = await read.json(); assert.equal(dashboard.description.text, payload.jobDescription);
-  assert.equal((await request(`/api/job-workspaces/${first.workspace.id}`, 'GET', undefined, cookies.get('foreign-owner'))).status, 404);
-  const forged = await fetch(`${base}/api/job-workspaces/${first.workspace.id}`, { headers: { Cookie: cookies.get('foreign-owner'), 'X-Owner-Uid': first.workspace.id } }); assert.equal(forged.status, 404);
+  assert.equal((await request(`/api/job-workspaces/${foreignWorkspaceId}`)).status, 404);
+  const forged = await fetch(`${base}/api/job-workspaces/${foreignWorkspaceId}`, { headers: { Cookie: cookies.get('terrell'), 'X-Owner-Uid': foreignUid } }); assert.equal(forged.status, 404);
   assert.equal((await request(`/api/job-workspaces/${randomUUID()}`)).status, 404);
   assert.equal((await request('/api/job-workspaces?limit=51')).status, 400);
   await create('Another distinct HTTP posting.'); const page = await (await request('/api/job-workspaces?limit=1')).json(); assert.equal(page.items.length, 1); assert.ok(page.next); const next = await (await request(`/api/job-workspaces?limit=1&after=${page.next}`)).json(); assert.notEqual(page.items[0].id, next.items[0].id);

@@ -34,7 +34,7 @@ Raw execution logs remain temporary local files (`/tmp/owner-inbox-preflight-fin
 - Refresh draft lists when closing a saved composer. Preserve failed edits and give reopened textareas stable accessible names. Keep the dashboard inbox card full width and the inbox-page summary compact; expose advanced search controls through a native disclosure on both sizes.
 - Keep the existing root and backend environment files unchanged. No Secret Manager binding, standalone application server, persistent browser mail cache, Firestore mail mirror, marketing subscription side effect, or automatic email sending was introduced.
 
-Implementation/API/operator instructions are in [Owner inbox](../../../../docs/owner-inbox.md). Reproduce browser acceptance with `npm run test:mail:browser`; Chrome is required (the script uses the installed macOS Chrome by default, or `CHROME_PATH`).
+Implementation/API/operator instructions are in [Owner inbox](../../../../../docs/owner-inbox.md). Reproduce browser acceptance with `npm run test:mail:browser`; Chrome is required (the script uses the installed macOS Chrome by default, or `CHROME_PATH`).
 
 ## Live readiness and remaining gates
 

@@ -5,6 +5,8 @@ import { readFile } from "node:fs/promises";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
+import { emulatorUserToken, emulatorPasswordToken, emulatorGoogleToken } from "../scripts/emulator-auth.mjs";
+
 const base = process.env.TEST_BASE_URL;
 if (!base || !process.env.FIREBASE_AUTH_EMULATOR_HOST || !process.env.TEST_AUTH_USERS_FILE) throw new Error("Run npm run test:http to use the Firebase emulators.");
 const users = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, "utf8"));
@@ -16,11 +18,8 @@ function request(path, options = {}) {
 function jsonHeaders(cookie, client = "test-client", origin = base) {
   return { "Content-Type": "application/json", Origin: origin, "X-Forwarded-For": client, ...(cookie ? { Cookie: cookie } : {}) };
 }
-async function signIn(email, password) {
-  const response = await fetch(`http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=emulator-only-key`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password, returnSecureToken: true }) });
-  assert.equal(response.status, 200, "Firebase emulator sign-in failed");
-  return (await response.json()).idToken;
-}
+const signIn = emulatorPasswordToken;
+
 async function login(role, client = `${role}-session`) {
   const response = await request("/api/auth", { method: "POST", headers: jsonHeaders(undefined, client), body: JSON.stringify({ role, idToken: tokens.get(role) }) });
   assert.equal(response.status, 200);
@@ -29,7 +28,7 @@ async function login(role, client = `${role}-session`) {
   return { response, cookie, pair: cookie.split(";", 1)[0] };
 }
 before(async () => {
-  for (const user of users) tokens.set(user.role, await signIn(user.email, user.password));
+  for (const user of users) tokens.set(user.role, await emulatorUserToken(user));
 });
 
 test("project source notes stay behind owner authentication", async () => {
@@ -253,4 +252,20 @@ test("revoked owner cannot read inbox pages, statistics or attachment bytes", as
   await admin.revokeRefreshTokens(users.find(user => user.role === "terrell").uid);
   assert.equal((await request("/dashboard/inbox", { headers: { Cookie: pair } })).status, 307);
   for (const path of ["summary", "threads", "contacts", "drafts", "settings", "threads/thread-1/messages/email-2/attachments/attachment-1"]) assert.equal((await request(`/api/inbox/${path}`, { headers: { Cookie: pair } })).status, 401);
+});
+
+test('owner Google login denies password tokens, other Google accounts, and old password cookies', async () => {
+  const user = users.find(user => user.role === 'terrell');
+  const passwordToken = await emulatorPasswordToken(user.email, user.password);
+  const denied = await request('/api/auth', { method: 'POST', headers: jsonHeaders(undefined, 'owner-password-denied'), body: JSON.stringify({ role: 'terrell', idToken: passwordToken }) });
+  assert.equal(denied.status, 403); assert.equal(denied.headers.get('set-cookie'), null);
+  assert.match((await denied.json()).error, /Google.*terrell.singleton@gmail\.com/);
+  const oldCookie = await admin.createSessionCookie(passwordToken, { expiresIn: 600000 });
+  assert.equal((await request('/dashboard', { headers: { Cookie: '__session=' + oldCookie } })).status, 307);
+  assert.equal((await request('/api/inbox/summary', { headers: { Cookie: '__session=' + oldCookie } })).status, 401);
+  const foreign = await admin.createUser({ email: 'foreign-google@example.test', emailVerified: true });
+  await admin.setCustomUserClaims(foreign.uid, { portfolioRole: 'terrell' });
+  const foreignToken = await emulatorGoogleToken({ uid: foreign.uid, email: foreign.email, role: 'terrell' });
+  const wrongGoogle = await request('/api/auth', { method: 'POST', headers: jsonHeaders(undefined, 'wrong-google'), body: JSON.stringify({ role: 'terrell', idToken: foreignToken }) });
+  assert.equal(wrongGoogle.status, 403); assert.equal(wrongGoogle.headers.get('set-cookie'), null);
 });

@@ -2,6 +2,7 @@ import { readJson } from "@/lib/api";
 import { adminAuth, authConfiguration, roleFromClaims } from "@/lib/auth";
 import { isSameOrigin } from "@/lib/origin";
 import { expiredSessionCookieOptions, isSessionRole, SESSION_COOKIE_NAME, SESSION_DURATION_SECONDS, sessionCookieOptions } from "@/lib/session";
+import { isApprovedOwnerIdentity, OWNER_LOGIN_EMAIL } from '../../lib/owner-identity';
 
 const LOGIN_ATTEMPT_LIMIT = 10;
 const LOGIN_WINDOW_MS = 60_000;
@@ -57,6 +58,9 @@ export async function POST(request: Request) {
   try {
     const auth = adminAuth();
     const claims = await auth.verifyIdToken(body.value.idToken, true);
+    if (body.value.role === 'terrell' && !isApprovedOwnerIdentity(claims)) {
+      return Response.json({ error: `Use Google sign-in with ${OWNER_LOGIN_EMAIL} for owner access.` }, { status: 403 });
+    }
     const role = roleFromClaims(claims);
     if (!role || role !== body.value.role) return Response.json({ error: "Your account is not assigned to the selected role." }, { status: 403 });
     const age = Date.now() / 1000 - claims.auth_time;

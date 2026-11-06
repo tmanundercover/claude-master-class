@@ -126,6 +126,8 @@ The selected receiving architecture uses Resend MX records for `thehandsomestner
 
 Retrieve the exact sending and receiving DNS records from the intended Resend account and region. Do not guess MX targets or replace unrelated SPF/DKIM/DMARC configuration. Keep a fresh snapshot of prior MX records and TTLs for rollback. The observed Google MX set is only a baseline to recheck.
 
+Operational decision confirmed on 2026-11-05: Google Workspace has been canceled. Resend remains the receiving provider. The recovery note uses the captured working Resend-primary MX configuration to recover from accidental DNS edits; a Resend service outage follows provider incident recovery while retaining that route. Reactivating Google or provisioning another mail provider is outside this change. The owner approved this replacement for the original Google rollback. `hello@thehandsomestnerd.com` uses receiving-only access through Resend's Receiving dashboard; the portfolio remains bound to the Terrell inbox. See [receiving operations](evidence/receiving-operations.md) for the captured configuration and verification limits.
+
 ## Risks / Trade-offs
 
 - New provider APIs or SDK gaps -> pin a supported version, cover exact payloads with contract tests, and block live readiness if native reply/attachment/agent behavior differs from the promised contract.
@@ -146,7 +148,7 @@ Retrieve the exact sending and receiving DNS records from the intended Resend ac
 4. Deploy the reviewed application and configure the signed webhook endpoint. Verify owner access and unauthenticated/guest denial against the deployed Functions application.
 5. With explicit authorization for the prepared DNS cutover, install Resend's receiving MX records, verify propagation, and test controlled external incoming and outgoing mail.
 6. Prove public submission -> owner inbox -> visitor reply delivery -> visitor response in the same thread; exercise drafts, labels, search, contacts, and attachments against the live provider. Record fixture, deployed, provider, and DNS evidence separately.
-7. If receiving fails, restore the recorded MX set and verify Google routing recovery. Disable or accurately report contact delivery problems while keeping the public portfolio and existing tools available. Preserve mailbox content and Google history throughout rollback.
+7. For a DNS configuration error, restore the captured working Resend-primary MX records and verify authoritative/public DNS answers and receiving. For a Resend service outage, retain the verified route and follow provider incident recovery. Accurately report contact delivery problems while keeping the public portfolio and existing tools available. Preserve existing correspondence. The recovery note does not require reactivating Google, a second provider, or a disruptive recovery rehearsal.
 
 Operational tasks remain unchecked until their own evidence exists. Local acceptance alone does not complete deployment or MX-cutover tasks.
 

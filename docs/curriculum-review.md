@@ -173,7 +173,7 @@ exercises/contact-and-email-templates.md
 exercises/inbox.md
 exercises/openspec-workflow.md
 exercises/verification-and-deployment.md
-openspec/changes/expand-course-with-openspec-workflow/tasks.md
+openspec/changes/archive/2026-11-05-expand-course-with-openspec-workflow/tasks.md
 ```
 
 `git diff --check` and

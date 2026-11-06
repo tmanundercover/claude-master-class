@@ -59,7 +59,7 @@ proposal, then apply portfolio edits. Preserve current approved records in
 job-search output. Local mail practice uses explicit isolated fixtures and no real mail.
 
 Saved jobs, versioned artifacts, application PDFs and document email integration are
-owned by the separate [job-workspace change](openspec/changes/add-job-workspaces-and-versioned-artifacts/tasks.md).
+owned by the separate [job-workspace change](openspec/changes/archive/2026-11-05-add-job-workspaces-and-versioned-artifacts/tasks.md).
 Its [documentation](docs/job-workspaces.md) describes the concurrent implementation;
 remaining acceptance and live operations are not completed by this curriculum.
 Check its current status before using branch-specific controls in class.

@@ -103,3 +103,38 @@ MX cutover, a complete fresh deployed external-mail acceptance sequence, and
 verified post-cutover/rollback evidence have not been established. No DNS changes,
 new outbound messages, mailbox-content changes, specification sync, or archive
 were performed during this activation.
+
+## Owner acceptance follow-up: 2026-11-05
+
+The owner confirmed that Resend works and that they have tested all the flows.
+This records owner-reported live functional acceptance and completes task 9.5;
+no additional agent-run mail test was performed. The owner's confirmation does
+not specify whether the tests used the deployed site or local emulators with
+live Resend, so it is not recorded as independent deployed round-trip evidence.
+
+Tasks 9.1, 9.4, and 9.6 remain open for recipient/TTL/rollback preparation,
+receiving-cutover verification, and post-cutover health/rollback records. The
+owner's functional acceptance does not supply those operational records. No
+DNS change, deployment, or provider mutation was performed for this update.
+
+Fresh read-only provider, authoritative/public DNS, and deployed health checks,
+plus the owner's `hello@` requirement and retirement of Google Workspace, are
+recorded in [receiving operations verification](receiving-operations.md). That
+follow-up supersedes the earlier assumption that Google remains a usable
+rollback destination; it does not mark the three operational tasks complete.
+
+The owner subsequently selected receiving-only Resend dashboard access for
+`hello@thehandsomestnerd.com`. A read-only receiving metadata check confirmed
+16 retained receipts for that address. Recipient preparation (9.1) and acceptance
+of the already-working Resend receiving cutover (9.4) are now complete, based on
+the separately recorded provider/DNS checks and owner-reported live tests.
+Task 9.6 remains open for replacement of the obsolete Google recovery plan.
+
+The owner then approved the Resend-only recovery revision and clarified that
+Google will not be reactivated. The design and task 9.6 now require a short note
+for restoring the captured working Resend DNS configuration after configuration
+errors and following provider incident recovery for service outages. The
+[receiving operations record](receiving-operations.md) verifies the documented
+restoration target against the captured provider/DNS configuration and states
+the limits explicitly. Revised task 9.6 is complete; no DNS change, provider
+mutation, deployment, or recovery rehearsal was performed for this revision.

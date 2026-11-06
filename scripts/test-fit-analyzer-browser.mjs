@@ -1,3 +1,4 @@
+import { emulatorOwnerBrowserSignIn } from './emulator-auth.mjs';
 // Controlled generation through Auth, Hosting, and Functions emulators; no provider calls.
 import { chromium } from 'playwright';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -18,10 +19,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(`${base}/dashboard/fit-analyzer`);
     await page.waitForURL('**/login');
-    await page.locator('#role').selectOption('terrell');
-    await page.getByLabel('Email', { exact: true }).fill(owner.email);
-    await page.getByLabel('Password', { exact: true }).fill(owner.password);
-    await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click();
+     await emulatorOwnerBrowserSignIn(page, owner.email);
     await page.waitForURL('**/dashboard');
     await page.getByRole('link', { name: /Job Fit Analyzer/ }).click();
     await page.waitForURL('**/dashboard/fit-analyzer');

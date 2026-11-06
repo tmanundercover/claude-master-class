@@ -20,7 +20,7 @@ application specs in this curriculum. The route now delegates
 through `src/server/routes/job-workspaces.ts` to the shared generation service;
 validators and the shared renderer still own document correctness. Saved jobs,
 Current/Previous versions, application PDFs and attachments are being delivered
-under the separate [job-workspace change](../openspec/changes/add-job-workspaces-and-versioned-artifacts/tasks.md).
+under the separate [job-workspace change](../openspec/changes/archive/2026-11-05-add-job-workspaces-and-versioned-artifacts/tasks.md).
 Its documentation describes that branch's behavior; its remaining acceptance
 and live operations are separate. This lesson's HTML/text exports do not attach
 a PDF or send an email. Use only configured local fixtures for classroom checks.

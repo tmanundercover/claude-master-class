@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-06T00:28:17.330Z",
+  "method": "Read-only official SDK received-email listing; no bodies or attachments fetched; no email sent",
+  "recipient": "hello@thehandsomestnerd.com",
+  "pages_scanned": 1,
+  "records_scanned": 22,
+  "retained_listing_complete": true,
+  "matching_receipts": 16,
+  "latest_matching_receipt_at": "2026-11-04T14:03:26.867Z",
+  "scope": "Currently retained provider records only; absence is not proof that the address cannot receive or that historical mail never existed",
+  "credential_file_unchanged": true
+}

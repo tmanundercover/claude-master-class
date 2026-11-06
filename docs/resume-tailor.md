@@ -74,7 +74,7 @@ draft behavior. Its sent icons retain portfolio URLs. Tailored results persist i
 
 Unit tests cover evidence, contracts, assembly, rendering, and prompt boundaries.
 The Firebase Auth/Hosting/Functions harness covers authorization and HTTP errors.
-Current workspace browser evidence is recorded separately from real-provider writing evaluation in `openspec/changes/add-job-workspaces-and-versioned-artifacts/verification.md`. Focused browser scripts write only ignored/local evidence. Fixture output is deterministic
+Current workspace browser evidence is recorded separately from real-provider writing evaluation in `openspec/changes/archive/2026-11-05-add-job-workspaces-and-versioned-artifacts/verification.md`. Focused browser scripts write only ignored/local evidence. Fixture output is deterministic
 acceptance evidence, not proof of real model writing quality.
 
 ## Saved jobs and PDF documents

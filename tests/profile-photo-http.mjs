@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
+import { emulatorUserToken } from '../scripts/emulator-auth.mjs';
 const base = process.env.TEST_BASE_URL;
 const users = JSON.parse(await readFile(process.env.TEST_AUTH_USERS_FILE, 'utf8'));
 const jpeg = await readFile('public/profile-photo.jpg');
@@ -14,8 +15,7 @@ after(() => deleteApp(app));
 const request = (path, options = {}) => fetch(base + path, { ...options, redirect: 'manual', signal: AbortSignal.timeout(30000) });
 before(async () => {
   for (const user of users) {
-    const signed = await fetch(`http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=emulator-only`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: user.email, password: user.password, returnSecureToken: true }) });
-    const { idToken } = await signed.json();
+    const idToken = await emulatorUserToken(user);
     const login = await request('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: base }, body: JSON.stringify({ role: user.role, idToken }) });
     assert.equal(login.status, 200); cookies.set(user.role, login.headers.get('set-cookie').split(';')[0]);
   }

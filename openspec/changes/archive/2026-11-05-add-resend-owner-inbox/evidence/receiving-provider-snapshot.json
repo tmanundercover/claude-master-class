@@ -1,0 +1,90 @@
+{
+  "checked_at": "2026-11-06T00:11:39.814Z",
+  "project": "my-automated-resume",
+  "method": "Read-only official SDK GET operations",
+  "configuration": {
+    "mode": "live",
+    "owner_binding_matches": true,
+    "contact_sender": "website@thehandsomestnerd.com",
+    "webhook_secret_configured": true
+  },
+  "domain": {
+    "id": "32e9157b-9def-4600-b55f-94781edc4284",
+    "name": "thehandsomestnerd.com",
+    "status": "verified",
+    "region": "us-east-1",
+    "capabilities": {
+      "sending": "enabled",
+      "receiving": "enabled"
+    },
+    "records": [
+      {
+        "record": "DKIM",
+        "name": "resend._domainkey",
+        "value": "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXki80OEJ6W+War1FL7f6t+WWEydhEQs4Tm5RzlJNft3zyX2WENV/EjWNjkp1dWbo1v47NgoPWTGlg0ZbnImv2tTt+SForo4og70Ahyjd8xOAEbzE7TjolfVtANkplaLhriezS2bFSge+4e0eYxTUx3qER8QCblUbwXVbiEURemwIDAQAB",
+        "type": "TXT",
+        "ttl": "Auto",
+        "status": "verified"
+      },
+      {
+        "record": "SPF",
+        "name": "correspondance",
+        "value": "feedback-smtp.us-east-1.amazonses.com",
+        "type": "MX",
+        "ttl": "Auto",
+        "status": "verified",
+        "priority": 10
+      },
+      {
+        "record": "SPF",
+        "name": "correspondance",
+        "value": "v=spf1 include:amazonses.com ~all",
+        "type": "TXT",
+        "ttl": "Auto",
+        "status": "verified"
+      },
+      {
+        "record": "Receiving",
+        "name": "",
+        "value": "receive.forge.rmta.net",
+        "type": "MX",
+        "ttl": "Auto",
+        "status": "verified",
+        "priority": 0
+      }
+    ]
+  },
+  "owner_inbox": {
+    "id": "c5acb401-3fa4-47f3-82d1-54e62210ae5b",
+    "email_address": "terrell.singleton@thehandsomestnerd.com",
+    "domain_id": "32e9157b-9def-4600-b55f-94781edc4284",
+    "from_name": "Terrell Singleton",
+    "direct_receiving": true,
+    "last_received": "2026-11-05T21:39:00.813Z",
+    "autonomous_actions": []
+  },
+  "domain_inboxes": [
+    {
+      "id": "c5acb401-3fa4-47f3-82d1-54e62210ae5b",
+      "email_address": "terrell.singleton@thehandsomestnerd.com"
+    }
+  ],
+  "inventory_scope": "Complete Resend inbox listing; does not enumerate Google users, aliases, groups, routing rules, or catch-all recipients",
+  "webhook": {
+    "id": "331abd3e-4bcb-4cd7-ac53-a438c5862c5c",
+    "endpoint": "https://my-automated-resume.web.app/api/mail/events",
+    "status": "enabled",
+    "events": [
+      "inbox.email.received",
+      "inbox.email.sent",
+      "inbox.thread.created",
+      "inbox.thread.folder.updated",
+      "inbox.thread.labels.updated",
+      "inbox.draft.created",
+      "inbox.draft.updated",
+      "inbox.draft.sent",
+      "inbox.draft.deleted"
+    ]
+  },
+  "credential_file_unchanged": true
+}

@@ -86,7 +86,7 @@ function QuestionModal({ onClose }: { onClose: () => void }) {
     const question = String(form.get("question") ?? "").trim();
     const subject = encodeURIComponent(`Interview follow-up from ${name || "a portfolio visitor"}`);
     const body = encodeURIComponent(`${question}\n\nFrom: ${name || "Not provided"}`);
-    window.location.href = `mailto:terrell.singleton@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:terrell.singleton@thehandsomestnerd.com?subject=${subject}&body=${body}`;
     setSent(true);
   }
 

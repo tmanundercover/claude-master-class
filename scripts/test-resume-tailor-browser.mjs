@@ -1,3 +1,4 @@
+import { emulatorOwnerBrowserSignIn } from './emulator-auth.mjs';
 import { chromium } from 'playwright';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -21,10 +22,7 @@ try {
     page.on('request', request => { if (request.method() !== 'GET') mutations.push(new URL(request.url()).pathname); });
     await page.goto(`${base}/dashboard/resume-tailor`);
     await page.waitForURL('**/login');
-    await page.locator('#role').selectOption('terrell');
-    await page.getByLabel('Email', { exact: true }).fill(owner.email);
-    await page.getByLabel('Password', { exact: true }).fill(owner.password);
-    await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click();
+     await emulatorOwnerBrowserSignIn(page, owner.email);
     await page.waitForURL('**/dashboard');
     await page.getByRole('link', { name: /Resume Tailor/ }).click();
     await page.waitForURL('**/dashboard/resume-tailor');
@@ -64,6 +62,13 @@ try {
     await download.saveAs(saved);
     assert.equal(await readFile(saved, 'utf8'), html);
     assert.match(download.suggestedFilename(), /^james-terrell-singleton-.*resume-\d{4}\.html$/);
+    // Reopening the saved job must render the same self-contained résumé.
+    await page.reload();
+    await preview.waitFor();
+    assert.equal(await preview.getAttribute('srcdoc'), html);
+    const savedFrame = await preview.elementHandle().then(element => element.contentFrame());
+    await savedFrame.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0));
+    assert.equal(await page.getByRole('alert').filter({ hasText: 'A résumé icon could not be bundled.' }).count(), 0);
     assert.equal(mutations.filter(path => path === '/api/job-workspaces').length, 1);
     assert.equal(mutations.filter(path => path.endsWith('/artifacts/resume/generate')).length, 1);
     assert.equal(mutations.some(path => /\/(send|application-draft)$/.test(path)), false);
@@ -90,7 +95,7 @@ try {
     assert.deepEqual(errors, []);
     evidence.push({ width, independentOwnerFlow: true, ownerGenerationThroughFunctions: true, selectedRolesAndProjects: true,
       overflow: false, htmlMatchesPreview: true, plainTextParity: true, reviewNotesOutsideExports: true,
-      selfContainedInertHTML: true, noDeliveryMutations: true, clipboardFailure: true, downloadFailure: true,
+      selfContainedInertHTML: true, savedJobReloadWithLoadedIcons: true, noDeliveryMutations: true, clipboardFailure: true, downloadFailure: true,
       savedResultPreservedWhilePending: true, failedReplacementPreservesSavedCurrent: true, browserErrors: errors });
     await context.close();
   }

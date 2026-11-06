@@ -1,3 +1,4 @@
+import { emulatorOwnerBrowserSignIn } from './emulator-auth.mjs';
 import { chromium } from 'playwright';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -63,10 +64,7 @@ try {
     }
 
     await page.goto(`${base}/dashboard/inbox`); await page.waitForURL('**/login');
-    await page.locator('#role').selectOption('terrell');
-    const owner = users.find(user => user.role === 'terrell');
-    await page.getByLabel('Email', { exact: true }).fill(owner.email); await page.getByLabel('Password', { exact: true }).fill(owner.password);
-    await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click(); await page.waitForURL('**/dashboard');
+    const owner = users.find(user => user.role === 'terrell'); await emulatorOwnerBrowserSignIn(page, owner.email); await page.waitForURL('**/dashboard');
     const dashboardInbox = page.getByRole('region', { name: 'Inbox summary', exact: true });
     await dashboardInbox.getByText('Local test inbox', { exact: true }).waitFor();
     const refreshInbox = dashboardInbox.getByRole('button', { name: 'Refresh inbox', exact: true });

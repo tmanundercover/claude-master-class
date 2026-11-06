@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-06T00:12:32.643Z",
+  "method": "Unauthenticated read-only HTTP GET; no mailbox contents or new email",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "location": null,
+      "cache_control": "max-age=3600"
+    },
+    {
+      "path": "/dashboard/inbox",
+      "status": 307,
+      "location": "/login",
+      "cache_control": "private, no-store"
+    },
+    {
+      "path": "/api/inbox/summary",
+      "status": 401,
+      "location": null,
+      "cache_control": "private, no-store"
+    }
+  ]
+}

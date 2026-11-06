@@ -1,0 +1,339 @@
+{
+  "checked_at": "2026-11-06T00:12:22.816Z",
+  "domain": "thehandsomestnerd.com",
+  "lookups": [
+    {
+      "server": "ns-cloud-a1.googledomains.com",
+      "status": "NOERROR",
+      "authoritative": true,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    },
+    {
+      "server": "ns-cloud-a2.googledomains.com",
+      "status": "NOERROR",
+      "authoritative": true,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    },
+    {
+      "server": "ns-cloud-a3.googledomains.com",
+      "status": "NOERROR",
+      "authoritative": true,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    },
+    {
+      "server": "ns-cloud-a4.googledomains.com",
+      "status": "NOERROR",
+      "authoritative": true,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    },
+    {
+      "server": "1.1.1.1",
+      "status": "NOERROR",
+      "authoritative": false,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    },
+    {
+      "server": "8.8.8.8",
+      "status": "NOERROR",
+      "authoritative": false,
+      "records": [
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 0,
+          "target": "receive.forge.rmta.net."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 1,
+          "target": "aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt1.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 5,
+          "target": "alt2.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt3.aspmx.l.google.com."
+        },
+        {
+          "name": "thehandsomestnerd.com.",
+          "ttl": 14400,
+          "class": "IN",
+          "type": "MX",
+          "priority": 10,
+          "target": "alt4.aspmx.l.google.com."
+        }
+      ]
+    }
+  ],
+  "all_mx_sets_match": true,
+  "authoritative_ttl_seconds": 14400,
+  "rollback_baseline": "Current mixed MX set captured before any agent DNS mutation; not a historical pre-Resend TTL snapshot"
+}

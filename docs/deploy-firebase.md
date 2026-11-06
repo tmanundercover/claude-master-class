@@ -30,7 +30,9 @@ Startup seeds these Firebase Auth users with `portfolioRole` custom claims:
 | `Terrell.singleton+interviewer@gmail.com` | `interviewer` | Interview room |
 | `Terrell.singleton+recruiter@gmail.com` | `recruiter` | Interview room |
 
-Generated passwords are in `.firebase/auth-users.local.json`, with private file
+The owner selects Terrell and signs in through the local Google account picker.
+The seed links a synthetic Google identity to that existing emulator UID. Guest
+passwords are in `.firebase/auth-users.local.json`, with private file
 permissions and Git exclusion. They are local emulator credentials. The startup
 script exports Auth, Firestore, and Storage data to `.firebase/emulator-data` on shutdown and imports it
 on the next run. Reseeding is idempotent and preserves existing account passwords:
@@ -60,13 +62,21 @@ ID alone. Do not use `VITE_` variables for API keys or passwords.
 
 The demo Auth configuration is provided automatically by Functions at
 `/api/auth/config`. The endpoint returns only public Firebase web settings. The
-client uses the Auth emulator locally and Firebase's email/password provider when
-deployed. No credentials are embedded in the frontend build.
+client uses the Auth emulator locally. Production owner access uses Google, while
+recruiter and interviewer accounts retain email/password sign-in. No credentials are embedded in the frontend build.
 
 ## Authentication boundaries
 
-The browser signs in to Firebase Auth using email and password with memory-only
-persistence. It exchanges a recent ID token for a four-hour `__session` cookie,
+The owner signs in with Google through the Firebase SDK account picker. The server
+requires a verified `terrell.singleton@gmail.com` email, `google.com` as the sign-in
+provider, and the existing server-assigned `portfolioRole: terrell` claim. The same
+checks apply to every owner session-cookie verification, so old password-based
+owner sessions are denied. Email aliases, other Google accounts, and client role
+selection cannot grant owner access. Keep the existing owner UID when linking
+Google so saved workspaces and profile-photo ownership remain intact.
+
+Recruiters and interviewers continue to use email and password. All browser
+authentication uses memory-only persistence. It exchanges a recent ID token for a four-hour `__session` cookie,
 then clears client Auth state. The Function verifies ID tokens and session cookies
 with the Admin SDK, including revocation checks, and authorizes the server-assigned
 `portfolioRole`. Selecting a role cannot grant access. Unassigned accounts are denied.
@@ -86,7 +96,8 @@ npm run test:http
 ```
 
 Preflight runs unit tests, lint, types, build/export checks, and HTTP acceptance
-checks through all five emulators, including real server SDK storage adapters and direct-client rules denial. The HTTP suite seeds isolated demo accounts,
+checks through all five emulators, including real server SDK storage adapters and direct-client rules denial. The HTTP suite seeds isolated demo accounts, links the owner to a synthetic Google
+identity, verifies password/foreign-Google/old-cookie denial,
 disables provider calls, and builds an isolated temporary Functions package with
 synthetic settings. Existing credential files are neither read nor rewritten. It tests guest/owner access, unassigned users, escalation rejection,
 revoked sessions, cookies, origin checks, and tool validation. It never launches a
@@ -101,7 +112,11 @@ demo project. Classroom completion prepares a review; it does
 not authorize publication. Follow these steps only after target-specific review
 and separate explicit authorization:
 
-1. Enable Firebase Authentication's Email/Password provider in the target project.
+1. Enable Firebase Authentication's Google provider for owner access and keep
+   Email/Password enabled for guest accounts. Add `resume.terrellsingleton.com` to
+   Authentication's authorized domains; preserve the existing Firebase domains.
+   This application's owner Google provider was already enabled and configured
+   when inspected on 2026-11-05.
 2. Provision approved users and set their `portfolioRole` claims through the Admin
    SDK. Use `terrell` for the owner and `interviewer` or `recruiter` for guests.
    The local seed command intentionally cannot modify the live database.
@@ -151,3 +166,18 @@ out of public output. The separately developed standard public résumé PDF uses
 only the approved public profile. Private tailored PDFs and notes remain server-owned.
 No build/export check proves live provider readiness, real mail delivery, or DNS
 cutover; those operations require their separate approvals and evidence.
+
+## Google owner acceptance
+
+`node scripts/test-firebase-emulator.mjs --browser-script scripts/test-google-owner-browser.mjs`
+checks the real SDK popup flow against the local Auth emulator at phone and desktop
+widths. It verifies correct-owner acceptance, wrong-account rejection, guest
+password sign-in, and private mailbox access. `scripts/emulator-auth.mjs` refuses
+non-demo projects and non-loopback Auth endpoints. Its synthetic identities are
+never production credentials or a server authentication bypass.
+
+Live Google consent, account selection, and any Google second-factor challenge
+must be completed by the owner. Do not report those as verified from emulator
+fixtures or a production account-picker screenshot alone.
+
+Production activation and acceptance details: [Google owner login](google-owner-login.md).

@@ -1,3 +1,4 @@
+import { emulatorOwnerBrowserSignIn } from './emulator-auth.mjs';
 import { chromium } from 'playwright';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -13,8 +14,7 @@ try {
     const page = await context.newPage(); page.setDefaultTimeout(20000); const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base + '/dashboard'); await page.waitForURL('**/login');
-    await page.locator('#role').selectOption('terrell'); await page.getByLabel('Email', { exact: true }).fill(owner.email); await page.getByLabel('Password', { exact: true }).fill(owner.password);
-    await page.getByRole('button', { name: 'Continue as Terrell', exact: true }).click(); await page.waitForURL('**/dashboard');
+     await emulatorOwnerBrowserSignIn(page, owner.email); await page.waitForURL('**/dashboard');
     const editor = page.locator('#profile-photo');
     await editor.getByLabel('Choose a photo', { exact: true }).setInputFiles('public/profile-photo.jpg');
     await editor.getByAltText('Selected portrait preview').waitFor();

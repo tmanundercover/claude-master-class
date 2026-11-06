@@ -62,12 +62,16 @@ Local acceptance is recorded in [evidence/local-acceptance.md](evidence/local-ac
 
 ## 9. Live activation and receiving cutover
 
-- [ ] 9.1 With authorization for live setup, select the real Firebase project, inspect the intended Resend account/permissions and domain verification, inventory other active recipients, and capture current MX/TTLs; verify an operational record includes exact provider DNS requirements, recipient disposition, and rollback data without credentials.
+Read-only verification and the confirmed recipient/recovery decisions as of
+2026-11-05 are recorded in [receiving operations](evidence/receiving-operations.md).
+Google Workspace has been retired; restoring Google-only MX is not a valid recovery path.
+
+- [x] 9.1 With authorization for live setup, select the real Firebase project, inspect the intended Resend account/permissions and domain verification, inventory other active recipients, and capture current MX/TTLs; verify an operational record includes exact provider DNS requirements, recipient disposition, and rollback data without credentials. Completed in [receiving operations](evidence/receiving-operations.md), including the owner's receiving-only dashboard choice for `hello@` and the captured current-state restoration baseline.
 - [x] 9.2 Provision the owner inbox and verify the selected sender/display identity and disabled autonomous-action defaults; verify recorded provider resource identifiers and sending prerequisites for `terrell.singleton@thehandsomestnerd.com` before any MX change.
 - [x] 9.3 Deploy the reviewed application and configure backend environment values and signed webhooks with explicit deployment authorization; verify deployed owner access, guest/unauthenticated denial, summary reads, and valid signed callbacks.
-- [ ] 9.4 Perform the prepared direct Resend receiving-MX cutover after explicit authorization and recipient readiness; verify authoritative/public DNS propagation and controlled incoming mail to the selected address using the exact account/region records.
-- [ ] 9.5 Run a controlled live contact submission -> owner reply -> visitor follow-up round trip plus compose, drafts, search, labels, contacts, and attachments; verify correct recipients, one conversation, provider-backed statistics, and actual external delivery rather than acceptance alone.
-- [ ] 9.6 Record post-cutover health and the verified rollback procedure, restoring the captured MX set if receiving fails; verify separate deployment/provider/DNS evidence and retain every unproven operational task as unchecked.
+- [x] 9.4 Perform the prepared direct Resend receiving-MX cutover after explicit authorization and recipient readiness; verify authoritative/public DNS propagation and controlled incoming mail to the selected address using the exact account/region records. Existing cutover accepted using the owner-reported live tests, matching authoritative/public DNS, and retained `hello@` receipt evidence in [receiving operations](evidence/receiving-operations.md); no new DNS mutation was needed.
+- [x] 9.5 Run a controlled live contact submission -> owner reply -> visitor follow-up round trip plus compose, drafts, search, labels, contacts, and attachments; verify correct recipients, one conversation, provider-backed statistics, and actual external delivery rather than acceptance alone. Owner-reported acceptance on 2026-11-05 is recorded in [production activation evidence](evidence/production-activation.md#owner-acceptance-follow-up-2026-11-05).
+- [x] 9.6 Record post-cutover health and the owner-approved Resend-only recovery note: restore the captured working Resend-primary MX configuration after DNS errors and follow provider incident recovery for service outages. Verify separate deployment/provider/DNS evidence and the documented restoration target; distinguish configuration verification from an executed restore. Completed in [receiving operations](evidence/receiving-operations.md). The owner approved replacing the obsolete Google rollback; Google reactivation, an alternate provider, and a disruptive recovery rehearsal are outside the revised scope.
 
 ## Workflow follow-up
 
